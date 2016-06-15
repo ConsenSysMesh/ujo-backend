@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UjoSpike.ArtistWriter.Console", "UjoSpike.ArtistWriter.Console\UjoSpike.ArtistWriter.Console.csproj", "{EF06510E-43F2-49B8-AD2A-9077C0FB8517}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UjoSpike.Service", "UjoSpike.Service\UjoSpike.Service.csproj", "{CFF469B9-10FE-4AC1-9FBD-054D1332BAEA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{7AF2CFD4-E1F1-4820-B314-51E51E2739C5}"
+	ProjectSection(SolutionItems) = preProject
+		contracts\artistRegistry.sol = contracts\artistRegistry.sol
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UjoSpike.WebJob", "UjoSpike.WebJob\UjoSpike.WebJob.csproj", "{29D5657D-6279-4D8E-A279-E5A10151EA54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF06510E-43F2-49B8-AD2A-9077C0FB8517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF06510E-43F2-49B8-AD2A-9077C0FB8517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF06510E-43F2-49B8-AD2A-9077C0FB8517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF06510E-43F2-49B8-AD2A-9077C0FB8517}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF469B9-10FE-4AC1-9FBD-054D1332BAEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF469B9-10FE-4AC1-9FBD-054D1332BAEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF469B9-10FE-4AC1-9FBD-054D1332BAEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF469B9-10FE-4AC1-9FBD-054D1332BAEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29D5657D-6279-4D8E-A279-E5A10151EA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29D5657D-6279-4D8E-A279-E5A10151EA54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29D5657D-6279-4D8E-A279-E5A10151EA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29D5657D-6279-4D8E-A279-E5A10151EA54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
