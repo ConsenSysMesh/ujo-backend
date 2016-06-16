@@ -28,23 +28,30 @@ namespace UjoSpike.WebJob
                 var storageService = new ArtistEntityStorageService(tableBinding);
                 var processed = await storageService.GetProcessInfo();
                 log.WriteLine("Number of Entities Processed " + processed.Number.ToString());
-                log.WriteLine("Adding new artists to storage");
-                for (var i = processed.Number; i < totalNumber; i++)
-                {
-                    var artist = await service.ArtistEntitiesAsyncCall(i);
 
-                    var artistEntity = new ArtistEntity();
-                    artistEntity.Id = i;
-                    artistEntity.Name = artist.Name;
-                    artistEntity.Category = RemoveInvalidCharacters(artist.Category);
-                    artistEntity.IsGroup = artist.IsAGroup;
-                    log.WriteLine(artistEntity.Id + " " + artistEntity.Name + " " + artistEntity.Category + " " + artistEntity.IsGroup);
-                    await storageService.UpsertArtist(artistEntity);
-                    processed.Number = i;
-                    await storageService.UpsertProcessInfo(processed);
+                if (totalNumber > processed.Number + 1)
+                {
+                    log.WriteLine("Adding new artists to storage");
+
+
+                    for (var i = processed.Number; i < totalNumber; i++)
+                    {
+                        var artist = await service.ArtistEntitiesAsyncCall(i);
+
+                        var artistEntity = new ArtistEntity();
+                        artistEntity.Id = i;
+                        artistEntity.Name = artist.Name;
+                        artistEntity.Category = RemoveInvalidCharacters(artist.Category);
+                        artistEntity.IsGroup = artist.IsAGroup;
+                        log.WriteLine(artistEntity.Id + " " + artistEntity.Name + " " + artistEntity.Category + " " +
+                                      artistEntity.IsGroup);
+                        await storageService.UpsertArtist(artistEntity);
+                        processed.Number = i;
+                        await storageService.UpsertProcessInfo(processed);
+                    }
+
+                    log.WriteLine("Number of Entities Processed after update " + processed.Number);
                 }
-                log.WriteLine("Number of Entities Processed after update " + processed.Number);
-            
         }
 
         public static string RemoveInvalidCharacters(string value)
