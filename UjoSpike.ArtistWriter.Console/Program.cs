@@ -11,7 +11,7 @@ namespace UjoSpike.ArtistWriter.Console
     {
         static void Main(string[] args)
         {
-            var result = new DumpRegister().GetAllArtists().Result;
+            var result = new RegisterArtists().ExecuteRegistryAsync().Result;
             Debug.WriteLine(result);
             System.Console.WriteLine(result);
             System.Console.ReadLine();
