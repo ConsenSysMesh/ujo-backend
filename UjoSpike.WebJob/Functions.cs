@@ -41,7 +41,8 @@ namespace UjoSpike.WebJob
                         var artistEntity = new ArtistEntity();
                         artistEntity.Id = i;
                         artistEntity.Name = artist.Name;
-                        artistEntity.Category = RemoveInvalidCharacters(artist.Category);
+                        artistEntity.PartitionKey = RemoveInvalidCharacters(artist.Category);
+                        artistEntity.Category = artist.Category;
                         artistEntity.IsGroup = artist.IsAGroup;
                         log.WriteLine(artistEntity.Id + " " + artistEntity.Name + " " + artistEntity.Category + " " +
                                       artistEntity.IsGroup);
@@ -56,7 +57,7 @@ namespace UjoSpike.WebJob
 
         public static string RemoveInvalidCharacters(string value)
         {
-            return value.Replace("/", "").Replace("\\", "").Replace("#", "").Replace("?", "");
+            return value.Replace("/", "").Replace("\\", "").Replace("#", "").Replace("?", "").Replace(" ", "_").Replace("&", "and");
         }
 
 }

@@ -5,11 +5,8 @@ namespace UjoSpike.WebJob
 {
     public class ArtistEntity:TableEntity
     {
-        public string Category
-        {
-            get { return PartitionKey; }
-            set { PartitionKey = value; }
-        }
+        
+        public string Category { get; set; }
 
         public long Id
         {
