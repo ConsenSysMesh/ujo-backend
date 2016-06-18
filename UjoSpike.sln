@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{7AF2CFD4-E1F1-4820-B314-51E51E2739C5}"
 	ProjectSection(SolutionItems) = preProject
 		contracts\artistRegistry.sol = contracts\artistRegistry.sol
+		AzureSearch_PostManIndexers.txt = AzureSearch_PostManIndexers.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UjoSpike.WebJob", "UjoSpike.WebJob\UjoSpike.WebJob.csproj", "{29D5657D-6279-4D8E-A279-E5A10151EA54}"
