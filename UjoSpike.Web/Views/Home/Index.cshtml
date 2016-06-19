@@ -1,0 +1,52 @@
+﻿<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        // Execute search if user clicks enter
+        $("#q").keyup(function (event) {
+            if (event.keyCode == 13) {
+                Search();
+            }
+        });
+    });
+
+    function Search() {
+        // We will post to the MVC controller and parse the full results on the client side
+        // You may wish to do additional pre-processing on the data before sending it back to the client
+        var q = $("#q").val();
+
+        $.post('/home/search',
+        {
+            q: q
+        },
+        function (data) {
+            var searchResultsHTML = "<thead class='thead-inverse'><tr><th>Artist Name</th><th>Category</th></tr></thead><tbody>";
+            for (var i = 0; i < data.length; i++) {
+                searchResultsHTML += "<tr><td>" + data[i].Document.Name + "</td>";
+                searchResultsHTML += "<td>" + data[i].Document.Category + "</td></tr>";
+            }
+            searchResultsHTML += "</tbody>";
+            $("#searchResults").html(searchResultsHTML);
+
+        });
+
+        function parseJsonDate(jsonDateString) {
+            if (jsonDateString != null)
+                return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+            else
+                return "";
+        }
+    };
+
+</script>
+<h2>Artist Search</h2>
+
+<div class="container">
+    <input type="search" name="q" id="q" autocomplete="off" size="100" /> <button onclick="Search();">Search</button>
+</div>
+<br />
+<div class="container">
+    <div class="row">
+        <table id="searchResults" class="table table-striped table-hover table-bordered"></table>
+    </div>
+</div>
