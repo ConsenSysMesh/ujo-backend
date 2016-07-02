@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF06510E-43F2-49B8-AD2A-9077C0FB8517}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{63EE26BD-D2AF-465D-A2C3-749B57C34493}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UjoSpike.ArtistWriter.Console</RootNamespace>
-    <AssemblyName>UjoSpike.ArtistWriter.Console</AssemblyName>
+    <RootNamespace>Ethereum.BlockchainStore</RootNamespace>
+    <AssemblyName>Ethereum.BlockchainStore</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -53,8 +50,8 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.1.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.7.1.3-preview\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.0.2-preview\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Nethereum.Portable, Version=1.0.6009.23935, Culture=neutral, processorArchitecture=MSIL">
@@ -78,28 +75,34 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Wintellect.Azure.Storage, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Wintellect.Azure.Storage.1.6.0.1\lib\net45\Wintellect.Azure.Storage.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeployToMorden.cs" />
-    <Compile Include="DumpRegister.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Entities\AddressTransaction.cs" />
+    <Compile Include="Entities\Block.cs" />
+    <Compile Include="Entities\Contract.cs" />
+    <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\TransactionBase.cs" />
+    <Compile Include="Entities\TransactionLog.cs" />
+    <Compile Include="Entities\TransactionVmStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterArtists.cs" />
+    <Compile Include="Services\BlockProcessorService.cs" />
+    <Compile Include="Services\CloudTableSetup.cs" />
+    <Compile Include="Services\Strategies\ContractTransactionStrategy.cs" />
+    <Compile Include="Services\Strategies\CreateContractTransactionStrategy.cs" />
+    <Compile Include="Services\Strategies\ValueTransactionStrategy.cs" />
+    <Compile Include="Services\TransactionProcessorService.cs" />
+    <Compile Include="Services\ValueObjects\TransactionProcessValueObject.cs" />
+    <Compile Include="Services\VmStackErrorChecker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ethereum.BlockchainStore\Ethereum.BlockchainStore.csproj">
-      <Project>{63ee26bd-d2af-465d-a2c3-749b57c34493}</Project>
-      <Name>Ethereum.BlockchainStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UjoSpike.Service\UjoSpike.Service.csproj">
-      <Project>{cff469b9-10fe-4ac1-9fbd-054d1332baea}</Project>
-      <Name>UjoSpike.Service</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

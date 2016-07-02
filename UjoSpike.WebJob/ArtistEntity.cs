@@ -3,6 +3,14 @@ using System;
 
 namespace UjoSpike.WebJob
 {
+   
+
+
+    public class Transaction : TableEntity
+    {
+        
+    }
+
     public class ArtistEntity:TableEntity
     {
         

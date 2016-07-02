@@ -4,21 +4,19 @@ Initial spike (prototype) for a backend in Azure to process blockchain data, eve
 
 ## Components
 
-###[Blockchain Service](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.Service)
+[Blockchain Service](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.Service)
 Service wrapper for a contract, including event, function calls.
 
-###[Console Application (Helper)](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.ArtistWriter.Console)
+[Console Application (Helper)](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.ArtistWriter.Console)
 Application with different helper methods to
 * Deploy the contract
 * Populate with artists
 * Retrive the artists
 
-Morden contract "0x77caa46901bbad6e6f19615643093dff7bc19394"
-
-###[Simple Contract](https://github.com/ConsenSys/ujo-backend-spike/tree/master/contracts)
+[Simple Contract](https://github.com/ConsenSys/ujo-backend-spike/tree/master/contracts)
 A simple artist contract to register Artists
 
-###[Web Job](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.WebJob)
+[Web Job](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.WebJob)
 The web job pulls the information from the contract and stores it in an Azure Table Storage
 Deployed to https://manage.windowsazure.com/@andrewkeysconsensys.onmicrosoft.com#Workspaces/WebsiteExtension/Website/ujobackendspike/jobs
 * Configured to use a timer (runs every minute)
@@ -28,17 +26,9 @@ Account: ujostorage
 Table: ArtistEntity
 NOTE Configuration settings are held in Azure
 
-###Azure search integration
-Azure search is integrated with tables, created an indexer that runs every 15 minutes.
-See [Postman settings](https://github.com/ConsenSys/ujo-backend-spike/blob/master/AzureSearch_PostManIndexers.txt)
-Deployed on Azure ujosearch
-
-###[Web page search sample](https://github.com/ConsenSys/ujo-backend-spike/tree/master/UjoSpike.Web)
-Very simple web search sample connecting to Azure Search
-See demo: http://ujobackendspike.azurewebsites.net/
-Search for [content registered here](https://github.com/ConsenSys/ujo-backend-spike/blob/master/UjoSpike.ArtistWriter.Console/RegisterArtists.cs)
-
-Later TODO:
+TODO:
+Integrate Azure Search with Table Storage
+Sample web site to do the search
 Queueing to HdInsight and PowerBI ...
 
 
