@@ -10,36 +10,38 @@ namespace Ethereum.BlockchainStore.Services
 {
     public class BlockProcessorService
     {
-        private readonly Web3 web3;
-        private readonly AzureTable blockTable;
-        private readonly TransactionProcessorService transactionProcessor;
+        protected Web3 Web3 { get; set; }
+        protected AzureTable BlockTable { get; set; }
+        protected TransactionProcessorService TransactionProcessor { get; set; }
 
 
         public BlockProcessorService(Web3 web3, CloudTable transactionCloudTable,
             CloudTable addressTransactionCloudTable, CloudTable contractCloudTable, CloudTable blockCloudTable,
             CloudTable transactionLogCloudTable, CloudTable transactionVmCloudTable)
         {
-            this.web3 = web3;
-            blockTable = new AzureTable(blockCloudTable);
-            transactionProcessor = new TransactionProcessorService(web3, transactionCloudTable,
+            this.Web3 = web3;
+            BlockTable = new AzureTable(blockCloudTable);
+            TransactionProcessor = new TransactionProcessorService(web3, transactionCloudTable,
                 addressTransactionCloudTable, contractCloudTable, transactionLogCloudTable, transactionVmCloudTable);
         }
 
-        public async Task ProcessBlock(long blockNumber)
+       
+
+        public virtual async Task ProcessBlock(long blockNumber)
         {
             var block =
                 await
-                    web3.Eth.Blocks.GetBlockWithTransactionsHashesByNumber.SendRequestAsync(
-                        new HexBigInteger(blockNumber));
+                    Web3.Eth.Blocks.GetBlockWithTransactionsHashesByNumber.SendRequestAsync(
+                        new HexBigInteger(blockNumber)).ConfigureAwait(false);
 
-            var blockEntity = MapBlock(block, new Block(blockTable));
+            var blockEntity = MapBlock(block, new Block(BlockTable));
 
-            await blockEntity.InsertOrReplaceAsync();
+            await blockEntity.InsertOrReplaceAsync().ConfigureAwait(false);
 
             foreach (var txnHash in block.TransactionHashes)
             {
-                var tran = await transactionProcessor.ProcessTransaction(txnHash, block);
-                await tran.SaveAllAsync();
+                var tran = await TransactionProcessor.ProcessTransaction(txnHash, block).ConfigureAwait(false);
+                await tran.SaveAllAsync().ConfigureAwait(false);
             }
         }
 

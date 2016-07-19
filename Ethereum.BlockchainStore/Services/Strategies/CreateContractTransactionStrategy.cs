@@ -39,7 +39,7 @@ namespace Ethereum.BlockchainStore.Services.Strategies
             {
                 var transactionProcess = new TransactionProcessValueObject();
                 var contractAddress = GetContractAddress();
-                var code = await GetCode(contractAddress);
+                var code = await GetCode(contractAddress).ConfigureAwait(false);
                 var failedCreatingContract = HasFailedToCreateContract(code);
 
                 if (!failedCreatingContract)
@@ -64,7 +64,7 @@ namespace Ethereum.BlockchainStore.Services.Strategies
 
         public async Task<string> GetCode(string contractAddres)
         {
-            return await web3.Eth.GetCode.SendRequestAsync(contractAddres);
+            return await web3.Eth.GetCode.SendRequestAsync(contractAddres).ConfigureAwait(false);
         }
 
         public bool HasFailedToCreateContract(string code)

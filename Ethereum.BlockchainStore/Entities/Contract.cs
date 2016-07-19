@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
 using Wintellect;
@@ -41,6 +45,60 @@ namespace Ethereum.BlockchainStore.Entities
             set { Set(value); }
         }
 
+        public string Code1
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code2
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code3
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code5
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code6
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code7
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code8
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code9
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Code10
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
         public string Creator
         {
             get { return Get(string.Empty); }
@@ -59,15 +117,47 @@ namespace Ethereum.BlockchainStore.Entities
             var contract = new Contract(contractTable)
             {
                 Address = contractAddress,
-                Code = code,
                 Creator = transactionSource.From,
                 TransactionHash = transactionSource.TransactionHash
             };
+            contract.InitCode(code);
+
+            cachedContracts?.Add(contract);
+
             return contract;
         }
 
+        public void InitCode(string code)
+        {
+            var codeArray = SplitByLength(code, 31000).ToArray();
+            var max = codeArray.Length > 11 ? 11 : codeArray.Length;
+
+            for (var i = 0; i < max; i++)
+            {  
+                var property = i == 0 ? GetType().GetProperty("Code") : GetType().GetProperty("Code" + i);
+                property.SetValue(this, codeArray[i]);
+            }
+            
+        }
+
+        public static IEnumerable<string> SplitByLength( string s, int length)
+        {
+            for (int i = 0; i < s.Length; i += length)
+            {
+                if (i + length <= s.Length)
+                {
+                    yield return s.Substring(i, length);
+                }
+                else
+                {
+                    yield return s.Substring(i);
+                }
+            }
+        }
         public static async Task<Contract> FindAsync(AzureTable table, string contractAddress)
         {
+            if (cachedContracts != null) return cachedContracts.FirstOrDefault(x => x.Address == contractAddress);
+
             var tr =
                 await
                     table.ExecuteAsync(TableOperation.Retrieve(contractAddress.ToLowerInvariant().HtmlEncode(),
@@ -78,9 +168,34 @@ namespace Ethereum.BlockchainStore.Entities
             return null;
         }
 
+        private static List<Contract> cachedContracts;
+
+        public static async Task InitContractsCacheAsync(CloudTable table)
+        {
+            if (cachedContracts != null)
+            {
+                cachedContracts = await FindAllAsync(table).ConfigureAwait(false);
+            }
+        }
+
+        public static async Task<List<Contract>> FindAllAsync(AzureTable table)
+        {
+            var tableQuery = new TableQuery();
+            var contracts = new List<Contract>();
+            for (TableQueryChunk chunker = table.CreateQueryChunker(tableQuery); chunker.HasMore;)
+            {
+                // Query a result segment
+                foreach (DynamicTableEntity dte in await chunker.TakeAsync().ConfigureAwait(false))
+                {
+                    contracts.Add(new Contract(table, dte));
+                }
+            }
+            return contracts;
+        }
+
         public static async Task<bool> ExistsAsync(AzureTable table, string contractAddress)
         {
-            var contract = await FindAsync(table, contractAddress);
+            var contract = await FindAsync(table, contractAddress).ConfigureAwait(false);
             if (contract != null) return true;
             return false;
         }

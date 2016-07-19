@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -6,6 +7,7 @@ namespace Ethereum.BlockchainStore.Services
     public class CloudTableSetup
     {
         private readonly string connectionString;
+        private CloudStorageAccount cloudStorageAccount;
 
         public CloudTableSetup(string connectionString)
         {
@@ -14,7 +16,17 @@ namespace Ethereum.BlockchainStore.Services
 
         public CloudStorageAccount GetStorageAccount()
         {
-            return CloudStorageAccount.Parse(connectionString);
+            if (cloudStorageAccount == null)
+            {
+                cloudStorageAccount = CloudStorageAccount.Parse(connectionString);
+                var tableServicePoint = ServicePointManager.FindServicePoint(cloudStorageAccount.TableEndpoint);
+                tableServicePoint.UseNagleAlgorithm = false;
+                tableServicePoint.ConnectionLimit = 1000;
+                ServicePointManager.DefaultConnectionLimit = 48;
+                ServicePointManager.Expect100Continue = false;
+                ServicePointManager.UseNagleAlgorithm = false;
+            }
+            return cloudStorageAccount;
         }
 
         public CloudTable GetTransactionsVmStackTable(string prefix = null)

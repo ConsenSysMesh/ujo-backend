@@ -1,2 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ethereum.BlockchainStore.Entities.AddressTransaction">
+    <Position X="3.25" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAIAQAAAAAAAAAIAAAAAAAACAAAAACAAAAA=</HashCode>
+      <FileName>Entities\AddressTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ethereum.BlockchainStore.Entities.TransactionBase">
+    <Position X="6.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAABECAYAIAAwACAAAgAIYMEQAAAAAJABAxAGAAmCA=</HashCode>
+      <FileName>Entities\TransactionBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ethereum.BlockchainStore.Entities.Contract">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAgAIAAgAAQACAAAAAACEAAAAAAAAAI=</HashCode>
+      <FileName>Entities\Contract.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ethereum.BlockchainStore.Entities.Block">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAABECAkAIAgQIAAAAoAIIAAAABAAAQIAAAgiAACAA=</HashCode>
+      <FileName>Entities\Block.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ethereum.BlockchainStore.Entities.Transaction">
+    <Position X="8" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAIAAAAAAAAAAAAAAAAAAAAAAAAAACAAgAA=</HashCode>
+      <FileName>Entities\Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ethereum.BlockchainStore.Entities.TransactionLog">
+    <Position X="1" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAgAAAAAAAAAAAAAABICAAAAACAAAAI=</HashCode>
+      <FileName>Entities\TransactionLog.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ethereum.BlockchainStore.Entities.TransactionVmStack">
+    <Position X="3.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAACAAAAAAAAgAAAAAAAAgAAAEAgESAAAAAQAIBAA=</HashCode>
+      <FileName>Entities\TransactionVmStack.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

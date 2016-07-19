@@ -51,13 +51,13 @@ namespace Ethereum.BlockchainStore.Entities
         public long Gas
         {
             get { return Get(0); }
-            private set { Set(value); }
+            protected set { Set(value); }
         }
 
         public long GasPrice
         {
             get { return Get(0); }
-            private set { Set(value); }
+            protected set { Set(value); }
         }
 
         public string Input
@@ -81,25 +81,25 @@ namespace Ethereum.BlockchainStore.Entities
         public string ReceiptHash
         {
             get { return Get(string.Empty); }
-            private set { Set(value); }
+            protected set { Set(value); }
         }
 
         public long GasUsed
         {
             get { return Get(0); }
-            private set { Set(value); }
+            protected set { Set(value); }
         }
 
         public long CumulativeGasUsed
         {
             get { return Get(0); }
-            private set { Set(value); }
+            protected set { Set(value); }
         }
 
         public bool HasLog
         {
             get { return Get(false); }
-            private set { Set(value); }
+            protected set { Set(value); }
         }
 
         public string Error

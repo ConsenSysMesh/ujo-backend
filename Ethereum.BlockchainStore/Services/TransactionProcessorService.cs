@@ -8,70 +8,96 @@ using Wintellect.Azure.Storage.Table;
 
 namespace Ethereum.BlockchainStore.Services
 {
+    public class TransactionVmStackPostProcessorService : TransactionProcessorService
+    {
+        public TransactionVmStackPostProcessorService(Web3 web3, CloudTable transactionCloudTable, CloudTable addressTransactionCloudTable, CloudTable contractCloudTable, CloudTable transactionLogCloudTable, CloudTable transactionVmCloudTable) : base(web3, transactionCloudTable, addressTransactionCloudTable, contractCloudTable, transactionLogCloudTable, transactionVmCloudTable)
+        {
+           
+        }
+
+        public override async Task<TransactionProcessValueObject> ProcessTransaction(string transactionHash, Block block)
+        {
+            TransactionProcessValueObject transactionProcess = new TransactionProcessValueObject();
+
+            var transactionSource = await GetTransaction(transactionHash).ConfigureAwait(false);
+            var transactionReceipt = await GetTransactionReceipt(transactionHash).ConfigureAwait(false);
+
+            var contractTransactionStrategy = new ContractVmStackPostProcessTransactionStrategy(transactionSource, transactionReceipt,
+                block, Web3, ContractTable, TransactionTable, AddressTransactionTable, LogTable, TransactionVmTable);
+
+            if (await contractTransactionStrategy.IsTransactionType())
+            {
+                transactionProcess = await contractTransactionStrategy.ProcessTransaction().ConfigureAwait(false);
+            }
+
+            return transactionProcess;
+        }
+    }
+
     public class TransactionProcessorService
     {
-        private readonly Web3 web3;
-        private readonly AzureTable addressTransactionTable;
-        private readonly AzureTable contractTable;
-        private readonly AzureTable logTable;
-        private readonly AzureTable transactionTable;
-        private readonly AzureTable transactionVmTable;
+        protected Web3 Web3 { get; }
+        protected AzureTable AddressTransactionTable { get; }
+        protected AzureTable ContractTable { get; }
+        protected AzureTable LogTable { get; }
+        protected AzureTable TransactionTable { get; }
+        protected AzureTable TransactionVmTable { get; }
 
         public TransactionProcessorService(Web3 web3, CloudTable transactionCloudTable,
             CloudTable addressTransactionCloudTable, CloudTable contractCloudTable, CloudTable transactionLogCloudTable,
             CloudTable transactionVmCloudTable)
         {
-            this.web3 = web3;
-            transactionTable = new AzureTable(transactionCloudTable);
-            addressTransactionTable = new AzureTable(addressTransactionCloudTable);
-            contractTable = new AzureTable(contractCloudTable);
-            transactionTable = new AzureTable(transactionCloudTable);
-            addressTransactionTable = new AzureTable(addressTransactionCloudTable);
-            contractTable = new AzureTable(contractCloudTable);
-            logTable = new AzureTable(transactionLogCloudTable);
-            transactionVmTable = new AzureTable(transactionVmCloudTable);
+            this.Web3 = web3;
+            TransactionTable = new AzureTable(transactionCloudTable);
+            AddressTransactionTable = new AzureTable(addressTransactionCloudTable);
+            ContractTable = new AzureTable(contractCloudTable);
+            TransactionTable = new AzureTable(transactionCloudTable);
+            AddressTransactionTable = new AzureTable(addressTransactionCloudTable);
+            ContractTable = new AzureTable(contractCloudTable);
+            LogTable = new AzureTable(transactionLogCloudTable);
+            TransactionVmTable = new AzureTable(transactionVmCloudTable);
         }
 
-        public async Task<TransactionProcessValueObject> ProcessTransaction(string transactionHash, Block block)
+        public virtual async Task<TransactionProcessValueObject> ProcessTransaction(string transactionHash, Block block)
         {
-            TransactionProcessValueObject transactionProcess;
+            TransactionProcessValueObject transactionProcess = new TransactionProcessValueObject();
 
-            var transactionSource = await GetTransaction(transactionHash);
-            var transactionReceipt = await GetTransactionReceipt(transactionHash);
+            var transactionSource = await GetTransaction(transactionHash).ConfigureAwait(false);
+            var transactionReceipt = await GetTransactionReceipt(transactionHash).ConfigureAwait(false);
             var createContractTransaction = new CreateContractTransactionStrategy(transactionSource, transactionReceipt,
-                block, web3, contractTable, transactionTable, addressTransactionTable);
+                block, Web3, ContractTable, TransactionTable, AddressTransactionTable);
             var contractTransactionStrategy = new ContractTransactionStrategy(transactionSource, transactionReceipt,
-                block, web3, contractTable, transactionTable, addressTransactionTable, logTable, transactionVmTable);
+                block, Web3, ContractTable, TransactionTable, AddressTransactionTable, LogTable, TransactionVmTable);
             var valueTransactionStrategy = new ValueTransactionStrategy(transactionSource, transactionReceipt, block,
-                transactionTable, addressTransactionTable);
+                TransactionTable, AddressTransactionTable);
 
             if (createContractTransaction.IsTransactionType())
             {
-                transactionProcess = await createContractTransaction.ProcessTransaction();
+                transactionProcess = await createContractTransaction.ProcessTransaction().ConfigureAwait(false);
             }
-            else
-            {
-                if (await contractTransactionStrategy.IsTransactionType())
-                {
-                    transactionProcess = await contractTransactionStrategy.ProcessTransaction();
+            else { 
+            
+                    if (await contractTransactionStrategy.IsTransactionType())
+                    {
+                        transactionProcess = await contractTransactionStrategy.ProcessTransaction().ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        transactionProcess = valueTransactionStrategy.ProcessTransaction();
+                    }
                 }
-                else
-                {
-                    transactionProcess = valueTransactionStrategy.ProcessTransaction();
-                }
-            }
 
             return transactionProcess;
         }
 
         public async Task<Transaction> GetTransaction(string txnHash)
         {
-            return await web3.Eth.Transactions.GetTransactionByHash.SendRequestAsync(txnHash);
+            return await Web3.Eth.Transactions.GetTransactionByHash.SendRequestAsync(txnHash).ConfigureAwait(false);
         }
 
         public async Task<TransactionReceipt> GetTransactionReceipt(string txnHash)
         {
-            return await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(txnHash);
+            return await Web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(txnHash).ConfigureAwait(false);
         }
     }
 }

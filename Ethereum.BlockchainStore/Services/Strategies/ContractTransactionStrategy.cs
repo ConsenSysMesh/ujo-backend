@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Ethereum.BlockchainStore.Entities;
 using Ethereum.BlockchainStore.Services.ValueObjects;
@@ -14,67 +15,81 @@ namespace Ethereum.BlockchainStore.Services.Strategies
 {
     public class ContractTransactionStrategy
     {
-        private readonly AzureTable adressTransactionTable;
-        private readonly Block block;
-        private readonly AzureTable contractTable;
-        private readonly AzureTable logTable;
-        private readonly TransactionReceipt transactionReceipt;
-        private readonly Transaction transactionSource;
-        private readonly AzureTable transactionTable;
-        private readonly AzureTable transactionVmTable;
-        private readonly VmStackErrorChecker vmStackErrorChecker;
-        private readonly Web3 web3;
+        protected  AzureTable AdressTransactionTable {get;  set;}
+        protected  Block Block {get;  set;}
+        protected  AzureTable ContractTable {get;  set;}
+        protected  AzureTable LogTable {get;  set;}
+        protected  TransactionReceipt TransactionReceipt {get;  set;}
+        protected  Transaction TransactionSource {get;  set;}
+        protected  AzureTable TransactionTable {get;  set;}
+        protected  AzureTable TransactionVmTable {get;  set;}
+        protected  VmStackErrorChecker VmStackErrorChecker {get;  set;}
+        protected  Web3 Web3 {get;  set;}
 
         public ContractTransactionStrategy(Transaction transactionSource, TransactionReceipt transactionReceipt,
             Block block, Web3 web3, AzureTable contractTable, AzureTable transactionTable,
             AzureTable adressTransactionTable, AzureTable logTable, AzureTable transactionVmTable)
         {
-            this.transactionSource = transactionSource;
-            this.transactionReceipt = transactionReceipt;
-            this.block = block;
-            this.web3 = web3;
-            this.contractTable = contractTable;
-            this.transactionTable = transactionTable;
-            this.adressTransactionTable = adressTransactionTable;
-            this.logTable = logTable;
-            this.transactionVmTable = transactionVmTable;
-            vmStackErrorChecker = new VmStackErrorChecker();
+            this.TransactionSource = transactionSource;
+            this.TransactionReceipt = transactionReceipt;
+            this.Block = block;
+            this.Web3 = web3;
+            this.ContractTable = contractTable;
+            this.TransactionTable = transactionTable;
+            this.AdressTransactionTable = adressTransactionTable;
+            this.LogTable = logTable;
+            this.TransactionVmTable = transactionVmTable;
+            VmStackErrorChecker = new VmStackErrorChecker();
         }
 
 
         public async Task<bool> IsTransactionType()
         {
-            return await Contract.ExistsAsync(contractTable, transactionSource.To);
+            if (TransactionSource.To == null) return false;
+            return await Contract.ExistsAsync(ContractTable, TransactionSource.To).ConfigureAwait(false);
         }
 
-        public async Task<TransactionProcessValueObject> ProcessTransaction()
+        public virtual async Task<TransactionProcessValueObject> ProcessTransaction()
         {
             var transactionProcess = new TransactionProcessValueObject();
-            var transactionHash = transactionSource.TransactionHash;
+            var transactionHash = TransactionSource.TransactionHash;
             var hasStackTrace = false;
-            var stackTrace = await GetTransactionVmStack(transactionHash);
+            JObject stackTrace = null;
             var error = string.Empty;
             var hasError = false;
 
+            try
+            {
+                stackTrace = await GetTransactionVmStack(transactionHash).ConfigureAwait(false);
+                
+            }
+            catch (Exception ex)
+            {
+                if (TransactionSource.Gas == TransactionReceipt.GasUsed)
+                {
+                    hasError = true;
+                }
+            }
+            
             if (stackTrace != null)
             {
-                error = vmStackErrorChecker.GetError(stackTrace);
+                error = VmStackErrorChecker.GetError(stackTrace);
                 hasError = !string.IsNullOrEmpty(error);
                 hasStackTrace = true;
-                transactionProcess.TransactionVmStack = TransactionVmStack.CreateTransactionVmStack(transactionVmTable,
-                    transactionHash, transactionSource.To, stackTrace);
+                transactionProcess.TransactionVmStack = TransactionVmStack.CreateTransactionVmStack(TransactionVmTable,
+                    transactionHash, TransactionSource.To, stackTrace);
             }
 
-            var logs = transactionReceipt.Logs;
+            var logs = TransactionReceipt.Logs;
 
-            transactionProcess.Transaction = Entities.Transaction.CreateTransaction(transactionTable, transactionSource,
-                transactionReceipt,
-                hasError, block.Timestamp, hasStackTrace, error);
+            transactionProcess.Transaction = Entities.Transaction.CreateTransaction(TransactionTable, TransactionSource,
+                TransactionReceipt,
+                hasError, Block.Timestamp, hasStackTrace, error);
 
             transactionProcess.AddressTransactions.Add(
-                AddressTransaction.CreateAddressTransaction(adressTransactionTable, transactionSource,
-                    transactionReceipt,
-                    hasError, block.Timestamp, transactionSource.To, error, hasStackTrace));
+                AddressTransaction.CreateAddressTransaction(AdressTransactionTable, TransactionSource,
+                    TransactionReceipt,
+                    hasError, Block.Timestamp, TransactionSource.To, error, hasStackTrace));
 
             for (var i = 0; i < logs.Length; i++)
             {
@@ -85,12 +100,12 @@ namespace Ethereum.BlockchainStore.Services.Strategies
                     if (!transactionProcess.AddressTransactions.Exists(x => x.Address == logAddress))
                     {
                         transactionProcess.AddressTransactions.Add(
-                            AddressTransaction.CreateAddressTransaction(adressTransactionTable, transactionSource,
-                                transactionReceipt,
-                                hasError, block.Timestamp, logAddress, error, hasStackTrace));
+                            AddressTransaction.CreateAddressTransaction(AdressTransactionTable, TransactionSource,
+                                TransactionReceipt,
+                                hasError, Block.Timestamp, logAddress, error, hasStackTrace));
                     }
 
-                    transactionProcess.TransactionLogs.Add(TransactionLog.CreateTransactionLog(logTable, transactionHash,
+                    transactionProcess.TransactionLogs.Add(TransactionLog.CreateTransactionLog(LogTable, transactionHash,
                         i, log));
                 }
             }
@@ -98,12 +113,12 @@ namespace Ethereum.BlockchainStore.Services.Strategies
             return transactionProcess;
         }
 
-        private async Task<JObject> GetTransactionVmStack(string transactionHash)
+        protected async Task<JObject> GetTransactionVmStack(string transactionHash)
         {
             return
                 await
-                    web3.DebugGeth.TraceTransaction.SendRequestAsync(transactionHash,
-                        new TraceTransactionOptions {DisableMemory = true, DisableStorage = true});
+                    Web3.DebugGeth.TraceTransaction.SendRequestAsync(transactionHash,
+                        new TraceTransactionOptions {DisableMemory = true, DisableStorage = true, DisableStack = true});
         }
     }
 }

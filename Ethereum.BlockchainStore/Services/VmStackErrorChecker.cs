@@ -12,8 +12,12 @@ namespace Ethereum.BlockchainStore.Services
         public string GetError(JObject stack)
         {
             var structsLogs = (JArray) stack["structLogs"];
-            var lastCall = structsLogs[structsLogs.Count - 1];
-            return lastCall["error"].Value<string>();
+            if (structsLogs.Count > 0)
+            {
+                var lastCall = structsLogs[structsLogs.Count - 1];
+                return lastCall["error"].Value<string>();
+            }
+            return null;
         }
     }
 }
