@@ -14,15 +14,7 @@ namespace UjoSpike.WebJob
 {
     public class Functions
     {
-        [Singleton]
-        public static async Task ProcessArtistRegistry([TimerTrigger("00:01:00")] TimerInfo timer,
-            [Table("ArtistEntity")] CloudTable tableBinding, TextWriter log)
-        {
-            var web3 = new Web3("https://eth3.augur.net");
-           web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync()
-
-        }
-
+       
         [Singleton]
         public static async Task ProcessArtistRegistry([TimerTrigger("00:01:00")] TimerInfo timer, [Table("ArtistEntity")] CloudTable tableBinding, TextWriter log)
         {

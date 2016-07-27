@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Ethereum.BlockchainStore.WebJob
 {
@@ -15,6 +16,21 @@ namespace Ethereum.BlockchainStore.WebJob
         public static void ProcessQueueMessage([QueueTrigger("queue")] string message, TextWriter log)
         {
             log.WriteLine(message);
+        }
+
+
+        public class ProcessInfo : TableEntity
+        {
+            public const string PARTITION_KEY = "Artist_ProcessInfo";
+            public const string ROW_KEY = "Index";
+            public ProcessInfo()
+            {
+                this.PartitionKey = PARTITION_KEY;
+                this.RowKey = ROW_KEY;
+            }
+
+            public long Number { get; set; }
+
         }
     }
 }
