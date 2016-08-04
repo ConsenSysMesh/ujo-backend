@@ -37,6 +37,5 @@ namespace UjoSpike.WebJob
         }
 
         public long Number { get; set; }
-      
     }
 }

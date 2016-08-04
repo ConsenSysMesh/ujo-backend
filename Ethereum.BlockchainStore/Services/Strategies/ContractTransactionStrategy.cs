@@ -91,7 +91,7 @@ namespace Ethereum.BlockchainStore.Services.Strategies
                     TransactionReceipt,
                     hasError, Block.Timestamp, TransactionSource.To, error, hasStackTrace));
 
-            for (var i = 0; i < logs.Length; i++)
+            for (var i = 0; i < logs.Count; i++)
             {
                 var log = logs[i] as JObject;
                 if (log != null)

@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BB90F41E-CBE0-40BE-B276-4CA9EFB7EECC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{17E2936E-D9D9-4AC2-B80F-729D457AC230}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BEEC30E2-E81F-4D66-9137-8E89F215F480}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nethereum.ContractRegistry", "src\Nethereum.ContractRegistry\Nethereum.ContractRegistry.xproj", "{513A8DD4-066F-44FE-8826-77D422E765B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{8F2019CB-A23B-411B-AD04-ECD24DCC15D3}"
+	ProjectSection(SolutionItems) = preProject
+		src\contracts\registry2.sol = src\contracts\registry2.sol
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.ContractRegistry.Tests", "Nethereum.ContractRegistry.Tests\Nethereum.ContractRegistry.Tests.csproj", "{6D516F08-2B17-4494-A442-8079E3E477ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{513A8DD4-066F-44FE-8826-77D422E765B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513A8DD4-066F-44FE-8826-77D422E765B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513A8DD4-066F-44FE-8826-77D422E765B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513A8DD4-066F-44FE-8826-77D422E765B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D516F08-2B17-4494-A442-8079E3E477ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D516F08-2B17-4494-A442-8079E3E477ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D516F08-2B17-4494-A442-8079E3E477ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D516F08-2B17-4494-A442-8079E3E477ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BEEC30E2-E81F-4D66-9137-8E89F215F480} = {BB90F41E-CBE0-40BE-B276-4CA9EFB7EECC}
+		{513A8DD4-066F-44FE-8826-77D422E765B5} = {BB90F41E-CBE0-40BE-B276-4CA9EFB7EECC}
+		{8F2019CB-A23B-411B-AD04-ECD24DCC15D3} = {BB90F41E-CBE0-40BE-B276-4CA9EFB7EECC}
+		{6D516F08-2B17-4494-A442-8079E3E477ED} = {BEEC30E2-E81F-4D66-9137-8E89F215F480}
+	EndGlobalSection
+EndGlobal

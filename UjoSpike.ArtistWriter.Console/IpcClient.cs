@@ -77,24 +77,25 @@ namespace UjoSpike.ArtistWriter.Console
 
         private async Task<byte[]> ReadResponseStream(NamedPipeClientStream pipeClientStream)
         {
-            var buffer = new byte[1024];
+            var buffer = new byte[512];
             
             using (var ms = new MemoryStream())
             {
                 while (true)
                 {
-
-
+                    //if the total number of bytes matches 512 for the last Read, it will wait for the next read forever as we don't have a flag for completeness
+                    //a wait is in place for this with a 1 second (maybe too long..)
+                    //if timesout (false returned) we have to close the pipestream and return the memory stream
                     var read = 0;
                     if (Task.Run(
                             async () =>
                             {
-                                read = await pipeClientStream.ReadAsync(buffer, 0, buffer.Length);
+                                read = await pipeClientStream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
                                 ms.Write(buffer, 0, read);
                             }
-                            ).Wait(10000))
+                            ).Wait(1000))
                         {
-                            if (read < 1024)
+                            if (read < 512)
                             {
                                 return ms.ToArray();
                             }
@@ -102,14 +103,9 @@ namespace UjoSpike.ArtistWriter.Console
                         else
                         {
                             pipeClientStream.Close();
-                            return ms.ToArray();
-                            
+                            return ms.ToArray();    
+                        }
                     }
-
-                        
-                    }
-                   
-                
             }
         }
 
@@ -117,7 +113,6 @@ namespace UjoSpike.ArtistWriter.Console
         {
             try
             {
-
                 var pipeClientStream = GetPipeClient();
 
                 string rpcRequestJson = JsonConvert.SerializeObject(request, this.JsonSerializerSettings);
@@ -125,6 +120,7 @@ namespace UjoSpike.ArtistWriter.Console
                 await pipeClientStream.WriteAsync(requestBytes, 0, requestBytes.Length).ConfigureAwait(false);
 
                 var responseBytes = await ReadResponseStream(pipeClientStream).ConfigureAwait(false);
+                
                 var totalMegs = (responseBytes.Length / 1024f) / 1024f;
                 if (totalMegs > 10) throw new RpcClientUnknownException("Response exceeds 10MB it will be impossible to parse it");
                 string responseJson = Encoding.UTF8.GetString(responseBytes);
@@ -132,17 +128,6 @@ namespace UjoSpike.ArtistWriter.Console
                 try
                 {
                     return JsonConvert.DeserializeObject<TResponse>(responseJson, this.JsonSerializerSettings);
-               //     var serializer = new JsonSerializer();
-               //     serializer.NullValueHandling = NullValueHandling.Ignore;
-               //     serializer.MaxDepth = 8000;
-
-               //     using (var sr = new StreamReader(pipeClientStream))
-               //     using (var jsonTextReader = new JsonTextReader(sr))
-               //     {
-               //     var ser = new JsonSerializer(); 
-                   
-               //     return serializer.Deserialize<TResponse>(jsonTextReader);
-               //     }
                }
                 catch (JsonSerializationException)
                 {

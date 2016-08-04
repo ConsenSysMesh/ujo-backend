@@ -151,7 +151,7 @@ namespace Ethereum.BlockchainStore.Entities
             transaction.Failed = failed;
             transaction.SetGasUsed(transactionReceipt.GasUsed);
             transaction.SetCumulativeGasUsed(transactionReceipt.CumulativeGasUsed);
-            transaction.HasLog = transactionReceipt.Logs.Length > 0;
+            transaction.HasLog = transactionReceipt.Logs.Count > 0;
             transaction.SetTimeStamp(timeStamp);
             transaction.Error = error ?? string.Empty;
             transaction.HasVmStack = hasVmStack;
