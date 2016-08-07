@@ -188,12 +188,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ethereum.BlockchainStore\Ethereum.BlockchainStore.csproj">
-      <Project>{63ee26bd-d2af-465d-a2c3-749b57c34493}</Project>
-      <Name>Ethereum.BlockchainStore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />

@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EF06510E-43F2-49B8-AD2A-9077C0FB8517}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{20D80614-0F69-4000-9A79-12C9D0EC8197}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UjoSpike.ArtistWriter.Console</RootNamespace>
-    <AssemblyName>UjoSpike.ArtistWriter.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>Ujo.WorkRegistry.Storage</RootNamespace>
+    <AssemblyName>Ujo.WorkRegistry.Storage</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\packages\Portable.BouncyCastle.1.8.1\lib\net45\crypto.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
@@ -53,38 +46,24 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.1.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.Storage.7.1.3-preview\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Portable, Version=1.0.6009.23935, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nethereum.Portable.1.0.0-rc3\lib\portable45-net45+win8+wpa81\Nethereum.Portable.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.0-beta13\lib\net45\NLog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NLog.Extensions.AzureTableStorage, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.Extensions.AzureTableStorage.1.1.4.0\lib\net45\NLog.Extensions.AzureTableStorage.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -97,22 +76,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeployToMorden.cs" />
-    <Compile Include="DumpRegister.cs" />
-    <Compile Include="IpcClient.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ProcessInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterArtists.cs" />
+    <Compile Include="WorkRegistryRecord.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UjoSpike.Service\UjoSpike.Service.csproj">
-      <Project>{cff469b9-10fe-4ac1-9fbd-054d1332baea}</Project>
-      <Name>UjoSpike.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{271031E7-C0A2-4831-B775-4B5256594D5D}</ProjectGuid>
+    <ProjectGuid>{45AED044-B90E-47E8-9B4D-FF30E525B136}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ujo.WorkRegistry.Service.Tests</RootNamespace>
-    <AssemblyName>Ujo.WorkRegistry.Service.Tests</AssemblyName>
+    <RootNamespace>Ujo.Work.Service.Tests</RootNamespace>
+    <AssemblyName>Ujo.Work.Service.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -102,26 +102,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContractRegistryTest.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="DeployedContractFixture.cs" />
-    <Compile Include="EventLogSortingTests.cs" />
-    <Compile Include="FilterLogSortingTests.cs" />
     <Compile Include="GethServerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkRegistryGethTestRunner.cs" />
+    <Compile Include="WorkGethTestRunner.cs" />
     <Compile Include="WorkRegistryMordenTests.cs" />
+    <Compile Include="WorkServiceTests.cs" />
     <Compile Include="xUnitPriority\prior.cs" />
     <Compile Include="xUnitPriority\PriorityOrderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ujo.WorkRegistry.Service\Ujo.WorkRegistry.Service.csproj">
-      <Project>{300a4cc8-6c62-4dd2-9ebb-2edc17063420}</Project>
-      <Name>Ujo.WorkRegistry.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj">
+    <ProjectReference Include="..\..\..\..\contract-registry-backend\Ujo.WorkRegistry\Tests\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj">
       <Project>{c1389653-9c1f-4a5b-818b-af4ce59cfd92}</Project>
       <Name>Nethereum.IntegrationTesting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ujo.Work.Service\Ujo.Work.Service.csproj">
+      <Project>{4c859109-4732-41a3-a472-98ebe4c30774}</Project>
+      <Name>Ujo.Work.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

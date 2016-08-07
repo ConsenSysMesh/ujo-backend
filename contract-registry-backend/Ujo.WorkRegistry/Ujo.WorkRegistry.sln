@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.Service.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.IntegrationTesting", "Tests\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj", "{C1389653-9C1F-4A5B-818B-AF4CE59CFD92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.WebJob", "Ujo.WorkRegistry.WebJob\Ujo.WorkRegistry.WebJob.csproj", "{319A6756-BF45-430E-BAF8-CABFF7B5E426}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.Console.Tests", "Ujo.WorkRegistry.Console.Tests\Ujo.WorkRegistry.Console.Tests.csproj", "{D433F700-0646-478B-B75C-AF13BE1F9F30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.Storage", "Ujo.WorkRegistry.Storage\Ujo.WorkRegistry.Storage.csproj", "{20D80614-0F69-4000-9A79-12C9D0EC8197}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +35,18 @@ Global
 		{C1389653-9C1F-4A5B-818B-AF4CE59CFD92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1389653-9C1F-4A5B-818B-AF4CE59CFD92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1389653-9C1F-4A5B-818B-AF4CE59CFD92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{319A6756-BF45-430E-BAF8-CABFF7B5E426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{319A6756-BF45-430E-BAF8-CABFF7B5E426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{319A6756-BF45-430E-BAF8-CABFF7B5E426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{319A6756-BF45-430E-BAF8-CABFF7B5E426}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D433F700-0646-478B-B75C-AF13BE1F9F30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D433F700-0646-478B-B75C-AF13BE1F9F30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D433F700-0646-478B-B75C-AF13BE1F9F30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D433F700-0646-478B-B75C-AF13BE1F9F30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +54,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{271031E7-C0A2-4831-B775-4B5256594D5D} = {9C204422-938F-4C0C-AE02-6749A224A6D4}
 		{C1389653-9C1F-4A5B-818B-AF4CE59CFD92} = {9C204422-938F-4C0C-AE02-6749A224A6D4}
+		{D433F700-0646-478B-B75C-AF13BE1F9F30} = {9C204422-938F-4C0C-AE02-6749A224A6D4}
 	EndGlobalSection
 EndGlobal
