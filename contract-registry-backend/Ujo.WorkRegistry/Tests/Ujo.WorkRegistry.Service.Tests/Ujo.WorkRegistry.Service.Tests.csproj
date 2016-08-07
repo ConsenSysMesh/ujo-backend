@@ -105,12 +105,9 @@
     <Compile Include="ContractRegistryTest.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="DeployedContractFixture.cs" />
-    <Compile Include="EventLogSortingTests.cs" />
-    <Compile Include="FilterLogSortingTests.cs" />
     <Compile Include="GethServerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkRegistryGethTestRunner.cs" />
-    <Compile Include="WorkRegistryMordenTests.cs" />
     <Compile Include="xUnitPriority\prior.cs" />
     <Compile Include="xUnitPriority\PriorityOrderer.cs" />
   </ItemGroup>

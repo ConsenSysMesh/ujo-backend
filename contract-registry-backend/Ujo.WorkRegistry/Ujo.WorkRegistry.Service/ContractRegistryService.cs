@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
-using Nethereum.RPC.Eth.DTOs;
 using Nethereum.Web3;
 using Ujo.ContractRegistry;
 
@@ -40,31 +38,6 @@ namespace Ujo.WorkRegistry.Service
         {
             return contract.GetFunction("unregister");
         }
-
-        public async Task<List<EventLog<RegisteredEvent>>> GetRegisteredFromBlockNumber(BigInteger blockNumber)
-        {
-            var registeredEvent = GetRegisteredEvent();
-            var filter = await registeredEvent.CreateFilterAsync(new BlockParameter(new HexBigInteger(blockNumber))).ConfigureAwait(false);
-            return await registeredEvent.GetAllChanges<RegisteredEvent>(filter).ConfigureAwait(false);
-        }
-
-        public async Task<List<EventLog<UnregisteredEvent>>> GetUnregisteredFromBlockNumber(BigInteger blockNumber)
-        {
-            var unregisteredEvent = GetUnregisteredEvent();
-            var filter = await unregisteredEvent.CreateFilterAsync(new BlockParameter(new HexBigInteger(blockNumber))).ConfigureAwait(false);
-            return await unregisteredEvent.GetAllChanges<UnregisteredEvent>(filter).ConfigureAwait(false);
-        }
-
-        public async Task<List<object>> GetRegisteredUnregisteredFromBlockNumber(BigInteger blockNumber)
-        {
-            var registered = await GetRegisteredFromBlockNumber(blockNumber);
-            var unregistered = await GetUnregisteredFromBlockNumber(blockNumber);
-            var list = new List<object>();
-            list.AddRange(registered);
-            list.AddRange(unregistered);
-            list.Sort(new EventLogBlockNumberTransactionIndexComparer());
-            return list;
-        } 
 
         public Task<string> UnregisterAsync(string addressFrom, string registeredAddress,
             HexBigInteger gas = null, HexBigInteger valueAmount = null)

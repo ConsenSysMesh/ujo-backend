@@ -109,6 +109,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ethereum.BlockchainStore\Ethereum.BlockchainStore.csproj">
+      <Project>{63ee26bd-d2af-465d-a2c3-749b57c34493}</Project>
+      <Name>Ethereum.BlockchainStore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UjoSpike.Service\UjoSpike.Service.csproj">
       <Project>{cff469b9-10fe-4ac1-9fbd-054d1332baea}</Project>
       <Name>UjoSpike.Service</Name>
