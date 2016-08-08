@@ -130,12 +130,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Ujo.IpfsImage.Services\Ujo.IpfsImage.Services.csproj">
       <Project>{6eafdd98-063b-485c-abe6-00589a9a70f5}</Project>
       <Name>Ujo.IpfsImage.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ujo.IpfsImage.Storage\Ujo.IpfsImage.Storage.csproj">
+      <Project>{a5a2bde2-eaa9-485f-a582-c1cd561512b0}</Project>
+      <Name>Ujo.IpfsImage.Storage</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

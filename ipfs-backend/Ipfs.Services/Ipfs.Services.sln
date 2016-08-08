@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.IpfsImage.Services.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.IpfsImage.WebJob", "Ujo.IpfsImage.WebJob\Ujo.IpfsImage.WebJob.csproj", "{0A421AD4-FBEA-46C2-B692-6087B2294579}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.IpfsImage.Storage", "Ujo.IpfsImage.Storage\Ujo.IpfsImage.Storage.csproj", "{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{0A421AD4-FBEA-46C2-B692-6087B2294579}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A421AD4-FBEA-46C2-B692-6087B2294579}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A421AD4-FBEA-46C2-B692-6087B2294579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

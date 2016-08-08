@@ -94,6 +94,9 @@ namespace Ujo.Work.WebJob
         public static async Task ProcessRegistrationsAndUnregistrations([QueueTrigger("WorkRegisteredQueue")] string regunregaddress, [Table("Work")] CloudTable tableBinding, TextWriter log, [Queue("IpfsCoverImageProcessingQueue")]
         ICollector<string> ipfsImageProcesssinQueue)
         {
+            //format:
+            //Reg:Address
+            //Unreg:Adddress
             var info = regunregaddress.Split(':');
             var operation = info[0];
             var address = info[2];
