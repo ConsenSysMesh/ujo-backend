@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ujo.IpfsImage.Services
-{
+﻿
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -28,44 +20,68 @@ namespace Ujo.IpfsImage.Services
                 this.ipfsUrl = ipfsUrl;
             }
 
-            public async Task<System.Drawing.Image> DownloadImage(string ipfsHash)
+            public async Task<Image> DownloadImage(string ipfsHash)
             {
-                
-            }
-
-            public static async Task ProcessImage()
-            {
-                using (var ipfs = new IpfsClient("https://ipfs.infura.io:5001"))
+                using (var ipfs = new IpfsClient(ipfsUrl))
                 {
-                    //Name of the file to add
-                    string fileName = "kids.jpg";
-
-                    //Wrap our stream in an IpfsStream, so it has a file name.
-                    IpfsStream inputStream = new IpfsStream(fileName, File.OpenRead(fileName));
-
-                    MerkleNode node = await ipfs.Add(inputStream);
-
-                    Debug.WriteLine(node.Hash.ToString());
-
-                    Stream outputStream = await ipfs.Cat(node.Hash.ToString());
-                    using (var image = MediaTypeNames.Image.FromStream(outputStream))
-                    {
-                        var newImage = ScaleImage(image, 500);
-                        newImage.Save("newKids.jpg", ImageFormat.Jpeg);
-
-                        inputStream = new IpfsStream("kids500", File.OpenRead("newKids.jpg"));
-
-                        node = await ipfs.Add(inputStream);
-
-                        Debug.WriteLine(node.Hash.ToString());
-                    }
-
+                    Stream outputStream = await ipfs.Cat(ipfsHash).ConfigureAwait(false);
+                    return Image.FromStream(outputStream);
                 }
             }
 
-            public static System.Drawing.Image ScaleImage(System.Drawing.Image image, int maxHeight)
+            public async Task<Image> ScaleImageByHeight(string ipfsHash, int maxHeight)
+            {
+                using (var image = await DownloadImage(ipfsHash).ConfigureAwait(false))
+                {
+                    return ScaleImageByHeight(image, maxHeight);
+                }
+            }
+
+            public async Task<Image> ScaleImageByWidth(string ipfsHash, int maxWidth)
+            {
+                using (var image = await DownloadImage(ipfsHash).ConfigureAwait(false))
+                {
+                    return ScaleImageByHeight(image, maxWidth);
+                }
+            }
+
+            public async Task<MerkleNode> Add(string name, Stream stream)
+            {
+                using (var ipfs = new IpfsClient(ipfsUrl))
+                {
+                    var inputStream = new IpfsStream(name, stream);
+                    return await ipfs.Add(inputStream).ConfigureAwait(false);
+                }
+            }
+
+            /// <summary>
+            /// Adds an image to Ipfs return
+            /// </summary>
+            /// <param name="image"></param>
+            /// <returns></returns>
+            public async Task<MerkleNode> AddImage(Image image, string name, ImageFormat format)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    image.Save(memoryStream, format);
+                    return await Add(name, memoryStream).ConfigureAwait(false);
+                }
+            }
+
+            public static Image ScaleImageByHeight(System.Drawing.Image image, int maxHeight)
             {
                 var ratio = (double)maxHeight / image.Height;
+                return ScaleImageByRatio(image, ratio);
+            }
+
+            public static Image ScaleImageByWidth(System.Drawing.Image image, int maxWidth)
+            {
+                var ratio = (double)maxWidth / image.Width;
+                return ScaleImageByRatio(image, ratio);
+            }
+
+            public static Image ScaleImageByRatio(Image image, double ratio)
+            {
                 var newWidth = (int)(image.Width * ratio);
                 var newHeight = (int)(image.Height * ratio);
                 var newImage = new Bitmap(newWidth, newHeight);
@@ -75,29 +91,6 @@ namespace Ujo.IpfsImage.Services
                 }
                 return newImage;
             }
-
-            public static async Task ProcessFile()
-            {
-                using (var ipfs = new IpfsClient())
-                {
-                    //Name of the file to add
-                    string fileName = "test.txt";
-
-                    //Wrap our stream in an IpfsStream, so it has a file name.
-                    IpfsStream inputStream = new IpfsStream(fileName, File.OpenRead(fileName));
-
-                    MerkleNode node = await ipfs.Add(inputStream);
-
-                    Stream outputStream = await ipfs.Cat(node.Hash.ToString());
-
-                    using (StreamReader sr = new StreamReader(outputStream))
-                    {
-                        string contents = sr.ReadToEnd();
-
-                        Console.WriteLine(contents); //Contents of test.txt are printed here!
-                    }
-                }
-            }
         }
     }
-    }
+   
