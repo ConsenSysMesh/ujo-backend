@@ -8,7 +8,7 @@ namespace Ujo.WorkRegistry.WebJob
     {
         public const string ETHEREUM_RPC_URL_KEY = "EthereumRPCUrl";
         public const string WORK_REGISTRY_CONTRACT_ADRESS_KEY = "WorkRegistryContractAddress";
-        public const string START_PROCESS_FROM_BLOCK_NUMBER_KEY = "StartProcessFromBlockNumber";
+        public const string START_PROCESS_FROM_BLOCK_NUMBER_KEY = "StartProcessWorkRegistryFromBlockNumber";
 
         public static string GetEthereumRPCUrl()
         {

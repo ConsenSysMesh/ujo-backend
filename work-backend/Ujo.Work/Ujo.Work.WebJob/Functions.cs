@@ -24,7 +24,7 @@ namespace Ujo.Work.WebJob
     {
 
         [Singleton]
-        public static async Task ProcessWorks([QueueTrigger("blockWorkRegistryProcessed")] long blockNumberToProcessTo,
+        public static async Task ProcessWorks([QueueTrigger("blockWorkRegistryProcessed")] string blockNumberToProcessTo,
             [Table("Work")] CloudTable tableBinding, [Table("WorkRegistry")] CloudTable workRegistryCloudTable, TextWriter log,
             [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue
             )
@@ -42,7 +42,7 @@ namespace Ujo.Work.WebJob
             var blockNumber = await GetBlockNumberToProcessFrom(worksTable);
 
             log.WriteLine("Getting all events of registerd and unregistered from" + blockNumber + "to " + blockNumberToProcessTo);
-            var dataEventLogs = await service.GetDataChangedEventsAsync((ulong)blockNumber, (ulong)blockNumberToProcessTo);
+            var dataEventLogs = await service.GetDataChangedEventsAsync((ulong)blockNumber, Convert.ToUInt64(blockNumberToProcessTo));
 
             //TODO: ensure sorted
             foreach (var dataEventLog in dataEventLogs)
@@ -63,7 +63,7 @@ namespace Ujo.Work.WebJob
 
             }
             log.WriteLine("Updating current process progres to:" + blockNumberToProcessTo);
-            await UpsertBlockNumberProcessedTo(worksTable, blockNumberToProcessTo);
+            await UpsertBlockNumberProcessedTo(worksTable, Convert.ToInt64(blockNumberToProcessTo));
 
         }
     
@@ -99,7 +99,7 @@ namespace Ujo.Work.WebJob
             //Unreg:Adddress
             var info = regunregaddress.Split(':');
             var operation = info[0];
-            var address = info[2];
+            var address = info[1];
             var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
             var worksTable = new AzureTable(tableBinding);
 
@@ -126,14 +126,26 @@ namespace Ujo.Work.WebJob
         private static async Task ProcessNewWork(Web3 web3, string address, AzureTable worksTable, ICollector<string> ipfsImageProcesssinQueue)
         {
            var workService = new WorkService(web3, address);
-           var work = await workService.GetWorkAsync();
-           var workStore = Storage.Work.Create(worksTable, address, work.Name, null, work.WorkFileIpfsHash,
-                work.CoverImageIpfsHash);
-           var result = await workStore.InsertOrReplaceAsync();
-           if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
-           {
-                ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);  
-           }
+            Service.Work work = null;
+            try
+            {
+                work = await workService.GetWorkAsync();
+            }
+            catch (Exception ex)
+            {
+                //log exception to retry or verify contract exists is registered
+            }
+
+            if (work != null)
+            {
+                var workStore = Storage.Work.Create(worksTable, address, work.Name, "", work.WorkFileIpfsHash,
+                    work.CoverImageIpfsHash);
+                var result = await workStore.InsertOrReplaceAsync();
+                if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
+                {
+                    ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);
+                }
+            }
 
         }
 

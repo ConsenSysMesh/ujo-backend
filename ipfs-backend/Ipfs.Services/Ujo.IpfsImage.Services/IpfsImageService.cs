@@ -58,6 +58,7 @@ namespace Ujo.IpfsImage.Services
             using (var memoryStream = new MemoryStream())
             {
                 image.Save(memoryStream, format);
+                memoryStream.Position = 0;
                 return await Add(name, memoryStream).ConfigureAwait(false);
             }
         }

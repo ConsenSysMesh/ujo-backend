@@ -13,7 +13,6 @@ namespace Ujo.IpfsImage.WebJob
 
     class Program
     {
-
         static void Main()
         {
             if (!ConfigurationSettings.VerifyConfiguration())

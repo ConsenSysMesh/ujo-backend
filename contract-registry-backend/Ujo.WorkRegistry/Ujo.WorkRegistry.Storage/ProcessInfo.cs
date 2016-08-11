@@ -29,7 +29,7 @@ namespace Ujo.WorkRegistry.Storage
 
         public long Number
         {
-            get { return Get(0); }
+            get { return Get((long)0); }
             set { Set(value); }
         }
 

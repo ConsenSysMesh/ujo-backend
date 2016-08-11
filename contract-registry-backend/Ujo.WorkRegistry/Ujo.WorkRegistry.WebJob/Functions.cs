@@ -24,7 +24,7 @@ namespace Ujo.WorkRegistry.WebJob
         [Singleton]
         public static async Task ProcessWorks([TimerTrigger("00:01:00")] TimerInfo timer,
             [Table("WorkRegistry")] CloudTable tableBinding, TextWriter log,
-            [Queue("WorkRegisteredQueue")] ICollector<string> workRegisteredQueue)
+            [Queue("WorkRegisteredQueue")] ICollector<string> workRegisteredQueue, [Queue("blockWorkRegistryProcessed")] ICollector<string> blockNumberToProcessTo)
         {
             log.WriteLine("Start job");
             var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
@@ -60,6 +60,7 @@ namespace Ujo.WorkRegistry.WebJob
             }
             log.WriteLine("Updating current process progres to:" + currentBlockNumber.Value);
             await UpsertBlockNumberProcessedTo(workRegistryTable, (long)currentBlockNumber.Value);
+            blockNumberToProcessTo.Add(currentBlockNumber.Value.ToString());
         }
 
         private static async Task UpsertBlockNumberProcessedTo(AzureTable table, long blockNumber)
@@ -103,26 +104,6 @@ namespace Ujo.WorkRegistry.WebJob
                 registeredEvent.Event.Id);
             await workRegistryRecord.InsertOrReplaceAsync();
             workRegisteredQueue.Add("Reg:" + registeredEvent.Event.RegisteredAddress);
-        }
-
-
-        /// <summary>
-        /// Counts the frequency of characters in a word (triggered by messages created by "CountAndSplitInWords")
-        /// </summary>
-        public static void CharFrequency([QueueTrigger("words")] string word, TextWriter log)
-        {
-            // Create a dictionary of character frequencies
-            //      Key = the character
-            //      Value = number of times that character appears in a word
-            IDictionary<char, int> frequency = word
-                .GroupBy(c => c)
-                .ToDictionary(group => group.Key, group => group.Count());
-
-            log.WriteLine("The frequency of letters in the word \"{0}\" is: ", word);
-            foreach (var character in frequency)
-            {
-                log.WriteLine("{0}: {1}", character.Key, character.Value);
-            }
         }
     }
 }

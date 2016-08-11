@@ -29,6 +29,18 @@ namespace Ujo.ContractRegistry.Tests
         }
 
         [Fact]
+        public async Task ShouldRegisterDeployedContract()
+        {
+            var address = "0xdF597079182391EaFB478412F2352CfAfc7E29A3";
+            var web3 = new Web3();
+            var contractRegistryService = new WorkRegistryService(web3, contractAddress);
+            await web3.Personal.UnlockAccount.SendRequestAsync(userName, password, new HexBigInteger(60000));
+            await contractRegistryService.RegisterAsync(userName,
+                address,
+                defaultGas);
+        }
+
+        [Fact]
         public async Task ShouldRegisterAddresses()
         {
             var address1 = "0xb794f5ea0ba39494ce839613fffba74279579268";
