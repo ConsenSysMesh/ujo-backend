@@ -22,9 +22,8 @@ namespace Ujo.Work.WebJob
 {
     public class Functions
     {
-
         [Singleton]
-        public static async Task ProcessWorks([QueueTrigger("blockWorkRegistryProcessed")] string blockNumberToProcessTo,
+        public static async Task ProcessWorks([TimerTrigger("00:01:00")] TimerInfo timer,
             [Table("Work")] CloudTable tableBinding, [Table("WorkRegistry")] CloudTable workRegistryCloudTable, TextWriter log,
             [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue
             )
@@ -40,9 +39,16 @@ namespace Ujo.Work.WebJob
             log.WriteLine("Getting current block number to process from");
 
             var blockNumber = await GetBlockNumberToProcessFrom(worksTable);
+            var blockNumberToProcessTo = await GetBlockNumberToProcessTo(workRegistryTable);
+
+            if (blockNumberToProcessTo < blockNumber) return;
+            //process max 100 at a time?
+            if (blockNumberToProcessTo - blockNumber > 100)
+                blockNumberToProcessTo = blockNumber + 100;
+            
 
             log.WriteLine("Getting all events of registerd and unregistered from" + blockNumber + "to " + blockNumberToProcessTo);
-            var dataEventLogs = await service.GetDataChangedEventsAsync((ulong)blockNumber, Convert.ToUInt64(blockNumberToProcessTo));
+            var dataEventLogs = await service.GetDataChangedEventsAsync(Convert.ToUInt64(blockNumber), Convert.ToUInt64(blockNumberToProcessTo));
 
             //TODO: ensure sorted
             foreach (var dataEventLog in dataEventLogs)
@@ -63,7 +69,7 @@ namespace Ujo.Work.WebJob
 
             }
             log.WriteLine("Updating current process progres to:" + blockNumberToProcessTo);
-            await UpsertBlockNumberProcessedTo(worksTable, Convert.ToInt64(blockNumberToProcessTo));
+            await UpsertBlockNumberProcessedTo(worksTable, blockNumberToProcessTo);
 
         }
     
@@ -167,6 +173,18 @@ namespace Ujo.Work.WebJob
             }
             return blockNumber;
         }
-        
+
+        private static async Task<long> GetBlockNumberToProcessTo(AzureTable workTable)
+        {
+            var processInfo = await WorkRegistry.Storage.ProcessInfo.FindAsync(workTable);
+            //if there is no setting we process to our current default setting
+            var blockNumber = ConfigurationSettings.StartProcessFromBlockNumber();
+
+            if (processInfo != null)
+            {
+                blockNumber = processInfo.Number;
+            }
+            return blockNumber;
+        }
     }
 }

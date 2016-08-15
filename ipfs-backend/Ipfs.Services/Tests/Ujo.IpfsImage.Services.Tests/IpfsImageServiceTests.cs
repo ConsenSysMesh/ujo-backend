@@ -27,11 +27,24 @@ namespace Ujo.IpfsImage.Services.Tests
         [Fact]
         public async Task ShouldUploadImageToInfura()
         {
-            var ipfsService = new IpfsImageService("https://ipfs.infura.io:5001");
             var directory = Environment.CurrentDirectory;
-            var file = File.OpenRead(Path.Combine(directory, "6.png"));
-            var node = await ipfsService.Add("kf.png", file);
+            var file = Path.Combine(directory, "6.png");
+            var node = UploadFileToInfura(file);
             Assert.NotNull(node);
+        }
+
+        public async Task<Ipfs.MerkleNode> UploadCurrentDirectoryFileToInfura(string fileName)
+        {
+            var directory = Environment.CurrentDirectory;
+            var file = Path.Combine(directory, fileName);
+            return await UploadFileToInfura(file);
+        }
+
+        public async Task<Ipfs.MerkleNode> UploadFileToInfura(string filePath)
+        {
+            var ipfsService = new IpfsImageService("https://ipfs.infura.io:5001");
+            var file = File.OpenRead(filePath);
+            return await ipfsService.Add(Path.GetFileName(filePath), file);
         }
 
 

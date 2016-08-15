@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
+using Nethereum.RPC.Eth.Filters;
 using Nethereum.Web3;
 using Ujo.ContractRegistry;
 
@@ -39,6 +40,58 @@ namespace Ujo.WorkRegistry.Service
         public Function GetUnregisterFunction()
         {
             return contract.GetFunction("unregister");
+        }
+
+        private NewFilterInput GetFilterInput(BlockParameter fromBlock , BlockParameter toBlock)
+        {
+            var ethFilterInput = new NewFilterInput();
+            ethFilterInput.FromBlock = fromBlock;
+            ethFilterInput.ToBlock = toBlock;
+            ethFilterInput.Address = new[] { this.contract.Address };
+            return ethFilterInput;
+        }
+
+        private async Task<HexBigInteger> CreateFilterAsync(string eventName, BigInteger blockNumberFrom, BigInteger blockNumberTo)
+        {
+           var ethFilterInput = CreateFilterInput(eventName, blockNumberFrom, blockNumberTo);
+           return await web3.Eth.Filters.NewFilter.SendRequestAsync(ethFilterInput);
+          
+        }
+
+        private NewFilterInput CreateFilterInput(string eventName, BigInteger blockNumberFrom, BigInteger blockNumberTo)
+        {
+            var ethFilterInput = GetFilterInput(new BlockParameter(new HexBigInteger(blockNumberFrom)), new BlockParameter(new HexBigInteger(blockNumberTo)));
+            ethFilterInput.Topics = new[] { contract.ContractABI.Events.First(x => x.Name == eventName).Sha33Signature };
+            return ethFilterInput;
+        }
+
+
+        public async Task<List<EventLog<RegisteredEvent>>> GetRegistered(BigInteger blockNumberFrom, BigInteger blockNumberTo)
+        {
+            var registeredEvent = GetRegisteredEvent();
+            var filter =  CreateFilterInput("Registered", blockNumberFrom, blockNumberTo);
+            var logs = await  web3.Eth.Filters.GetLogs.SendRequestAsync(filter);
+            return registeredEvent.DecodeAllEvents<RegisteredEvent>(logs);
+        }
+
+        public async Task<List<EventLog<UnregisteredEvent>>> GetUnregistered(BigInteger blockNumberFrom,
+            BigInteger blockNumberTo)
+        {
+            var unregisteredEvent = GetUnregisteredEvent();
+            var filter =  CreateFilterInput("Unregistered", blockNumberFrom, blockNumberTo);
+            var logs = await web3.Eth.Filters.GetLogs.SendRequestAsync(filter);
+            return unregisteredEvent.DecodeAllEvents<UnregisteredEvent>(logs);
+        }
+
+        public async Task<List<object>> GetRegisteredUnregistered(BigInteger blockNumberFrom, BigInteger blockNumberTo)
+        {
+            var registered = await GetRegistered(blockNumberFrom, blockNumberTo);
+            var unregistered = await GetUnregistered(blockNumberFrom, blockNumberTo);
+            var list = new List<object>();
+            list.AddRange(registered);
+            list.AddRange(unregistered);
+            list.Sort(new EventLogBlockNumberTransactionIndexComparer());
+            return list;
         }
 
         public async Task<List<EventLog<RegisteredEvent>>> GetRegisteredFromBlockNumber(BigInteger blockNumber)

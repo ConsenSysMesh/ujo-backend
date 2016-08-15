@@ -22,9 +22,9 @@ namespace Ujo.WorkRegistry.WebJob
     {
 
         [Singleton]
-        public static async Task ProcessWorks([TimerTrigger("00:01:00")] TimerInfo timer,
+        public static async Task ProcessWorkRegistry([TimerTrigger("00:00:30")] TimerInfo timer,
             [Table("WorkRegistry")] CloudTable tableBinding, TextWriter log,
-            [Queue("WorkRegisteredQueue")] ICollector<string> workRegisteredQueue, [Queue("blockWorkRegistryProcessed")] ICollector<string> blockNumberToProcessTo)
+            [Queue("WorkRegisteredQueue")] ICollector<string> workRegisteredUnregisteredQueue)
         {
             log.WriteLine("Start job");
             var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
@@ -33,34 +33,38 @@ namespace Ujo.WorkRegistry.WebJob
 
             log.WriteLine("Getting current block number to process from");
 
-            var blockNumber = await GetBlockNumberToProcessFrom(workRegistryTable);
+            var blockNumberFrom = await GetBlockNumberToProcessFrom(workRegistryTable) - 1;
 
             //Getting current blockNumber to set the progress later on
             var currentBlockNumber = await web3.Eth.Blocks.GetBlockNumber.SendRequestAsync();
 
-            log.WriteLine("Getting all events of registerd and unregistered from" + blockNumber);
-            var eventLogs = await service.GetRegisteredUnregisteredFromBlockNumber(blockNumber);
+            var processTo = currentBlockNumber.Value;
+            if ((long) processTo - blockNumberFrom > 10)
+            {
+                processTo = blockNumberFrom + 10;
+            }
+
+            log.WriteLine("Getting all events of registered and unregistered from: " + blockNumberFrom + "to: " + processTo);
+            var eventLogs = await service.GetRegisteredUnregistered(blockNumberFrom, processTo);
+
+            log.WriteLine( "Found total of registered and unregistered logs: " + eventLogs.Count);
             foreach (var eventLog in eventLogs)
             {
-                //TODO: what happens if something is registered and then unregistered and then registered again
-                //do we a) check for for each one if is still registered or unregistered if opposite ignore it?
-                //changes might have happened in later stages so is not an option better to process sequentially
-                //do we b) Get the oldest if duplicated <<< TODO
-                // c continue as it stands 
-
                 if (eventLog is EventLog<RegisteredEvent>)
-                {
-                    await ProcessRegisteredWork(workRegisteredQueue, eventLog, workRegistryTable);
+                { 
+                    await ProcessRegisteredWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
                 }
-
-                if (eventLog is EventLog<UnregisteredEvent>)
+                else if (eventLog is EventLog<UnregisteredEvent>)
                 {
-                    await ProcessUnregistedWork(workRegisteredQueue, eventLog, workRegistryTable);
+                    await ProcessUnregistedWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
+                }
+                else
+                {
+                    log.WriteLine("Unknown event type, should not reach here");
                 }
             }
-            log.WriteLine("Updating current process progres to:" + currentBlockNumber.Value);
-            await UpsertBlockNumberProcessedTo(workRegistryTable, (long)currentBlockNumber.Value);
-            blockNumberToProcessTo.Add(currentBlockNumber.Value.ToString());
+            log.WriteLine("Updating current process progres to:" + processTo);
+            await UpsertBlockNumberProcessedTo(workRegistryTable, (long)processTo);
         }
 
         private static async Task UpsertBlockNumberProcessedTo(AzureTable table, long blockNumber)
@@ -82,9 +86,10 @@ namespace Ujo.WorkRegistry.WebJob
             return blockNumber;
         }
 
-        private static async Task ProcessUnregistedWork(ICollector<string> workRegisteredQueue, object eventLog, AzureTable workRegistryTable)
+        private static async Task ProcessUnregistedWork(ICollector<string> workRegisteredQueue, object eventLog, AzureTable workRegistryTable, TextWriter log)
         {
             var unregisteredEvent = eventLog as EventLog<UnregisteredEvent>;
+            log.WriteLine("Unregistering " + unregisteredEvent.Event.RegisteredAddress);
             var workRegistryRecord = await WorkRegistryRecord.FindAsync(workRegistryTable,
                 unregisteredEvent.Event.RegisteredAddress);
             if (workRegistryRecord != null)
@@ -94,9 +99,10 @@ namespace Ujo.WorkRegistry.WebJob
             workRegisteredQueue.Add("Unreg:" + unregisteredEvent.Event.RegisteredAddress);
         }
 
-        private static async Task ProcessRegisteredWork(ICollector<string> workRegisteredQueue, object eventLog, AzureTable workRegistryTable)
+        private static async Task ProcessRegisteredWork(ICollector<string> workRegisteredQueue, object eventLog, AzureTable workRegistryTable, TextWriter log)
         {
             var registeredEvent = eventLog as EventLog<RegisteredEvent>;
+            log.WriteLine("Registering " + registeredEvent.Event.RegisteredAddress);
             var workRegistryRecord = WorkRegistryRecord.Create(workRegistryTable,
                 registeredEvent.Event.RegisteredAddress,
                 registeredEvent.Event.Owner,

@@ -25,17 +25,40 @@ namespace Ujo.ContractRegistry.Tests
            string contract =  await
                 transactionHelper.DeployContract(new Web3(), userName, password,
                     DefaultSettings.ContractByteCode);
-
         }
 
         [Fact]
         public async Task ShouldRegisterDeployedContract()
         {
             var address = "0xdF597079182391EaFB478412F2352CfAfc7E29A3";
+            await RegisterDeployedContract(address);
+        }
+
+        [Fact]
+        public async Task ShouldGetRegisteredUnregisteredFromMordern()
+        {
+            var web3 = new Web3("https://morden.infura.io:8545");
+            var contractRegistryService = new WorkRegistryService(web3, contractAddress);
+            var logs = await contractRegistryService.GetRegisteredUnregistered(1488231, 1488279);
+        }
+
+
+        public async Task RegisterDeployedContract(string address)
+        {
             var web3 = new Web3();
             var contractRegistryService = new WorkRegistryService(web3, contractAddress);
             await web3.Personal.UnlockAccount.SendRequestAsync(userName, password, new HexBigInteger(60000));
             await contractRegistryService.RegisterAsync(userName,
+                address,
+                defaultGas);
+        }
+
+        public async Task UnRegisterContract(string address)
+        {
+            var web3 = new Web3();
+            var contractRegistryService = new WorkRegistryService(web3, contractAddress);
+            await web3.Personal.UnlockAccount.SendRequestAsync(userName, password, new HexBigInteger(60000));
+            await contractRegistryService.UnregisterAsync(userName,
                 address,
                 defaultGas);
         }

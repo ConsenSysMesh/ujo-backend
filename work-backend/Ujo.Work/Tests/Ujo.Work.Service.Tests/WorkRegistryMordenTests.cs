@@ -31,6 +31,21 @@ namespace Ujo.Work.Service.Tests
         }
 
 
+        public async Task<string> DeployContractToModernAsync(string workHash, string workTitle, string coverImageHash,
+            string artistName)
+        {
+            var transactionHelper = new TransactionHelpers();
+            string contract = await
+                 transactionHelper.DeployContract(new Web3(), userName, password,
+                     DefaultSettings.ContractByteCode, false);
+            var workService = new WorkService(new Web3(), contract);
+            await workService.SetAttributeAsync(userName, (long)StorageKeys.Name, workTitle, defaultGas);
+            await workService.SetAttributeAsync(userName, (long)StorageKeys.WorkFileIpfsHash, workHash, defaultGas);
+            await workService.SetAttributeAsync(userName, (long)StorageKeys.CoverImageIpfsHash, coverImageHash, defaultGas);
+            return contract;
+        }
+
+
         [Fact]
         public async Task ShouldChangeDataInContract()
         {
