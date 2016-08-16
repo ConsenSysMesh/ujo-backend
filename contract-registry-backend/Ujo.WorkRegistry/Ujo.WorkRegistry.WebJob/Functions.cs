@@ -20,6 +20,7 @@ namespace Ujo.WorkRegistry.WebJob
 {
     public class Functions
     {
+        //TODO: Add a queue to pick up blocknumbers from
 
         [Singleton]
         public static async Task ProcessWorkRegistry([TimerTrigger("00:00:30")] TimerInfo timer,
@@ -29,6 +30,7 @@ namespace Ujo.WorkRegistry.WebJob
             log.WriteLine("Start job");
             var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
             var service = new WorkRegistryService(web3, ConfigurationSettings.GetWorkRegistryContractAddress());
+            var byteCodeMatcher = new WorkRegistryWorkByteCodeMatcher(web3);
             var workRegistryTable = new AzureTable(tableBinding);
 
             log.WriteLine("Getting current block number to process from");
@@ -53,12 +55,17 @@ namespace Ujo.WorkRegistry.WebJob
                     var eventLogs = await service.GetRegisteredUnregistered(i, i);
 
                     log.WriteLine("Found total of registered and unregistered logs: " + eventLogs.Count);
+
                     foreach (var eventLog in eventLogs)
                     {
                         if (eventLog is EventLog<RegisteredEvent>)
                         {
-                            await
-                                ProcessRegisteredWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
+                           if(await byteCodeMatcher.IsMatchAsync((eventLog as EventLog<RegisteredEvent>).Event.RegisteredAddress))
+                           {
+                                await
+                                    ProcessRegisteredWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable,
+                                        log);
+                           }
                         }
                         else if (eventLog is EventLog<UnregisteredEvent>)
                         {
@@ -118,6 +125,7 @@ namespace Ujo.WorkRegistry.WebJob
 
         private static async Task ProcessRegisteredWork(ICollector<string> workRegisteredQueue, object eventLog, AzureTable workRegistryTable, TextWriter log)
         {
+            //TODO: get code verify bytecode matches, simple hard coding to start with
             var registeredEvent = eventLog as EventLog<RegisteredEvent>;
             log.WriteLine("Registering " + registeredEvent.Event.RegisteredAddress);
             var workRegistryRecord = WorkRegistryRecord.Create(workRegistryTable,

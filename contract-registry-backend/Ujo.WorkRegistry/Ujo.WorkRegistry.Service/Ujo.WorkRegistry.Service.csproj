@@ -90,6 +90,7 @@
     <Compile Include="RegisteredEvent.cs" />
     <Compile Include="RegistryRecord.cs" />
     <Compile Include="UnregisteredEvent.cs" />
+    <Compile Include="WorkRegistryWorkByteCodeMatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
