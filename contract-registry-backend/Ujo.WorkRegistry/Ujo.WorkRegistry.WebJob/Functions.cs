@@ -39,28 +39,45 @@ namespace Ujo.WorkRegistry.WebJob
             var currentBlockNumber = await web3.Eth.Blocks.GetBlockNumber.SendRequestAsync();
 
             var processTo = currentBlockNumber.Value;
-            if ((long) processTo - blockNumberFrom > 10)
+            if ((long) processTo - blockNumberFrom > 50)
             {
-                processTo = blockNumberFrom + 10;
+                processTo = blockNumberFrom + 50;
             }
 
-            log.WriteLine("Getting all events of registered and unregistered from: " + blockNumberFrom + "to: " + processTo);
-            var eventLogs = await service.GetRegisteredUnregistered(blockNumberFrom, processTo);
-
-            log.WriteLine( "Found total of registered and unregistered logs: " + eventLogs.Count);
-            foreach (var eventLog in eventLogs)
+            for (long i = blockNumberFrom; i <= processTo; i++)
             {
-                if (eventLog is EventLog<RegisteredEvent>)
-                { 
-                    await ProcessRegisteredWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
-                }
-                else if (eventLog is EventLog<UnregisteredEvent>)
+                try
                 {
-                    await ProcessUnregistedWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
+                    log.WriteLine("Getting all events of registered and unregistered from: " + i + "to: " +
+                                  i);
+                    var eventLogs = await service.GetRegisteredUnregistered(i, i);
+
+                    log.WriteLine("Found total of registered and unregistered logs: " + eventLogs.Count);
+                    foreach (var eventLog in eventLogs)
+                    {
+                        if (eventLog is EventLog<RegisteredEvent>)
+                        {
+                            await
+                                ProcessRegisteredWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
+                        }
+                        else if (eventLog is EventLog<UnregisteredEvent>)
+                        {
+                            await
+                                ProcessUnregistedWork(workRegisteredUnregisteredQueue, eventLog, workRegistryTable, log);
+                        }
+                        else
+                        {
+                            log.WriteLine("Unknown event type, should not reach here");
+                        }
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    log.WriteLine("Unknown event type, should not reach here");
+                    //TODO: Put in error queue to process
+                    System.Diagnostics.Trace.TraceError("Work Registry error, BlockNumber " + i + " Error:" +
+                        ex.StackTrace.ToString());
+
+                    log.WriteLine("Error:" + ex.Message);
                 }
             }
             log.WriteLine("Updating current process progres to:" + processTo);
