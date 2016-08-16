@@ -22,6 +22,12 @@ namespace Ujo.Work.WebJob
 {
     public class Functions
     {
+        //TODO: Add Gridmail notification of errors
+        //TODO: Queue blocks if a specific block has an error we can continue processing other blocks.
+        //TODO: Queue block processing should be fast and allowed to be in parallel, we should only use change notifications to retrieve value of the contract
+        // we should validate if a contract is registered
+
+
         [Singleton]
         public static async Task ProcessWorks([TimerTrigger("00:01:00")] TimerInfo timer,
             [Table("Work")] CloudTable tableBinding, [Table("WorkRegistry")] CloudTable workRegistryCloudTable, TextWriter log,
@@ -47,7 +53,7 @@ namespace Ujo.Work.WebJob
                 blockNumberToProcessTo = blockNumber + 100;
             
 
-            log.WriteLine("Getting all events of registerd and unregistered from" + blockNumber + "to " + blockNumberToProcessTo);
+            log.WriteLine("Getting all data changes events from: " + blockNumber + " to " + blockNumberToProcessTo);
             var dataEventLogs = await service.GetDataChangedEventsAsync(Convert.ToUInt64(blockNumber), Convert.ToUInt64(blockNumberToProcessTo));
 
             //TODO: ensure sorted
@@ -77,6 +83,9 @@ namespace Ujo.Work.WebJob
         {
             var key = dataEventLog.Event.Key;
             var val = dataEventLog.Event.Value;
+
+            //TODO: Get the latest from the smart contract to allow processing of multiple blocks at a time
+
             if (key == (long)StorageKeys.Name)
             {
                 work.Name = val;
@@ -133,15 +142,8 @@ namespace Ujo.Work.WebJob
         {
            var workService = new WorkService(web3, address);
             Service.Work work = null;
-            try
-            {
-                work = await workService.GetWorkAsync();
-            }
-            catch (Exception ex)
-            {
-                //log exception to retry or verify contract exists is registered
-            }
-
+            work = await workService.GetWorkAsync();
+            
             if (work != null)
             {
                 var workStore = Storage.Work.Create(worksTable, address, work.Name, "", work.WorkFileIpfsHash,

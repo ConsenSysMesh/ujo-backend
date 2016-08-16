@@ -42,6 +42,13 @@ namespace Ujo.ContractRegistry.Tests
             var logs = await contractRegistryService.GetRegisteredUnregistered(1488231, 1488279);
         }
 
+        [Fact]
+        public async Task ShouldMatchCodeFromMordern()
+        {
+            var web3 = new Web3("https://morden.infura.io:8545");
+            var contractRegistryService = new WorkRegistryWorkByteCodeMatcher(web3);
+            Assert.True(await contractRegistryService.IsMatchAsync("0xa5a7c0e642e2a1a371e5f5fec4fd9fe3a0253145"));
+        }
 
         public async Task RegisterDeployedContract(string address)
         {
