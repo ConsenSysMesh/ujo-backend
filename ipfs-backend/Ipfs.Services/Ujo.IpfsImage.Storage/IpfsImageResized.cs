@@ -66,6 +66,11 @@ namespace Ujo.IpfsImage.Storage
             return "w" + width;
         }
 
+        public static string GetCropNewSizeKey(int width, int height)
+        {
+            return "c" + width + "x" + height;
+        }
+
         public new static async Task<IpfsImageResized>  FindAsync(AzureTable table, string ipfsHash, string newSize)
         {
             var tr =
