@@ -1,9 +1,12 @@
 namespace Ujo.Work.Service
 {
-    public enum StorageKeys
+
+    public enum StandardSchema
     {
-        Name = 1,
-        WorkFileIpfsHash = 2,
-        CoverImageIpfsHash = 3
-    }
+        name,
+        creator,
+        image,
+        audio,
+        genre
+    } 
 }

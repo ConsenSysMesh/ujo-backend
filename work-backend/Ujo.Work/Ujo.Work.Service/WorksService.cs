@@ -23,7 +23,18 @@ namespace Ujo.Work.Service
             }
             return results;
         }
-        
+
+        public bool IsStandardDataChangeLog(FilterLog log)
+        {
+            var dataChangeEvent = GetStandardDataChangedEvent();
+            return dataChangeEvent.IsLogForEvent(log);
+        }
+
+        public bool IsStandardDataChangeLog(JToken log)
+        {
+            var dataChangeEvent = GetStandardDataChangedEvent();
+            return dataChangeEvent.IsLogForEvent(log);
+        }
 
         public async Task<List<EventLog<DataChangedEvent>>> GetDataChangedEventsAsync(ulong blockNumber)
         {
@@ -33,43 +44,16 @@ namespace Ujo.Work.Service
                 ToBlock = new BlockParameter(blockNumber) });
 
             var results = new List<EventLog<DataChangedEvent>>();
-            var dataChangeEvent = GetDataChangedEvent();
-
+          
             if (logs == null) return results;
 
             foreach (var log in logs)
             {
-                if (!IsDataChangedLog(log)) continue;
-
-                var eventLog = dataChangeEvent.DecodeAllEvents<DataChangedEvent>(new[] {log})[0];
+                if (!IsStandardDataChangeLog(log)) continue;
+                var eventLog = Event.DecodeAllEvents<DataChangedEvent>(new[] {log})[0];
                 results.Add(eventLog);
             }
             return results;
-        }
-
-        public bool IsDataChangedLog(JToken log)
-        {
-            return IsDataChangedLog(JsonConvert.DeserializeObject<FilterLog>(log.ToString()));
-        }
-
-        public bool IsDataChangedLog(FilterLog log)
-        {
-            //todo move to Nethereum or just make it public
-            var eventAbi = this.contract.ContractABI.Events.First(x => x.Name == "DataChanged");
-            //todo move check to events
-            if (log.Topics != null && log.Topics.Length > 0)
-            {
-                var eventtopic = log.Topics[0].ToString();
-                if (SafeHexComparison(eventAbi.Sha33Signature) == SafeHexComparison(eventtopic))
-                    return true;
-            }
-            return false;
-        }
-
-        private string SafeHexComparison(string hex)
-        {
-            if (hex.StartsWith("0x")) return hex.ToLower();
-            return "0x" + hex.ToLower();
         }
 
         public WorksService(Web3 web3) : base(web3)

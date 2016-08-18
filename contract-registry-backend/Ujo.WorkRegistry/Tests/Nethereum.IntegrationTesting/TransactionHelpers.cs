@@ -15,6 +15,12 @@ namespace Nethereum.IntegrationTesting
             return receipt.ContractAddress;
         }
 
+        public async Task<string> DeployContract(Web3.Web3 web3, string addressFrom, string pass, string bytecode, object[] constructorParameters)
+        {
+            var receipt = await SendAndMineTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(900000), constructorParameters));
+            return receipt.ContractAddress;
+        }
+
         public async Task<string> DeployContract(Web3.Web3 web3, string addressFrom, string pass, string bytecode, bool mineIt)
         {
             if (mineIt) return await DeployContract(web3, addressFrom, pass, bytecode);

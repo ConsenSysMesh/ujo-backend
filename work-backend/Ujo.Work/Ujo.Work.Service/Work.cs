@@ -5,5 +5,7 @@ namespace Ujo.Work.Service
         public string Name { get; set; }
         public string WorkFileIpfsHash { get; set; }
         public string CoverImageIpfsHash { get; set; }
+        public string Category { get; set; }
+
     }
 }

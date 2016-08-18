@@ -8,6 +8,7 @@ namespace Ujo.Work.Service.Tests
         public string ContractAddress { get; set; }
         private TransactionHelpers txHelper = new TransactionHelpers();
 
+
         public DeployedContractFixture()
         {
 
@@ -21,8 +22,12 @@ namespace Ujo.Work.Service.Tests
 
         public async Task<string> DeployContract()
         {
+            //TODO Deploy contract Standard first
+            var standardContract = await txHelper.DeployContract(this.GetWeb3(),
+                DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.StandardSchemaContractByteCode);
+
             return await txHelper.DeployContract(this.GetWeb3(),
-                DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.ContractByteCode);
+                DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.ContractByteCode, new []{(object)standardContract});
         }
     }
 }

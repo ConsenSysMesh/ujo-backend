@@ -7,7 +7,7 @@ namespace Ujo.Work.Service
         protected readonly Web3 web3;
 
         protected string abi =
-            @"[{""constant"":true,""inputs"":[{""name"":"""",""type"":""uint256""}],""name"":""store"",""outputs"":[{""name"":"""",""type"":""string""}],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""key"",""type"":""uint256""},{""name"":""value"",""type"":""string""}],""name"":""setAttribute"",""outputs"":[{""name"":""success"",""type"":""bool""}],""type"":""function""},{""anonymous"":false,""inputs"":[{""indexed"":true,""name"":""key"",""type"":""uint256""},{""indexed"":false,""name"":""value"",""type"":""string""}],""name"":""DataChanged"",""type"":""event""}]";
+            @"[{""constant"":false,""inputs"":[{""name"":""_key"",""type"":""bytes32""}],""name"":""sha3OfValueAtKey"",""outputs"":[{""name"":"""",""type"":""bytes32""}],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""}],""name"":""registerWorkWithRegistry"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_keys"",""type"":""bytes32[]""},{""name"":""vals"",""type"":""string""},{""name"":""_standard"",""type"":""bool""}],""name"":""bulkSetValue"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_newController"",""type"":""address""}],""name"":""changeController"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""},{""name"":""_license"",""type"":""address""}],""name"":""registerLicenseAndAttachToThisWork"",""outputs"":[],""type"":""function""},{""constant"":true,""inputs"":[{""name"":"""",""type"":""bytes32""}],""name"":""store"",""outputs"":[{""name"":"""",""type"":""string""}],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""}],""name"":""unregisterWorkWithRegistry"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""},{""name"":""_license"",""type"":""address""}],""name"":""unregisterLicense"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_key"",""type"":""bytes32""},{""name"":""_value"",""type"":""string""},{""name"":""_standard"",""type"":""bool""}],""name"":""setValue"",""outputs"":[],""type"":""function""},{""inputs"":[{""name"":""_schema_addr"",""type"":""address""}],""type"":""constructor""},{""anonymous"":false,""inputs"":[{""indexed"":true,""name"":""key"",""type"":""bytes32""},{""indexed"":false,""name"":""value"",""type"":""string""}],""name"":""StandardDataChanged"",""type"":""event""},{""anonymous"":false,""inputs"":[{""indexed"":true,""name"":""key"",""type"":""bytes32""},{""indexed"":false,""name"":""value"",""type"":""string""}],""name"":""NonStandardDataChanged"",""type"":""event""}]";
 
         protected Contract contract;
 
@@ -17,19 +17,58 @@ namespace Ujo.Work.Service
             this.contract = web3.Eth.GetContract(abi, null);
         }
 
-        public Event GetDataChangedEvent()
+        public Event GetStandardDataChangedEvent()
         {
-            return contract.GetEvent("DataChanged");
+            return contract.GetEvent("StandardDataChanged");
+        }
+        public Event GetNonStandardDataChangedEvent()
+        {
+            return contract.GetEvent("NonStandardDataChanged");
         }
 
-        public Function GetSetAttributeFunction()
+        public Function GetRegisterLicenseAndAttachToThisWorkFunction()
         {
-            return contract.GetFunction("setAttribute");
+            return contract.GetFunction("registerLicenseAndAttachToThisWork");
         }
 
-        public Function GetGetAttributeFunction()
+        public Function GetStoreFunction()
         {
             return contract.GetFunction("store");
         }
+
+        public Function GetSetValueFunction()
+        {
+            return contract.GetFunction("setValue");
+        }
+
+        public Function GetBulkSetValueFunction()
+        {
+            return contract.GetFunction("bulkSetValue");
+        }
+
+        public Function GetRegisterWorkWithRegistryFunction()
+        {
+            return contract.GetFunction("registerWorkWithRegistry");
+        }
+
+        public Function GetChangeControllerFunction()
+        {
+            return contract.GetFunction("changeController");
+        }
+
+        public Function GetUnregisterWorkWithRegistryFunction()
+        {
+            return contract.GetFunction("unregisterWorkWithRegistry");
+        }
+
+        public Function GetUnregisterLicenseFunction()
+        {
+            return contract.GetFunction("unregisterLicense");
+        }
+        public Function GetSha3OfValueAtKeyFunction()
+        {
+            return contract.GetFunction("sha3OfValueAtKey");
+        }
     }
+
 }

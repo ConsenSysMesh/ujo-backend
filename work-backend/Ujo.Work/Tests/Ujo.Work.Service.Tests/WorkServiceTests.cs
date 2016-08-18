@@ -29,17 +29,17 @@ namespace Ujo.Work.Service.Tests
         {
             var web3 = deployedContractFixture.GetWeb3();
             var workService = GetWorkService(web3);
-            var dataChangedEvent = workService.GetDataChangedEvent();
+            var dataChangedEvent = workService.GetStandardDataChangedEvent();
             var filter = await dataChangedEvent.CreateFilterAsync();
 
             var receipt = await txHelper.SendAndMineTransactionAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-                () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, 1, "Hello", defaultGas));
+                () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas));
 
             var eventLogs = await dataChangedEvent.GetFilterChanges<DataChangedEvent>(filter);
-            Assert.Equal(1, eventLogs[0].Event.Key);
+            Assert.Equal(StandardSchema.name.ToString(), eventLogs[0].Event.Key);
             Assert.Equal("Hello", eventLogs[0].Event.Value);
 
-            var value = await workService.GetAttributeAsyncCall(1);
+            var value = await workService.GetWorkAttributeAsyncCall(StandardSchema.name);
             Assert.Equal("Hello", value);
         }
 
@@ -49,16 +49,16 @@ namespace Ujo.Work.Service.Tests
             var web3 = deployedContractFixture.GetWeb3();
             var workService = GetWorkService(web3);
             var worksService = new WorksService(web3);
-            var dataChangedEvent = workService.GetDataChangedEvent();
+            var dataChangedEvent = workService.GetStandardDataChangedEvent();
              var receipt = await txHelper.SendAndMineTransactionAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-                () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, 1, "Hello", defaultGas));
+              () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas));
 
-            Assert.True(worksService.IsDataChangedLog(receipt.Logs[0]));
+            Assert.True(worksService.IsStandardDataChangeLog(receipt.Logs[0]));
        
             var filterLog = JsonConvert.DeserializeObject<FilterLog>(receipt.Logs[0].ToString());
-            var dataChanged = dataChangedEvent.DecodeAllEvents<DataChangedEvent>(new[] {filterLog});
-            
-            Assert.Equal(1, dataChanged[0].Event.Key);
+            var dataChanged = Event.DecodeAllEvents<DataChangedEvent>(new[] {filterLog});
+
+            Assert.Equal(StandardSchema.name.ToString(), dataChanged[0].Event.Key);
             Assert.Equal("Hello", dataChanged[0].Event.Value);
 
         }
@@ -72,7 +72,7 @@ namespace Ujo.Work.Service.Tests
             var blockNumber = await web3.Eth.Blocks.GetBlockNumber.SendRequestAsync();
 
             var receipt = await txHelper.SendAndMineTransactionAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-               () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, 1, "Hello", defaultGas));
+              () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas));
 
             var logs = await worksService.GetDataChangedEventsAsync((ulong) blockNumber.Value);
             Assert.True(logs.Count == 0);
@@ -88,8 +88,27 @@ namespace Ujo.Work.Service.Tests
             var workService = GetWorkService(web3);
 
             await txHelper.SendAndMineTransactionsAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-                    () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, (long)StorageKeys.Name, "Hello", defaultGas),
-                    () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, (long)StorageKeys.WorkFileIpfsHash, "WORKHASH", defaultGas)
+                  () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas),
+                  () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.audio, "WORKHASH", true, defaultGas)
+                   );
+
+            var work = await workService.GetWorkAsync();
+            Assert.Equal("Hello", work.Name);
+            Assert.Equal("WORKHASH", work.WorkFileIpfsHash);
+            Assert.Equal(string.Empty, work.CoverImageIpfsHash);
+
+        }
+
+        [Fact]
+        public async Task Should_SetInBulk()
+        {
+            var web3 = deployedContractFixture.GetWeb3();
+            var workService = GetWorkService(web3);
+            var keys = new[] {StandardSchema.name, StandardSchema.audio};
+            var values = "Hello|WORKHASH";
+
+            await txHelper.SendAndMineTransactionsAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
+                  () => workService.BulkSetValueAsync(DefaultSettings.AddressFrom, keys ,  values, true, defaultGas)
                    );
 
             var work = await workService.GetWorkAsync();
