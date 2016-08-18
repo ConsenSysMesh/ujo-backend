@@ -29,7 +29,7 @@ namespace Ujo.Work.WebJob
 
 
         [Singleton]
-        public static async Task ProcessWorks([TimerTrigger("00:01:00")] TimerInfo timer,
+        public static async Task ProcessWorks([TimerTrigger("00:00:30")] TimerInfo timer,
             [Table("Work")] CloudTable tableBinding, [Table("WorkRegistry")] CloudTable workRegistryCloudTable, TextWriter log,
             [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue
             )
@@ -86,18 +86,22 @@ namespace Ujo.Work.WebJob
 
             //TODO: Get the latest from the smart contract to allow processing of multiple blocks at a time
 
-            if (key == (long)StorageKeys.Name)
+            if (key == StandardSchema.name.ToString())
             {
                 work.Name = val;
             }
-            else if (key == (long)StorageKeys.CoverImageIpfsHash)
+            else if (key == StandardSchema.image.ToString())
             {
                 work.CoverFileIpfsHash = val;
                 ipfsImageProcesssinQueue.Add(val);
             }
-            else if (key == (long) StorageKeys.WorkFileIpfsHash)
+            else if (key == StandardSchema.audio.ToString())
             {
                 work.WorkFileIpfsHash = val;
+            }
+            else if (key == StandardSchema.creator.ToString())
+            {
+                
             }
             else
             {
@@ -146,7 +150,7 @@ namespace Ujo.Work.WebJob
             
             if (work != null)
             {
-                var workStore = Storage.Work.Create(worksTable, address, work.Name, "", work.WorkFileIpfsHash,
+                var workStore = Storage.Work.Create(worksTable, address, work.Name, work.Creator, work.Category, work.WorkFileIpfsHash,
                     work.CoverImageIpfsHash);
                 var result = await workStore.InsertOrReplaceAsync();
                 if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))

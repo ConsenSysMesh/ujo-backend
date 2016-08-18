@@ -16,13 +16,11 @@ namespace Ujo.Work.Service.Tests
         private static TransactionHelpers txHelper = new TransactionHelpers();
         private static HexBigInteger defaultGas = new HexBigInteger(900000);
 
-
         public WorkServiceTests(DeployedContractFixture deployedContractFixture)
         {
             this.deployedContractFixture = deployedContractFixture;
         }
 
-       
 
         [Fact, TestPriority(1)]
         public async Task Should_1_SetAttributes()

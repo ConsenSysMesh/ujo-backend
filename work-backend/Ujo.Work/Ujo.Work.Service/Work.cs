@@ -6,6 +6,6 @@ namespace Ujo.Work.Service
         public string WorkFileIpfsHash { get; set; }
         public string CoverImageIpfsHash { get; set; }
         public string Category { get; set; }
-
+        public string Creator { get; set; }
     }
 }

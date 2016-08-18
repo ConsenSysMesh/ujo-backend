@@ -11,12 +11,11 @@ namespace Ujo.Work.Storage
         public Work(AzureTable at, DynamicTableEntity dte = null) : base(at, dte)
         {
             RowKey = string.Empty;
-            
         }
 
-        public void SetUnknownKey(string value, long key)
+        public void SetUnknownKey(string value, string key)
         {
-            this.Set(value, key.ToString());
+            this.Set(value, key);
         }
 
         public string Address
@@ -35,7 +34,13 @@ namespace Ujo.Work.Storage
             set { Set(value); }
         }
 
-        public string ArtistName
+        public string Creator
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
+        public string Genre
         {
             get { return Get(string.Empty); }
             set { Set(value); }
@@ -52,14 +57,14 @@ namespace Ujo.Work.Storage
             get { return Get(string.Empty); }
             set { Set(value); }
         }
-        public static Work Create(AzureTable table, string address, string name, string artistName, string workFileIpfsHash, string coverFileIpfsHash
+        public static Work Create(AzureTable table, string address, string name, string creator, string genre, string workFileIpfsHash, string coverFileIpfsHash
             )
         {
             var workRegistry = new Work(table)
             {
                 Address = address,
                 Name = name,
-                ArtistName = artistName,
+                Creator = creator,
                 WorkFileIpfsHash = workFileIpfsHash,
                 CoverFileIpfsHash = coverFileIpfsHash
             };
