@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Nethereum.Hex.HexConvertors.Extensions;
 using Nethereum.Web3;
 
 namespace Ujo.WorkRegistry.Service
@@ -17,23 +18,8 @@ namespace Ujo.WorkRegistry.Service
 
         public async Task<bool> IsMatchAsync(string address)
         {
-            var code = await web3.Eth.GetCode.SendRequestAsync(Ensure40(address));
-            return EnsureHex(code) == EnsureHex(workByteCode);
-        }
-
-        private string Ensure40(string x)
-        {
-            x = x.Replace("0x", "");
-            return EnsureHex(x.PadLeft(40, '0'));
-        }
-
-        private string EnsureHex(string x)
-        {
-            if (!x.StartsWith("0x"))
-            {
-                return "0x" + x;
-            }
-            return x;
+            var code = await web3.Eth.GetCode.SendRequestAsync(web3.ToValid20ByteAddress(address));
+            return code.IsTheSameHex(workByteCode); 
         }
     }
 }

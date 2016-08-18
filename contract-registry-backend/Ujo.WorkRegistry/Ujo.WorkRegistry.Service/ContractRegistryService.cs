@@ -8,6 +8,7 @@ using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Filters;
 using Nethereum.Web3;
+using Nethereum.Web3.Contracts.Comparers;
 using Ujo.ContractRegistry;
 
 namespace Ujo.WorkRegistry.Service
@@ -42,46 +43,23 @@ namespace Ujo.WorkRegistry.Service
             return contract.GetFunction("unregister");
         }
 
-        private NewFilterInput GetFilterInput(BlockParameter fromBlock , BlockParameter toBlock)
-        {
-            var ethFilterInput = new NewFilterInput();
-            ethFilterInput.FromBlock = fromBlock;
-            ethFilterInput.ToBlock = toBlock;
-            ethFilterInput.Address = new[] { this.contract.Address };
-            return ethFilterInput;
-        }
-
-        private async Task<HexBigInteger> CreateFilterAsync(string eventName, BigInteger blockNumberFrom, BigInteger blockNumberTo)
-        {
-           var ethFilterInput = CreateFilterInput(eventName, blockNumberFrom, blockNumberTo);
-           return await web3.Eth.Filters.NewFilter.SendRequestAsync(ethFilterInput);
-          
-        }
-
-        private NewFilterInput CreateFilterInput(string eventName, BigInteger blockNumberFrom, BigInteger blockNumberTo)
-        {
-            var ethFilterInput = GetFilterInput(new BlockParameter(new HexBigInteger(blockNumberFrom)), new BlockParameter(new HexBigInteger(blockNumberTo)));
-            ethFilterInput.Topics = new[] { contract.ContractABI.Events.First(x => x.Name == eventName).Sha33Signature };
-            return ethFilterInput;
-        }
-
-
+     
         public async Task<List<EventLog<RegisteredEvent>>> GetRegistered(BigInteger blockNumberFrom, BigInteger blockNumberTo)
         {
             var registeredEvent = GetRegisteredEvent();
-            var filter =  CreateFilterInput("Registered", blockNumberFrom, blockNumberTo);
-            var logs = await  web3.Eth.Filters.GetLogs.SendRequestAsync(filter);
-            return registeredEvent.DecodeAllEvents<RegisteredEvent>(logs);
+            var filterInput = registeredEvent.CreateFilterInput(new BlockParameter(new HexBigInteger(blockNumberFrom)), new BlockParameter(new HexBigInteger(blockNumberTo)));
+            return await registeredEvent.GetAllChanges<RegisteredEvent>(filterInput);
+          
         }
 
         public async Task<List<EventLog<UnregisteredEvent>>> GetUnregistered(BigInteger blockNumberFrom,
-            BigInteger blockNumberTo)
+           BigInteger blockNumberTo)
         {
             var unregisteredEvent = GetUnregisteredEvent();
-            var filter =  CreateFilterInput("Unregistered", blockNumberFrom, blockNumberTo);
-            var logs = await web3.Eth.Filters.GetLogs.SendRequestAsync(filter);
-            return unregisteredEvent.DecodeAllEvents<UnregisteredEvent>(logs);
+            var filterInput = unregisteredEvent.CreateFilterInput(new BlockParameter(new HexBigInteger(blockNumberFrom)), new BlockParameter(new HexBigInteger(blockNumberTo)));
+            return await unregisteredEvent.GetAllChanges<UnregisteredEvent>(filterInput);
         }
+
 
         public async Task<List<object>> GetRegisteredUnregistered(BigInteger blockNumberFrom, BigInteger blockNumberTo)
         {
@@ -97,15 +75,15 @@ namespace Ujo.WorkRegistry.Service
         public async Task<List<EventLog<RegisteredEvent>>> GetRegisteredFromBlockNumber(BigInteger blockNumber)
         {
             var registeredEvent = GetRegisteredEvent();
-            var filter = await registeredEvent.CreateFilterAsync(new BlockParameter(new HexBigInteger(blockNumber))).ConfigureAwait(false);
-            return await registeredEvent.GetAllChanges<RegisteredEvent>(filter).ConfigureAwait(false);
+            var filterInput = registeredEvent.CreateFilterInput(new BlockParameter(new HexBigInteger(blockNumber)));
+            return await registeredEvent.GetAllChanges<RegisteredEvent>(filterInput);
         }
 
         public async Task<List<EventLog<UnregisteredEvent>>> GetUnregisteredFromBlockNumber(BigInteger blockNumber)
         {
             var unregisteredEvent = GetUnregisteredEvent();
-            var filter = await unregisteredEvent.CreateFilterAsync(new BlockParameter(new HexBigInteger(blockNumber))).ConfigureAwait(false);
-            return await unregisteredEvent.GetAllChanges<UnregisteredEvent>(filter).ConfigureAwait(false);
+            var filterInput = unregisteredEvent.CreateFilterInput(new BlockParameter(new HexBigInteger(blockNumber)));
+            return await unregisteredEvent.GetAllChanges<UnregisteredEvent>(filterInput).ConfigureAwait(false);
         }
 
         public async Task<List<object>> GetRegisteredUnregisteredFromBlockNumber(BigInteger blockNumber)

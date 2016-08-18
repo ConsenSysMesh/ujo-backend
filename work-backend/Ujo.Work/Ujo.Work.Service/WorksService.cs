@@ -7,6 +7,7 @@ using Nethereum.Web3;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+
 namespace Ujo.Work.Service
 {
     public class WorksService:WorkServiceBase
@@ -26,13 +27,10 @@ namespace Ujo.Work.Service
 
         public async Task<List<EventLog<DataChangedEvent>>> GetDataChangedEventsAsync(ulong blockNumber)
         {
-            var filterId = await web3.Eth.Filters.NewFilter.SendRequestAsync(new NewFilterInput()
+            var logs = await web3.Eth.Filters.GetLogs.SendRequestAsync(new NewFilterInput()
             {
                 FromBlock = new BlockParameter(blockNumber),
-                ToBlock = new BlockParameter(blockNumber)
-            });
-
-            var logs = await web3.Eth.Filters.GetFilterLogsForEthNewFilter.SendRequestAsync(filterId);
+                ToBlock = new BlockParameter(blockNumber) });
 
             var results = new List<EventLog<DataChangedEvent>>();
             var dataChangeEvent = GetDataChangedEvent();
@@ -46,7 +44,6 @@ namespace Ujo.Work.Service
                 var eventLog = dataChangeEvent.DecodeAllEvents<DataChangedEvent>(new[] {log})[0];
                 results.Add(eventLog);
             }
-
             return results;
         }
 

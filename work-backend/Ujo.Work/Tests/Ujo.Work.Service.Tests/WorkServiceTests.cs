@@ -22,7 +22,7 @@ namespace Ujo.Work.Service.Tests
             this.deployedContractFixture = deployedContractFixture;
         }
 
-        //TODO: Check bytes32 decoding extra bytes
+       
 
         [Fact, TestPriority(1)]
         public async Task Should_1_SetAttributes()
