@@ -62,11 +62,12 @@ namespace Ujo.Work.Storage
         {
             var workRegistry = new Work(table)
             {
-                Address = address,
-                Name = name,
-                Creator = creator,
-                WorkFileIpfsHash = workFileIpfsHash,
-                CoverFileIpfsHash = coverFileIpfsHash
+                Address = address ?? "",
+                Name = name ?? "",
+                Creator = creator ?? "",
+                WorkFileIpfsHash = workFileIpfsHash ?? "",
+                CoverFileIpfsHash = coverFileIpfsHash ?? "",
+                Genre = genre ?? ""
             };
 
             return workRegistry;

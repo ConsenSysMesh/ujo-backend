@@ -56,7 +56,8 @@ namespace Ujo.Work.Service
             work.Name = await GetWorkAttributeAsyncCall(StandardSchema.name);
             work.WorkFileIpfsHash = await GetWorkAttributeAsyncCall(StandardSchema.audio);
             work.CoverImageIpfsHash = await GetWorkAttributeAsyncCall(StandardSchema.image);
-            work.Category = await GetWorkAttributeAsyncCall(StandardSchema.genre);
+            work.Genre = await GetWorkAttributeAsyncCall(StandardSchema.genre);
+            work.Creator = await GetWorkAttributeAsyncCall(StandardSchema.creator);
             return work;
         }
 

@@ -20,8 +20,7 @@ namespace Ujo.WorkRegistry.WebJob
 {
     public class Functions
     {
-        //TODO: Add a queue to pick up blocknumbers from
-
+        
         [Singleton]
         public static async Task ProcessWorkRegistry([TimerTrigger("00:00:30")] TimerInfo timer,
             [Table("WorkRegistry")] CloudTable tableBinding, TextWriter log,
@@ -80,7 +79,8 @@ namespace Ujo.WorkRegistry.WebJob
                 }
                 catch (Exception ex)
                 {
-                    //TODO: Put in error queue to process
+                    //TODO: Put in error storage to log and process later on
+                    // add a generic job to process just block numbers
                     System.Diagnostics.Trace.TraceError("Work Registry error, BlockNumber " + i + " Error:" +
                         ex.StackTrace.ToString());
 

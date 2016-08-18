@@ -101,7 +101,11 @@ namespace Ujo.Work.WebJob
             }
             else if (key == StandardSchema.creator.ToString())
             {
-                
+                work.Creator = val;
+            }
+            else if (key == StandardSchema.genre.ToString())
+            {
+                work.Genre = val;
             }
             else
             {
@@ -150,7 +154,7 @@ namespace Ujo.Work.WebJob
             
             if (work != null)
             {
-                var workStore = Storage.Work.Create(worksTable, address, work.Name, work.Creator, work.Category, work.WorkFileIpfsHash,
+                var workStore = Storage.Work.Create(worksTable, address, work.Name, work.Creator, work.Genre, work.WorkFileIpfsHash,
                     work.CoverImageIpfsHash);
                 var result = await workStore.InsertOrReplaceAsync();
                 if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
