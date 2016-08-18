@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.Filters;
+using Nethereum.Web3.Contracts.Comparers;
 using Ujo.WorkRegistry.Service;
 using Xunit;
 
