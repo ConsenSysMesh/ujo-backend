@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
 using Nethereum.IntegrationTesting;
@@ -14,6 +15,7 @@ namespace Ujo.Work.Service.Tests
         string userName = "0xbb7e97e5670d7475437943a1b314e661d7a9fa2a";
         string password = "password";
         private static HexBigInteger defaultGas = new HexBigInteger(900000);
+        public static string StandardSchemaContractAddress = "0x108Ce368d7550Ea272983c9aEDaf664223e08072";
 
         [Fact]
         public async Task ShouldDeployContractToMordenAsync()
@@ -30,18 +32,34 @@ namespace Ujo.Work.Service.Tests
 
         }
 
+        [Fact]
+        public async Task ShouldDeployStandardSchemaToMordern()
+        {
+            var transactionHelper = new TransactionHelpers();
+            var standardContract = await transactionHelper.DeployContract(new Web3(),
+               userName, password, DefaultSettings.StandardSchemaContractByteCode, false);
+            Debug.WriteLine(standardContract);
+        }
 
         public async Task<string> DeployContractToModernAsync(string workHash, string workTitle, string coverImageHash,
-            string artistName)
+            string artistName, string genre)
         {
             var transactionHelper = new TransactionHelpers();
             string contract = await
                  transactionHelper.DeployContract(new Web3(), userName, password,
-                     DefaultSettings.ContractByteCode, false);
+                     DefaultSettings.ContractByteCode, false, new [] {StandardSchemaContractAddress});
+
             var workService = new WorkService(new Web3(), contract);
-            await workService.SetAttributeAsync(userName, StandardSchema.name, workTitle, true, defaultGas);
-            await workService.SetAttributeAsync(userName, StandardSchema.audio, workHash, true, defaultGas);
-            await workService.SetAttributeAsync(userName, StandardSchema.image, coverImageHash, true, defaultGas);
+            var keys = new[]
+            {
+                StandardSchema.name, StandardSchema.audio, StandardSchema.genre, StandardSchema.image,
+                StandardSchema.creator
+            };
+
+            var values = string.Join("|", workTitle, workHash, genre, coverImageHash, artistName);
+
+            await workService.BulkSetValueAsync(userName, keys, values, true, defaultGas);
+
             return contract;
         }
 

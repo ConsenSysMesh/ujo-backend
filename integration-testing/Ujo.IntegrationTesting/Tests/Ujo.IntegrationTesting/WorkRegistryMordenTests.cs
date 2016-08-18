@@ -60,6 +60,12 @@ namespace Ujo.IntegrationTesting
             }
         }
 
+        [Fact]
+        public async Task ShouldDeployStandardSchemaToMorden()
+        {
+            
+        }
+
         public async Task<string> ProcessWork(string work)
         {
             var workHash = "workhash"; //await UploaFile(work);
@@ -82,7 +88,7 @@ namespace Ujo.IntegrationTesting
         public async Task<string> DeployWorkToMorden(string imageHash, string workHash, string artist, string workName)
         {
             var workHelper = new WorkMordenTests();
-            return await workHelper.DeployContractToModernAsync(workHash, workName, imageHash, artist);
+            return await workHelper.DeployContractToModernAsync(workHash, workName, imageHash, artist, "Techno");
         }
 
         public async Task<string> UploaFile(string fileName)
