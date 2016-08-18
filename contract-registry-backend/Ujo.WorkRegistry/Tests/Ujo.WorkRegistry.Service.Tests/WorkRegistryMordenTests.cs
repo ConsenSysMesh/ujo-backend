@@ -47,7 +47,7 @@ namespace Ujo.ContractRegistry.Tests
         {
             var web3 = new Web3("https://morden.infura.io:8545");
             var contractRegistryService = new WorkRegistryWorkByteCodeMatcher(web3);
-            Assert.True(await contractRegistryService.IsMatchAsync("0xa5a7c0e642e2a1a371e5f5fec4fd9fe3a0253145"));
+            Assert.True(await contractRegistryService.IsMatchAsync("0xa0BA11FF2F5608D75c7E0ba01f7fac496cfb7677"));
         }
 
         public async Task RegisterDeployedContract(string address)
