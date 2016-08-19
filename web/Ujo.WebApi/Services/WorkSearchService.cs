@@ -42,6 +42,7 @@ namespace Ujo.WebApi.Services
                     SearchMode = SearchMode.All,
                     Top = 20,
                 };
+                //todo async
                 return indexClient.Documents.Search(text, sp);
             }
             catch (Exception ex)

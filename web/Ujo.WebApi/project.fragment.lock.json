@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "exports": {
+    "Ujo.IpfsImage.Storage/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5",
+      "compile": {
+        "bin/Release/Ujo.IpfsImage.Storage.dll": {}
+      },
+      "runtime": {
+        "../../../web/packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/Microsoft.Azure.KeyVault.Core.1.0.0/lib/net40/Microsoft.Azure.KeyVault.Core.dll": {},
+        "../packages/Microsoft.Data.Edm.5.6.4/lib/net40/Microsoft.Data.Edm.dll": {},
+        "../packages/Microsoft.Data.OData.5.6.4/lib/net40/Microsoft.Data.OData.dll": {},
+        "../packages/Microsoft.Data.Services.Client.5.6.4/lib/net40/Microsoft.Data.Services.Client.dll": {},
+        "../packages/Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0/lib/net35-full/Microsoft.WindowsAzure.Configuration.dll": {},
+        "../packages/System.Spatial.5.6.4/lib/net40/System.Spatial.dll": {},
+        "../packages/WindowsAzure.Storage.7.0.0/lib/net40/Microsoft.WindowsAzure.Storage.dll": {},
+        "../packages/Wintellect.Azure.Storage.1.6.0.1/lib/net45/Wintellect.Azure.Storage.dll": {},
+        "bin/Release/Ujo.IpfsImage.Storage.dll": {}
+      },
+      "contentFiles": {
+        "bin/Release/Ujo.IpfsImage.Storage.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

@@ -42,8 +42,9 @@ namespace Ujo.WebApi
           
             var sp = services.BuildServiceProvider();
             var service = sp.GetService<IOptions<AppSettings>>();
-            services.AddTransient<IWorkSearchService, WorkSearchService>();
-          
+            services.AddSingleton<IWorkSearchService, WorkSearchService>();
+            services.AddSingleton<IIpfsImageService, IpfsImageService>();
+            
             services.AddMvc();
         }
 

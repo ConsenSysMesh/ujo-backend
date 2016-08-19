@@ -10,5 +10,7 @@ namespace Ujo.WebApi
         public string SearchServiceName { get; set; }
         public string SearchServiceKey { get; set; }
         public string WorkSearchIndexName { get; set; }
+        public string IpfsImageStoreConnectionString { get; set; }
+        public string IpfsImageTableName { get; set; }
     }
 }

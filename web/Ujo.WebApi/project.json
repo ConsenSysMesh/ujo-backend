@@ -11,7 +11,10 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0"
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "Newtonsoft.Json": "9.0.1",
+    "WindowsAzure.Storage": "7.0.0",
+    "Wintellect.Azure.Storage": "1.6.0.1"
   },
 
   "tools": {
@@ -19,7 +22,13 @@
   },
 
   "frameworks": {
-    "net452": { }
+    "net452": {
+      "dependencies": {
+        "Ujo.IpfsImage.Storage": {
+          "target": "project"
+        }
+      }
+    }
   },
 
   "buildOptions": {
