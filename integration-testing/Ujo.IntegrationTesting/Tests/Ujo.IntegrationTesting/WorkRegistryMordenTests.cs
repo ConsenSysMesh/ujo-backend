@@ -61,16 +61,19 @@ namespace Ujo.IntegrationTesting
         }
 
         [Fact]
-        public async Task ShouldDeployStandardSchemaToMorden()
+        public async Task ShouldUpdateWork()
         {
-            
+            var address = "0xadc7691c3ef7ebf80cd43de666867c5b9ed5dac4";
+            var work = await UploadFile("3 PHASE feat Dr MOTTE - Der Klang der Familie (original mix).mp3");
+            var workHelper = new WorkMordenTests();
+            await workHelper.ShouldUpdateWorkFileInContract(address, work);
         }
 
         public async Task<string> ProcessWork(string work)
         {
-            var workHash = "workhash"; //await UploaFile(work);
+            var workHash = "workhash"; //await UploadFile(work);
             //all jpg
-            var imageHash = await UploaFile(Path.GetFileNameWithoutExtension(work) + ".jpg");
+            var imageHash = await UploadFile(Path.GetFileNameWithoutExtension(work) + ".jpg");
             var artistWorkArray = Path.GetFileNameWithoutExtension(work).Split('-');
             var artist = artistWorkArray[0].Trim();
             var workName = artistWorkArray[1].Trim();
@@ -91,7 +94,7 @@ namespace Ujo.IntegrationTesting
             return await workHelper.DeployContractToModernAsync(workHash, workName, imageHash, artist, "Techno");
         }
 
-        public async Task<string> UploaFile(string fileName)
+        public async Task<string> UploadFile(string fileName)
         {
             var ipfsTestHelper = new IpfsImageServiceTests();
             var node = await ipfsTestHelper.UploadCurrentDirectoryFileToInfura(fileName);
