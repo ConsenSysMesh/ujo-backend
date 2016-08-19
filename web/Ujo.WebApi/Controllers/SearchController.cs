@@ -19,13 +19,17 @@ namespace Ujo.WebApi.Controllers
         }
 
         [HttpGet("{query}")]
-        public IActionResult Get(string query)
+        public async Task<IActionResult> Get(string query)
         {
-           // If blank search, assume they want to search everything
-            if (string.IsNullOrWhiteSpace(query))
-                query = "*";
-            return new JsonResult(workSearchService.SearchWork(query).Results);
+            return new  JsonResult((await workSearchService.SearchWork(query)).Results);
 
-        }      
-     }
+        }
+
+        [HttpGet("suggest/{query}")]
+        public async Task<IActionResult> Suggest(string query)
+        {
+            return new JsonResult((await workSearchService.Suggest(query, true)).Results);
+
+        }
+    }
 }

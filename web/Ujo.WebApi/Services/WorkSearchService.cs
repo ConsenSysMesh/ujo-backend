@@ -1,80 +1,49 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Threading.Tasks;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Ujo.WebApi.Services
 {
-    public class WorkSearchService:IWorkSearchService
+    public class WorkSearchService : IWorkSearchService
     {
-        private readonly SearchIndexClient indexClient;
+        private readonly ISearchIndexClient indexClient;
         public string errorMessage;
 
         public WorkSearchService(IOptions<AppSettings> settings)
         {
-            try
-            {
-                string searchServiceName = settings.Value.SearchServiceName;
-                string apiKey = settings.Value.SearchServiceKey;
-                string indexName = settings.Value.WorkSearchIndexName;
+            var searchServiceName = settings.Value.SearchServiceName;
+            var apiKey = settings.Value.SearchServiceKey;
+            var indexName = settings.Value.WorkSearchIndexName;
 
-                // Create an HTTP reference to the catalog index
-                var searchClient = new SearchServiceClient(searchServiceName, new SearchCredentials(apiKey));
-                indexClient = searchClient.Indexes.GetClient(indexName);
+            // Create an HTTP reference to the catalog index
+            var searchClient = new SearchServiceClient(searchServiceName, new SearchCredentials(apiKey));
 
-            }
-            catch (Exception e)
-            {
-                errorMessage = e.Message.ToString();
-            }
+            indexClient = searchClient.Indexes.GetClient(indexName);
         }
 
 
-        public DocumentSearchResult SearchWork(string text)
+        public async Task<DocumentSearchResult> SearchWork(string text)
         {
-            // Execute search based on query string
-            try
+            var sp = new SearchParameters
             {
-                SearchParameters sp = new SearchParameters()
-                {
-                    SearchMode = SearchMode.All,
-                    Top = 20,
-                };
-                //todo async
-                return indexClient.Documents.Search(text, sp);
-            }
-            catch (Exception ex)
-            {
-                //logging
-                Console.WriteLine("Error querying index: {0}\r\n", ex.Message.ToString());
-            }
-            return null;
+                SearchMode = SearchMode.All,
+                Top = 20,
+                IncludeTotalResultCount = true
+            };
+
+            return await indexClient.Documents.SearchAsync(text, sp);
         }
 
-        public DocumentSuggestResult Suggest(string searchText, bool fuzzy)
+        public async Task<DocumentSuggestResult> Suggest(string searchText, bool fuzzy)
         {
-            // Execute search based on query string
-            try
+            var sp = new SuggestParameters
             {
-                SuggestParameters sp = new SuggestParameters()
-                {
-                    UseFuzzyMatching = fuzzy,
-                    Top = 8
-                };
+                UseFuzzyMatching = fuzzy,
+                Top = 8
+            };
 
-                return indexClient.Documents.Suggest(searchText, "sg", sp);
-            }
-            catch (Exception ex)
-            {
-                //logging
-                Console.WriteLine("Error querying index: {0}\r\n", ex.Message.ToString());
-            }
-            return null;
+            return await indexClient.Documents.SuggestAsync(searchText, "sg", sp);
         }
-
-
-
     }
 }
