@@ -6,9 +6,14 @@ using Wintellect.Azure.Storage.Table;
 
 namespace Ujo.Work.Storage
 {
-    public class Work : TableEntityBase
+    public class WorkRepository
     {
-        public Work(AzureTable at, DynamicTableEntity dte = null) : base(at, dte)
+        //public Task<>
+    }
+
+    public class WorkEntity : TableEntityBase
+    {
+        public WorkEntity(AzureTable at, DynamicTableEntity dte = null) : base(at, dte)
         {
             RowKey = string.Empty;
         }
@@ -57,10 +62,11 @@ namespace Ujo.Work.Storage
             get { return Get(string.Empty); }
             set { Set(value); }
         }
-        public static Work Create(AzureTable table, string address, string name, string creator, string genre, string workFileIpfsHash, string coverFileIpfsHash
+
+        public static WorkEntity Create(AzureTable table, string address, string name, string creator, string genre, string workFileIpfsHash, string coverFileIpfsHash
             )
         {
-            var workRegistry = new Work(table)
+            var workRegistry = new WorkEntity(table)
             {
                 Address = address ?? "",
                 Name = name ?? "",
@@ -73,7 +79,7 @@ namespace Ujo.Work.Storage
             return workRegistry;
         }
 
-        public static async Task<Work> FindAsync(AzureTable table, string address)
+        public static async Task<WorkEntity> FindAsync(AzureTable table, string address)
         {
 
             var tr =
@@ -81,7 +87,7 @@ namespace Ujo.Work.Storage
                     table.ExecuteAsync(TableOperation.Retrieve(address.ToLowerInvariant().HtmlEncode(),
                         string.Empty)).ConfigureAwait(false);
             if ((HttpStatusCode)tr.HttpStatusCode != HttpStatusCode.NotFound)
-                return new Work(table, (DynamicTableEntity)tr.Result);
+                return new WorkEntity(table, (DynamicTableEntity)tr.Result);
 
             return null;
         }

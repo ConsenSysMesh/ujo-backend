@@ -62,7 +62,7 @@ namespace Ujo.Work.WebJob
                 var address = dataEventLog.Log.Address;
                 if (await WorkRegistryRecord.ExistsAsync(workRegistryTable, address))
                 {
-                    var work = await Storage.Work.FindAsync(worksTable, address);
+                    var work = await Storage.WorkEntity.FindAsync(worksTable, address);
                     if (work == null)
                     {
                        await ProcessNewWork(web3, address, worksTable, ipfsImageProcesssinQueue);
@@ -79,33 +79,38 @@ namespace Ujo.Work.WebJob
 
         }
     
-        private static async Task ProcessDataChangeUpdate(Storage.Work work, EventLog<DataChangedEvent> dataEventLog, ICollector<string> ipfsImageProcesssinQueue)
+        private static async Task ProcessDataChangeUpdate(Storage.WorkEntity work, EventLog<DataChangedEvent> dataEventLog, ICollector<string> ipfsImageProcesssinQueue)
         {
+            var address = dataEventLog.Log.Address;
+            var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
+
+            var workService = new WorkService(web3, address);
+            Model.Work workEth = null;
+            workEth = await workService.GetWorkAsync();
+
             var key = dataEventLog.Event.Key;
             var val = dataEventLog.Event.Value;
 
-            //TODO: Get the latest from the smart contract to allow processing of multiple blocks at a time
-
             if (key == StandardSchema.name.ToString())
             {
-                work.Name = val;
+                work.Name = workEth.Name;
             }
             else if (key == StandardSchema.image.ToString())
             {
-                work.CoverFileIpfsHash = val;
-                ipfsImageProcesssinQueue.Add(val);
+                work.CoverFileIpfsHash = workEth.CoverImageIpfsHash;
+                ipfsImageProcesssinQueue.Add(workEth.CoverImageIpfsHash);
             }
             else if (key == StandardSchema.audio.ToString())
             {
-                work.WorkFileIpfsHash = val;
+                work.WorkFileIpfsHash = workEth.WorkFileIpfsHash;
             }
             else if (key == StandardSchema.creator.ToString())
             {
-                work.Creator = val;
+                work.Creator = workEth.Creator;
             }
             else if (key == StandardSchema.genre.ToString())
             {
-                work.Genre = val;
+                work.Genre = workEth.Genre;
             }
             else
             {
@@ -117,6 +122,7 @@ namespace Ujo.Work.WebJob
         public static async Task ProcessRegistrationsAndUnregistrations([QueueTrigger("WorkRegisteredQueue")] string regunregaddress, [Table("Work")] CloudTable tableBinding, TextWriter log, [Queue("IpfsCoverImageProcessingQueue")]
         ICollector<string> ipfsImageProcesssinQueue)
         {
+            //TODO: Remove format use type objects
             //format:
             //Reg:Address
             //Unreg:Adddress
@@ -139,7 +145,7 @@ namespace Ujo.Work.WebJob
 
         private static async Task RemoveUnregistered(string address, AzureTable worksTable)
         {
-            var workStore = await Storage.Work.FindAsync(worksTable, address);
+            var workStore = await Storage.WorkEntity.FindAsync(worksTable, address);
             if (workStore != null)
             {
                 await workStore.DeleteAsync();
@@ -148,13 +154,13 @@ namespace Ujo.Work.WebJob
 
         private static async Task ProcessNewWork(Web3 web3, string address, AzureTable worksTable, ICollector<string> ipfsImageProcesssinQueue)
         {
-           var workService = new WorkService(web3, address);
-            Service.Work work = null;
+            var workService = new WorkService(web3, address);
+            Model.Work work = null;
             work = await workService.GetWorkAsync();
             
             if (work != null)
             {
-                var workStore = Storage.Work.Create(worksTable, address, work.Name, work.Creator, work.Genre, work.WorkFileIpfsHash,
+                var workStore = Storage.WorkEntity.Create(worksTable, address, work.Name, work.Creator, work.Genre, work.WorkFileIpfsHash,
                     work.CoverImageIpfsHash);
                 var result = await workStore.InsertOrReplaceAsync();
                 if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
@@ -162,7 +168,6 @@ namespace Ujo.Work.WebJob
                     ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);
                 }
             }
-
         }
 
         private static async Task UpsertBlockNumberProcessedTo(AzureTable table, long blockNumber)

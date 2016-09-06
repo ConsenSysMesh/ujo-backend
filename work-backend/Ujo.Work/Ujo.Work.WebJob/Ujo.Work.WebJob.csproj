@@ -178,6 +178,10 @@
       <Project>{20d80614-0f69-4000-9a79-12c9d0ec8197}</Project>
       <Name>Ujo.WorkRegistry.Storage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ujo.Work.Model\Ujo.Work.Model.csproj">
+      <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
+      <Name>Ujo.Work.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ujo.Work.Service\Ujo.Work.Service.csproj">
       <Project>{4c859109-4732-41a3-a472-98ebe4c30774}</Project>
       <Name>Ujo.Work.Service</Name>

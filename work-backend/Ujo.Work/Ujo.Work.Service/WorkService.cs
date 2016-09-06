@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
+using Ujo.Work.Model;
 
 namespace Ujo.Work.Service
 {
@@ -50,9 +51,9 @@ namespace Ujo.Work.Service
             return await function.SendTransactionAsync(addressFrom, gas, valueAmount, registry, license);
         }
 
-        public async Task<Work> GetWorkAsync()
+        public async Task<Model.Work> GetWorkAsync()
         {
-            var work = new Work();
+            var work = new Model.Work();
             work.Name = await GetWorkAttributeAsyncCall(StandardSchema.name);
             work.WorkFileIpfsHash = await GetWorkAttributeAsyncCall(StandardSchema.audio);
             work.CoverImageIpfsHash = await GetWorkAttributeAsyncCall(StandardSchema.image);

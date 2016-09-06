@@ -85,8 +85,6 @@
   <ItemGroup>
     <Compile Include="DataChangedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageKeys.cs" />
-    <Compile Include="Work.cs" />
     <Compile Include="WorkService.cs" />
     <Compile Include="WorkServiceBase.cs" />
     <Compile Include="WorksService.cs" />
@@ -94,8 +92,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Model\" />
+    <ProjectReference Include="..\Ujo.Work.Model\Ujo.Work.Model.csproj">
+      <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
+      <Name>Ujo.Work.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
