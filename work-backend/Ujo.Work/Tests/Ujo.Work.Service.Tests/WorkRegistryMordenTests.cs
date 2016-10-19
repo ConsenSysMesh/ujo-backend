@@ -26,9 +26,9 @@ namespace Ujo.Work.Service.Tests
             //     transactionHelper.DeployContract(new Web3(), userName, password,
             //         DefaultSettings.ContractByteCode);
             var workService = new WorkService(new Web3(), "0xdF597079182391EaFB478412F2352CfAfc7E29A3");
-            await workService.SetAttributeAsync(userName, StandardSchema.name, "Hello", true, defaultGas);
-            await workService.SetAttributeAsync(userName, StandardSchema.audio, "MP3HASH", true, defaultGas);
-            await workService.SetAttributeAsync(userName, StandardSchema.image, "QmZTEAwF3f1oidQtZNKqM2VVK79xDdMNDnSDjC632AzZnU", true, defaultGas);
+            await workService.SetAttributeAsync(userName, WorkSchema.name, "Hello", true, defaultGas);
+            await workService.SetAttributeAsync(userName, WorkSchema.audio, "MP3HASH", true, defaultGas);
+            await workService.SetAttributeAsync(userName, WorkSchema.image, "QmZTEAwF3f1oidQtZNKqM2VVK79xDdMNDnSDjC632AzZnU", true, defaultGas);
 
         }
 
@@ -52,8 +52,8 @@ namespace Ujo.Work.Service.Tests
             var workService = new WorkService(new Web3(), contract);
             var keys = new[]
             {
-                StandardSchema.name, StandardSchema.audio, StandardSchema.genre, StandardSchema.image,
-                StandardSchema.creator
+                WorkSchema.name, WorkSchema.audio, WorkSchema.genre, WorkSchema.image,
+                WorkSchema.creator
             };
 
             var values = string.Join("|", workTitle, workHash, genre, coverImageHash, artistName);
@@ -70,7 +70,7 @@ namespace Ujo.Work.Service.Tests
             var web3 = new Web3();
             var workService = new WorkService(web3, "0xdF597079182391EaFB478412F2352CfAfc7E29A3");
             await web3.Personal.UnlockAccount.SendRequestAsync(userName, password, new HexBigInteger(6000));
-            await workService.SetAttributeAsync(userName, StandardSchema.image, "QmY6CYcPbpmvz2R2v5Jfv5DLgTjyyN6HmWPKsBTnG2Ajv7", true, defaultGas);
+            await workService.SetAttributeAsync(userName, WorkSchema.image, "QmY6CYcPbpmvz2R2v5Jfv5DLgTjyyN6HmWPKsBTnG2Ajv7", true, defaultGas);
             
         }
 
@@ -79,7 +79,7 @@ namespace Ujo.Work.Service.Tests
             var web3 = new Web3();
             var workService = new WorkService(web3, address);
             await web3.Personal.UnlockAccount.SendRequestAsync(userName, password, new HexBigInteger(6000));
-            await workService.SetAttributeAsync(userName, StandardSchema.audio, fileHash, true, defaultGas);
+            await workService.SetAttributeAsync(userName, WorkSchema.audio, fileHash, true, defaultGas);
 
         }
     }

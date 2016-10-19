@@ -84,6 +84,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ujo.Work.Model\Ujo.Work.Model.csproj">
+      <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
+      <Name>Ujo.Work.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

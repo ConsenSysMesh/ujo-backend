@@ -31,13 +31,13 @@ namespace Ujo.Work.Service.Tests
             var filter = await dataChangedEvent.CreateFilterAsync();
 
             var receipt = await txHelper.SendAndMineTransactionAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-                () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas));
+                () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, WorkSchema.name, "Hello", true, defaultGas));
 
             var eventLogs = await dataChangedEvent.GetFilterChanges<DataChangedEvent>(filter);
-            Assert.Equal(StandardSchema.name.ToString(), eventLogs[0].Event.Key);
+            Assert.Equal(WorkSchema.name.ToString(), eventLogs[0].Event.Key);
             Assert.Equal("Hello", eventLogs[0].Event.Value);
 
-            var value = await workService.GetWorkAttributeAsyncCall(StandardSchema.name);
+            var value = await workService.GetWorkAttributeAsyncCall(WorkSchema.name);
             Assert.Equal("Hello", value);
         }
 
@@ -49,14 +49,14 @@ namespace Ujo.Work.Service.Tests
             var worksService = new WorksService(web3);
             var dataChangedEvent = workService.GetStandardDataChangedEvent();
              var receipt = await txHelper.SendAndMineTransactionAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-              () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas));
+              () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, WorkSchema.name, "Hello", true, defaultGas));
 
             Assert.True(worksService.IsStandardDataChangeLog(receipt.Logs[0]));
        
             var filterLog = JsonConvert.DeserializeObject<FilterLog>(receipt.Logs[0].ToString());
             var dataChanged = Event.DecodeAllEvents<DataChangedEvent>(new[] {filterLog});
 
-            Assert.Equal(StandardSchema.name.ToString(), dataChanged[0].Event.Key);
+            Assert.Equal(WorkSchema.name.ToString(), dataChanged[0].Event.Key);
             Assert.Equal("Hello", dataChanged[0].Event.Value);
 
         }
@@ -70,7 +70,7 @@ namespace Ujo.Work.Service.Tests
             var blockNumber = await web3.Eth.Blocks.GetBlockNumber.SendRequestAsync();
 
             var receipt = await txHelper.SendAndMineTransactionAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-              () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas));
+              () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, WorkSchema.name, "Hello", true, defaultGas));
 
             var logs = await worksService.GetDataChangedEventsAsync((ulong) blockNumber.Value);
             Assert.True(logs.Count == 0);
@@ -86,8 +86,8 @@ namespace Ujo.Work.Service.Tests
             var workService = GetWorkService(web3);
 
             await txHelper.SendAndMineTransactionsAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,
-                  () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.name, "Hello", true, defaultGas),
-                  () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, StandardSchema.audio, "WORKHASH", true, defaultGas)
+                  () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, WorkSchema.name, "Hello", true, defaultGas),
+                  () => workService.SetAttributeAsync(DefaultSettings.AddressFrom, WorkSchema.audio, "WORKHASH", true, defaultGas)
                    );
 
             var work = await workService.GetWorkAsync();
@@ -102,7 +102,7 @@ namespace Ujo.Work.Service.Tests
         {
             var web3 = deployedContractFixture.GetWeb3();
             var workService = GetWorkService(web3);
-            var keys = new[] {StandardSchema.name, StandardSchema.audio};
+            var keys = new[] { WorkSchema.name, WorkSchema.audio};
             var values = "Hello|WORKHASH";
 
             await txHelper.SendAndMineTransactionsAsync(web3, DefaultSettings.AddressFrom, DefaultSettings.Password,

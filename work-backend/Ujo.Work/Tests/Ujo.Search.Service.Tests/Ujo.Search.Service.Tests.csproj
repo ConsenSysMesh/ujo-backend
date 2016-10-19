@@ -86,7 +86,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ujo.Search.Service\Ujo.Search.Service.csproj">
+    <ProjectReference Include="..\..\Ujo.Search.Service\Ujo.Search.Service.csproj">
       <Project>{75aee6d2-db12-4976-a056-61ffe84631b0}</Project>
       <Name>Ujo.Search.Service</Name>
     </ProjectReference>

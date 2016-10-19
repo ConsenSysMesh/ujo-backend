@@ -117,6 +117,10 @@
       <Project>{c1389653-9c1f-4a5b-818b-af4ce59cfd92}</Project>
       <Name>Nethereum.IntegrationTesting</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Ujo.Work.Model\Ujo.Work.Model.csproj">
+      <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
+      <Name>Ujo.Work.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ujo.Work.Service\Ujo.Work.Service.csproj">
       <Project>{4c859109-4732-41a3-a472-98ebe4c30774}</Project>
       <Name>Ujo.Work.Service</Name>

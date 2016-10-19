@@ -79,44 +79,41 @@ namespace Ujo.Work.WebJob
 
         }
     
-        private static async Task ProcessDataChangeUpdate(Storage.WorkEntity work, EventLog<DataChangedEvent> dataEventLog, ICollector<string> ipfsImageProcesssinQueue)
+        private static async Task ProcessDataChangeUpdate(Storage.WorkEntity workEntity, EventLog<DataChangedEvent> dataEventLog, ICollector<string> ipfsImageProcesssinQueue)
         {
+
             var address = dataEventLog.Log.Address;
             var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
 
             var workService = new WorkService(web3, address);
-            Model.Work workEth = null;
-            workEth = await workService.GetWorkAsync();
+            Model.Work work = null;
+            work = await workService.GetWorkAsync();
 
             var key = dataEventLog.Event.Key;
             var val = dataEventLog.Event.Value;
 
-            if (key == StandardSchema.name.ToString())
+            WorkSchema schemaField;
+
+            if (Enum.TryParse(key, out schemaField))
             {
-                work.Name = workEth.Name;
-            }
-            else if (key == StandardSchema.image.ToString())
-            {
-                work.CoverFileIpfsHash = workEth.CoverImageIpfsHash;
-                ipfsImageProcesssinQueue.Add(workEth.CoverImageIpfsHash);
-            }
-            else if (key == StandardSchema.audio.ToString())
-            {
-                work.WorkFileIpfsHash = workEth.WorkFileIpfsHash;
-            }
-            else if (key == StandardSchema.creator.ToString())
-            {
-                work.Creator = workEth.Creator;
-            }
-            else if (key == StandardSchema.genre.ToString())
-            {
-                work.Genre = workEth.Genre;
+                workEntity.Initialise(work);
             }
             else
             {
-                work.SetUnknownKey(val, key);
+                workEntity.SetUnknownKey(val, key);
             }
-            await work.InsertOrMergeAsync();
+
+            if (key == WorkSchema.image.ToString())
+            {
+                workEntity.CoverFileIpfsHash = work.CoverImageIpfsHash;
+                ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);
+            }
+            else if (key == WorkSchema.audio.ToString())
+            {
+                workEntity.WorkFileIpfsHash = work.WorkFileIpfsHash;
+            }
+         
+            await workEntity.InsertOrMergeAsync();
         }
         
         public static async Task ProcessRegistrationsAndUnregistrations([QueueTrigger("WorkRegisteredQueue")] string regunregaddress, [Table("Work")] CloudTable tableBinding, TextWriter log, [Queue("IpfsCoverImageProcessingQueue")]
@@ -160,8 +157,7 @@ namespace Ujo.Work.WebJob
             
             if (work != null)
             {
-                var workStore = Storage.WorkEntity.Create(worksTable, address, work.Name, work.Creator, work.Genre, work.WorkFileIpfsHash,
-                    work.CoverImageIpfsHash);
+                var workStore = Storage.WorkEntity.Create(worksTable, work);
                 var result = await workStore.InsertOrReplaceAsync();
                 if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
                 {
