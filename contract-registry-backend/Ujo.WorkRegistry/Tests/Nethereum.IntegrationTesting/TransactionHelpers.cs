@@ -24,7 +24,7 @@ namespace Nethereum.IntegrationTesting
         public async Task<string> DeployContract(string abi, Web3.Web3 web3, string addressFrom, string pass, string bytecode, bool mineIt, object[] constructorParameters)
         {
             if (mineIt) return await DeployContract(abi, web3, addressFrom, pass, bytecode, constructorParameters);
-            var receipt = await SendTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(4000000), constructorParameters));
+            var receipt = await SendTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, addressFrom, new HexBigInteger(4000000), constructorParameters));
             return receipt.ContractAddress;
         }
 

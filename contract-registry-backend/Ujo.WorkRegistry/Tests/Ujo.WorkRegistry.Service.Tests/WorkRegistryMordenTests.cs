@@ -13,7 +13,7 @@ namespace Ujo.ContractRegistry.Tests
         string contractAddress = "0x95bc9c2b7078a2e5f0d6fbff4aab18c307b54f04";
         private string blockNumber = "1435835";
         //http://testnet.etherscan.io/tx/0xabda3cecd24250b35c71945103ba670fc2146d7fd8159a78bd3721d30dec2701
-        string userName = "0xbb7e97e5670d7475437943a1b314e661d7a9fa2a";
+        string userName = "0xdc4f716883423facd4e13763391ea2d9bcb28022";
         string password = "password";
         private static HexBigInteger defaultGas = new HexBigInteger(900000);
 

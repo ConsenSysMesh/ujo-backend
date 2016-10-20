@@ -69,6 +69,20 @@ namespace Ujo.IntegrationTesting
             await workHelper.ShouldUpdateWorkFileInContract(address, work);
         }
 
+        [Fact]
+        public async Task<string> ProcessWorkAllFields()
+        {
+
+            var workHash = await UploadFile("summerdnb.mp3");
+            //all jpg
+            var imageHash = await UploadFile("The Aztec Mystic - Knights of the Jaguar.jpg");
+            var workHelper = new WorkMordenTests();
+            var workContract =  await workHelper.DeployContractToModernAllFieldsAsync(workHash, "Summer dub", imageHash, "Super Simon", "Dub");
+            await RegisterWork(workContract);
+            return workContract;
+        }
+
+
         public async Task<string> ProcessWork(string work)
         {
             var workHash = "workhash"; //await UploadFile(work);

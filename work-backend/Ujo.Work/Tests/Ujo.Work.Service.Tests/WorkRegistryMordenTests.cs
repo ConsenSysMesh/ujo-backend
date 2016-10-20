@@ -12,10 +12,10 @@ namespace Ujo.Work.Service.Tests
     public class WorkMordenTests
     {
         
-        string userName = "0xbb7e97e5670d7475437943a1b314e661d7a9fa2a";
+        string userName = "0xdc4f716883423facd4e13763391ea2d9bcb28022";
         string password = "password";
-        private static HexBigInteger defaultGas = new HexBigInteger(900000);
-        public static string StandardSchemaContractAddress = "0x108Ce368d7550Ea272983c9aEDaf664223e08072";
+        private static HexBigInteger defaultGas = new HexBigInteger(4000000);
+        public static string StandardSchemaContractAddress = "0xe168aa45fb2c84c0486305db6c2d6fdf01a66754";
 
         [Fact]
         public async Task ShouldDeployContractToMordenAsync()
@@ -58,6 +58,130 @@ namespace Ujo.Work.Service.Tests
 
             var values = string.Join("|", workTitle, workHash, genre, coverImageHash, artistName);
 
+            await workService.BulkSetValueAsync(userName, keys, values, true, defaultGas);
+
+            return contract;
+        }
+
+
+        public async Task<string> DeployContractToModernAllFieldsAsync(string workHash, string workTitle, string coverImageHash,
+            string artistName, string genre)
+        {
+            var transactionHelper = new TransactionHelpers();
+            string contract = await
+                 transactionHelper.DeployContract(WorkService.ABI, new Web3(), userName, password,
+                     DefaultSettings.ContractByteCode, false, new[] { (string)StandardSchemaContractAddress });
+
+            var workService = new WorkService(new Web3(), contract);
+            var keys = new[] {  WorkSchema.name,
+                                WorkSchema.image,
+                                WorkSchema.audio,
+                                WorkSchema.genre,
+                                WorkSchema.keywords,
+                                WorkSchema.byArtist,
+                                WorkSchema.featuredArtist1,
+                                WorkSchema.featuredArtist2,
+                                WorkSchema.featuredArtist3,
+                                WorkSchema.featuredArtist4,
+                                WorkSchema.featuredArtist5,
+                                WorkSchema.featuredArtist6,
+                                WorkSchema.featuredArtist7,
+                                WorkSchema.featuredArtist8,
+                                WorkSchema.featuredArtist9,
+                                WorkSchema.featuredArtist10,
+                                WorkSchema.featuredArtistRole1,
+                                WorkSchema.featuredArtistRole2,
+                                WorkSchema.featuredArtistRole3,
+                                WorkSchema.featuredArtistRole4,
+                                WorkSchema.featuredArtistRole5,
+                                WorkSchema.featuredArtistRole6,
+                                WorkSchema.featuredArtistRole7,
+                                WorkSchema.featuredArtistRole8,
+                                WorkSchema.featuredArtistRole9,
+                                WorkSchema.featuredArtistRole10,
+                                WorkSchema.contributingArtist1,
+                                WorkSchema.contributingArtist2,
+                                WorkSchema.contributingArtist3,
+                                WorkSchema.contributingArtist4,
+                                WorkSchema.contributingArtist5,
+                                WorkSchema.contributingArtist6,
+                                WorkSchema.contributingArtist7,
+                                WorkSchema.contributingArtist8,
+                                WorkSchema.contributingArtist9,
+                                WorkSchema.contributingArtist10,
+                                WorkSchema.contributingArtistRole1,
+                                WorkSchema.contributingArtistRole2,
+                                WorkSchema.contributingArtistRole3,
+                                WorkSchema.contributingArtistRole4,
+                                WorkSchema.contributingArtistRole5,
+                                WorkSchema.contributingArtistRole6,
+                                WorkSchema.contributingArtistRole7,
+                                WorkSchema.contributingArtistRole8,
+                                WorkSchema.contributingArtistRole9,
+                                WorkSchema.contributingArtistRole10,
+                                WorkSchema.performingArtist1,
+                                WorkSchema.performingArtist2,
+                                WorkSchema.performingArtist3,
+                                WorkSchema.performingArtist4,
+                                WorkSchema.performingArtist5,
+                                WorkSchema.performingArtist6,
+                                WorkSchema.performingArtist7,
+                                WorkSchema.performingArtist8,
+                                WorkSchema.performingArtist9,
+                                WorkSchema.performingArtist10,
+                                WorkSchema.performingArtistRole1,
+                                WorkSchema.performingArtistRole2,
+                                WorkSchema.performingArtistRole3,
+                                WorkSchema.performingArtistRole4,
+                                WorkSchema.performingArtistRole5,
+                                WorkSchema.performingArtistRole6,
+                                WorkSchema.performingArtistRole7,
+                                WorkSchema.performingArtistRole8,
+                                WorkSchema.performingArtistRole9,
+                                WorkSchema.performingArtistRole10,
+                                WorkSchema.label,
+                                WorkSchema.description,
+                                WorkSchema.publisher,
+                                WorkSchema.hasPartOf,
+                                WorkSchema.isPartOf,
+                                WorkSchema.isFamilyFriendly,
+                                WorkSchema.license,
+                                WorkSchema.iswcCode
+            };
+            var values = "";
+            foreach (var key in keys)
+            {
+          
+                if (key == WorkSchema.name)
+                {
+                    values = values + workTitle + "|";
+                }
+                else if (key == WorkSchema.audio)
+                {
+                    values = values + workHash + "|";
+                }
+                else if (key == WorkSchema.genre)
+                {
+                    values = values + genre + "|";
+                }
+                else if (key == WorkSchema.image)
+                {
+                    values = values + coverImageHash + "|";
+                }
+                else if (key == WorkSchema.byArtist)
+                {
+                    values = values + artistName + "|";
+                }
+                else if (key == WorkSchema.creator)
+                {
+                    values = values + artistName + "|";
+                }
+                else
+                {
+                    values = values + key.ToString() + "|";
+                }
+            }
+    
             await workService.BulkSetValueAsync(userName, keys, values, true, defaultGas);
 
             return contract;

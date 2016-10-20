@@ -115,7 +115,7 @@
       <Name>Ujo.WorkRegistry.Service.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\ipfs-backend\Ipfs.Services\Tests\Ujo.IpfsImage.Services.Tests\Ujo.IpfsImage.Services.Tests.csproj">
-      <Project>{2EB066AA-A7EB-42C1-8ACB-0AF10776A8E8}</Project>
+      <Project>{2eb066aa-a7eb-42c1-8acb-0af10776a8e8}</Project>
       <Name>Ujo.IpfsImage.Services.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\work-backend\Ujo.Work\Tests\Ujo.Work.Service.Tests\Ujo.Work.Service.Tests.csproj">
@@ -273,6 +273,9 @@
     </Content>
     <Content Include="Suburban Knight - Midnight Sunshine.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="summerdnb.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="The Aztec Mystic - Knights of the Jaguar.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
