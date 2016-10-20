@@ -6,15 +6,15 @@ namespace Ujo.Work.Service
     {
         protected readonly Web3 web3;
 
-        protected string abi =
-            @"[{""constant"":false,""inputs"":[{""name"":""_key"",""type"":""bytes32""}],""name"":""sha3OfValueAtKey"",""outputs"":[{""name"":"""",""type"":""bytes32""}],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""}],""name"":""registerWorkWithRegistry"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_keys"",""type"":""bytes32[]""},{""name"":""vals"",""type"":""string""},{""name"":""_standard"",""type"":""bool""}],""name"":""bulkSetValue"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_newController"",""type"":""address""}],""name"":""changeController"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""},{""name"":""_license"",""type"":""address""}],""name"":""registerLicenseAndAttachToThisWork"",""outputs"":[],""type"":""function""},{""constant"":true,""inputs"":[{""name"":"""",""type"":""bytes32""}],""name"":""store"",""outputs"":[{""name"":"""",""type"":""string""}],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""}],""name"":""unregisterWorkWithRegistry"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_registry"",""type"":""address""},{""name"":""_license"",""type"":""address""}],""name"":""unregisterLicense"",""outputs"":[],""type"":""function""},{""constant"":false,""inputs"":[{""name"":""_key"",""type"":""bytes32""},{""name"":""_value"",""type"":""string""},{""name"":""_standard"",""type"":""bool""}],""name"":""setValue"",""outputs"":[],""type"":""function""},{""inputs"":[{""name"":""_schema_addr"",""type"":""address""}],""type"":""constructor""},{""anonymous"":false,""inputs"":[{""indexed"":true,""name"":""key"",""type"":""bytes32""},{""indexed"":false,""name"":""value"",""type"":""string""}],""name"":""StandardDataChanged"",""type"":""event""},{""anonymous"":false,""inputs"":[{""indexed"":true,""name"":""key"",""type"":""bytes32""},{""indexed"":false,""name"":""value"",""type"":""string""}],""name"":""NonStandardDataChanged"",""type"":""event""}]";
+        public const string ABI =
+            @"[{'constant':false,'inputs':[{'name':'_key','type':'bytes32'}],'name':'sha3OfValueAtKey','outputs':[{'name':'','type':'bytes32'}],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_registry','type':'address'}],'name':'registerWorkWithRegistry','outputs':[],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_keys','type':'bytes32[]'},{'name':'vals','type':'string'},{'name':'_standard','type':'bool'}],'name':'bulkSetValue','outputs':[],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_newController','type':'address'}],'name':'changeController','outputs':[],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_registry','type':'address'},{'name':'_license','type':'address'}],'name':'registerLicenseAndAttachToThisWork','outputs':[],'payable':false,'type':'function'},{'constant':true,'inputs':[{'name':'','type':'bytes32'}],'name':'store','outputs':[{'name':'','type':'string'}],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'data','type':'bytes32'}],'name':'bytes32ToString','outputs':[{'name':'','type':'string'}],'payable':false,'type':'function'},{'constant':true,'inputs':[],'name':'schema_addr','outputs':[{'name':'','type':'address'}],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_registry','type':'address'}],'name':'unregisterWorkWithRegistry','outputs':[],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'x','type':'address'}],'name':'addressToBytes','outputs':[{'name':'b','type':'bytes'}],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_registry','type':'address'},{'name':'_license','type':'address'}],'name':'unregisterLicense','outputs':[],'payable':false,'type':'function'},{'constant':false,'inputs':[{'name':'_key','type':'bytes32'},{'name':'_value','type':'string'},{'name':'_standard','type':'bool'}],'name':'setValue','outputs':[],'payable':false,'type':'function'},{'inputs':[{'name':'_schema_addr','type':'address'}],'type':'constructor'},{'anonymous':false,'inputs':[{'indexed':true,'name':'key','type':'bytes32'},{'indexed':false,'name':'value','type':'string'}],'name':'StandardDataChanged','type':'event'},{'anonymous':false,'inputs':[{'indexed':true,'name':'key','type':'bytes32'},{'indexed':false,'name':'value','type':'string'}],'name':'NonStandardDataChanged','type':'event'}]";
 
         protected Contract contract;
 
         public WorkServiceBase(Web3 web3)
         {
             this.web3 = web3;
-            this.contract = web3.Eth.GetContract(abi, null);
+            this.contract = web3.Eth.GetContract(ABI, null);
         }
 
         public Event GetStandardDataChangedEvent()
@@ -34,6 +34,11 @@ namespace Ujo.Work.Service
         public Function GetStoreFunction()
         {
             return contract.GetFunction("store");
+        }
+
+        public Function GetSchemaAddressFunction()
+        {
+            return contract.GetFunction("schema_addr");
         }
 
         public Function GetSetValueFunction()

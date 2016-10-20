@@ -26,8 +26,9 @@ namespace Ujo.Work.Service.Tests
             var standardContract = await txHelper.DeployContract(this.GetWeb3(),
                 DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.StandardSchemaContractByteCode);
 
-            return await txHelper.DeployContract(this.GetWeb3(),
-                DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.ContractByteCode, new []{(object)standardContract});
+
+            return await txHelper.DeployContract(WorkService.ABI, this.GetWeb3(),
+                DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.ContractByteCode, new []{(string)standardContract});
         }
     }
 }

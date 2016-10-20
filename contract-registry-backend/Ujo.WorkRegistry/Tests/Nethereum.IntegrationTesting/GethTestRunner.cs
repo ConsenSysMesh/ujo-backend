@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Threading;
 
 namespace Nethereum.IntegrationTesting
 {
@@ -13,13 +14,17 @@ namespace Nethereum.IntegrationTesting
         public string Arguments { get; set; }
 
         private string defaultArguments =
-            @" --genesis genesis_dev.json --rpc --networkid=39318 --maxpeers=0 --datadir=devChain  --rpccorsdomain ""*"" --rpcapi ""eth,web3,personal,net,miner,admin"" --ipcapi ""eth,web3,personal,net,miner,admin"" --verbosity 0 console";
+            @" --rpc --networkid=39318 --maxpeers=0 --datadir=devChain  --rpccorsdomain ""*"" --rpcapi ""eth,web3,personal,net,miner,admin"" --ipcapi ""eth,web3,personal,net,miner,admin"" --verbosity 0 console";
+
+        private string initArguments = " --datadir=devChain init genesis_dev.json";
+
 
         public void CleanUp()
         {
             DeleteChainDirectory("chaindata");
             DeleteChainDirectory("dapp");
             DeleteChainDirectory("nodes");
+            InitGeth();
         }
 
         public void DeleteChainDirectory(string name)
@@ -30,6 +35,21 @@ namespace Nethereum.IntegrationTesting
                 Directory.Delete(path, true);
             }
         }
+
+        public void InitGeth()
+        {
+            ProcessStartInfo psi = new ProcessStartInfo(Path.Combine(ExePath, "geth.exe"), initArguments)
+            {
+                CreateNoWindow = false,
+                WindowStyle = ProcessWindowStyle.Normal,
+                UseShellExecute = true,
+                WorkingDirectory = ExePath
+
+            };
+            Process.Start(psi);
+            Thread.Sleep(5000);
+        }
+
 
         public void StartGeth()
         {

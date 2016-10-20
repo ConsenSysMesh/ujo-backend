@@ -11,7 +11,7 @@ namespace Ujo.Work.Service
     {
         public WorkService(Web3 web3, string address) : base(web3)
         {
-           this.contract = web3.Eth.GetContract(abi, address);
+           this.contract = web3.Eth.GetContract(ABI, address);
         }
 
         public async Task<byte[]> Sha3OfValueAtKeyAsyncCall(string key)
@@ -24,6 +24,12 @@ namespace Ujo.Work.Service
         {
             var function = GetStoreFunction();
             return function.CallAsync<string>(key.ToString());
+        }
+
+        public Task<string> GetSchemaAddress()
+        {
+            var function = GetSchemaAddressFunction();
+            return function.CallAsync<string>();
         }
 
         public async Task<string> RegisterWorkWithRegistryAsync(string addressFrom, string registryAddres, HexBigInteger gas = null, HexBigInteger valueAmount = null)
@@ -129,13 +135,23 @@ namespace Ujo.Work.Service
             work.Label = await GetWorkAttributeAsyncCall(WorkSchema.label);
             work.Description = await GetWorkAttributeAsyncCall(WorkSchema.description);
             work.Publisher = await GetWorkAttributeAsyncCall(WorkSchema.publisher);
-            work.HasPartOf = Convert.ToBoolean(await GetWorkAttributeAsyncCall(WorkSchema.hasPartOf));
-            work.IsPartOf = Convert.ToBoolean(await GetWorkAttributeAsyncCall(WorkSchema.isPartOf));
+            work.HasPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.hasPartOf), false);
+            work.IsPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.isPartOf), false);
             work.IsFamilyFriendly = await GetWorkAttributeAsyncCall(WorkSchema.isFamilyFriendly);
             work.License = await GetWorkAttributeAsyncCall(WorkSchema.license);
             work.IswcCode = await GetWorkAttributeAsyncCall(WorkSchema.iswcCode);
 
             return work;
+        }
+
+        private bool TryParseToBolean(string value, bool defaultValue)
+        {
+            bool boolReturn = false;
+            if(Boolean.TryParse(value, out boolReturn))
+            {
+                return boolReturn;
+            }
+            return defaultValue;
         }
 
         public async Task<string> UnregisterWorkWithRegistryAsync(string addressFrom, string _registry, HexBigInteger gas = null, HexBigInteger valueAmount = null)

@@ -46,7 +46,7 @@ namespace Ujo.Work.Service.Tests
         {
             var transactionHelper = new TransactionHelpers();
             string contract = await
-                 transactionHelper.DeployContract(new Web3(), userName, password,
+                 transactionHelper.DeployContract(WorkService.ABI, new Web3(), userName, password,
                      DefaultSettings.ContractByteCode, false, new [] {StandardSchemaContractAddress});
 
             var workService = new WorkService(new Web3(), contract);
