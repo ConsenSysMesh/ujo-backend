@@ -14,7 +14,7 @@ namespace Ujo.Search.Service
         public string ArtistAddress { get; set; }
         public string ArtistName { get; set; }
         public string[] FeaturedArtitsAddresses { get; set; }
-        public string[] FeaturesArtistsNames { get; set; }
+        public string[] FeaturedArtistsNames { get; set; }
         
         /// <summary>
         /// Pipe limited Index | Address | Name | Role

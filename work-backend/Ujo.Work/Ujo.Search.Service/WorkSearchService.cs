@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ujo.Work;
+using Ujo.Work.Model;
 using Ujo.Work.Service;
 
 namespace Ujo.Search.Service
@@ -117,15 +118,68 @@ namespace Ujo.Search.Service
             var workDocument = new WorkDocument();
             workDocument.Address = work.Address;
             workDocument.Image = work.CoverImageIpfsHash;
-            workDocument.ArtistAddress = work.Creator;
-            workDocument.ArtistName =  work.Creator;
+            workDocument.ArtistAddress = work.ByArtistAddress;
+            workDocument.ArtistName =  work.ByArtistName;
             workDocument.Genre = work.Genre;
-            workDocument.Title = work.Name;
-            workDocument.WorkFile = work.WorkFileIpfsHash;
-            workDocument.Keywords = new string[] { work.Genre };
+            workDocument.Name = work.Name;
+            workDocument.Audio = work.WorkFileIpfsHash;
+            workDocument.PerformingArtists = GetArtistsPipeDelimeted(work.PerformingArtists);
+            workDocument.PerformingArtistsNames = GetArtistsNames(work.PerformingArtists);
+            workDocument.PerformingArtitsAddresses = GetArtistsAddresses(work.PerformingArtists);
+            workDocument.ContributingArtists = GetArtistsPipeDelimeted(work.ContributingArtists);
+            workDocument.ContributingArtistsNames = GetArtistsNames(work.ContributingArtists);
+            workDocument.ContributingArtistsAddresses = GetArtistsAddresses(work.ContributingArtists);
+            workDocument.FeaturedArtists = GetArtistsPipeDelimeted(work.FeaturedArtists);
+            workDocument.FeaturedArtistsNames = GetArtistsNames(work.FeaturedArtists);
+            workDocument.FeaturedArtitsAddresses = GetArtistsAddresses(work.FeaturedArtists);
+            workDocument.DateCreated = work.DateCreated ?? "";
+            workDocument.DateModified = work.DateModified ?? "";
+            workDocument.Label = work.Label ?? "";
+            workDocument.Description = work.Description ?? "";
+            workDocument.Publisher = work.Publisher ?? "";
+            workDocument.HasPartOf = work.HasPartOf;
+            workDocument.IsPartOf = work.IsPartOf;
+            workDocument.IsFamilyFriendly = work.IsFamilyFriendly;
+            workDocument.License = work.License ?? "";
+            workDocument.IswcCode = work.IswcCode ?? "";
+
+            var keyWords = new List<string>();
+            keyWords.Add(work.Genre);
+
+            if (!string.IsNullOrEmpty(work.Keywords))
+                keyWords.AddRange(work.Keywords.Split(','));
+            
+            workDocument.Keywords = keyWords.ToArray();
 
             await BatchUpdateAsync(new []{ workDocument });
 
+        }
+
+        private string[] GetArtistsAddresses(List<WorkArtist> artists)
+        {
+            if(artists != null && artists.Count > 0)
+            {
+                return artists.Select(x => x.Address).ToArray();
+            }
+            return new string[] { };
+        }
+
+        private string[] GetArtistsNames(List<WorkArtist> artists)
+        {
+            if (artists != null && artists.Count > 0)
+            {
+                return artists.Select(x => x.Name).ToArray();
+            }
+            return new string[] { };
+        }
+
+        private string[] GetArtistsPipeDelimeted(List<WorkArtist> artists)
+        {
+            if (artists != null && artists.Count > 0)
+            {
+                return artists.Select(x => x.Index.ToString() + "|" + x.Address + "|" + x.Name + "|" + x.Role).ToArray();
+            }
+            return new string[] { };
         }
 
         public async Task DeleteAsync(string workAddress)

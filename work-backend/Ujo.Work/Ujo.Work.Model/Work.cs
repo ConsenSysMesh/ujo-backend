@@ -52,8 +52,8 @@ namespace Ujo.Work.Model
         public string Audio { get; set; }
        
         public string Keywords { get; set; }
-        public string ByArtist { get; set; }
-
+        public string ByArtistAddress { get; set; }
+        public string ByArtistName { get; set; }
         public List<WorkArtist> FeaturedArtists { get; set; }
         public List<WorkArtist> ContributingArtists { get; set; }
         public List<WorkArtist> PerformingArtists { get; set; }

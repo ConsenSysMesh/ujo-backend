@@ -57,6 +57,11 @@ namespace Ujo.Work.Service
             return await function.SendTransactionAsync(addressFrom, gas, valueAmount, registry, license);
         }
 
+        private bool IsAddress(string nameOrAddress)
+        {
+            return nameOrAddress.StartsWith("0x");
+        }
+
         public async Task<Model.Work> GetWorkAsync()
         {
             var work = new Model.Work();
@@ -71,8 +76,18 @@ namespace Ujo.Work.Service
             work.Audio = await GetWorkAttributeAsyncCall(WorkSchema.audio);
             work.Genre = await GetWorkAttributeAsyncCall(WorkSchema.genre);
             work.Keywords = await GetWorkAttributeAsyncCall(WorkSchema.keywords);
-            work.ByArtist = await GetWorkAttributeAsyncCall(WorkSchema.byArtist);
 
+            var byArtist = await GetWorkAttributeAsyncCall(WorkSchema.byArtist);
+
+            if (IsAddress(byArtist))
+            {
+                work.ByArtistAddress = byArtist;
+            }
+            else
+            {
+                work.ByArtistName = byArtist;
+            }
+            
             var featuredArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist1);
             var featuredArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist2);
             var featuredArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist3);
