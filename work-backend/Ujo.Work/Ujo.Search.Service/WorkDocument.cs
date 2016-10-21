@@ -17,11 +17,11 @@ namespace Ujo.Search.Service
         public string[] FeaturesArtistsNames { get; set; }
         
         /// <summary>
-        /// Pipe limited Address | Name | Role
+        /// Pipe limited Index | Address | Name | Role
         /// </summary>
         public string[] FeaturedArtists { get; set; }
 
-        public string[] ContributingArtitsAddresses { get; set; }
+        public string[] ContributingArtistsAddresses { get; set; }
 
         public string[] ContributingArtistsNames { get; set; }
 

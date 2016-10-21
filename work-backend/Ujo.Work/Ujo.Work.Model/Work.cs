@@ -19,6 +19,7 @@ namespace Ujo.Work.Model
             {
                 this.Name = nameOrAddress;
             }
+            this.Role = role;
             this.Index = index;   
         }
 
