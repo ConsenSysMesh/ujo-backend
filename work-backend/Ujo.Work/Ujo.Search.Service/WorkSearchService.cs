@@ -116,13 +116,13 @@ namespace Ujo.Search.Service
         {
             var workDocument = new WorkDocument();
             workDocument.Address = work.Address;
-            workDocument.CoverFile = work.CoverImageIpfsHash;
-            workDocument.CreatorsAddresses = new string[] { work.Creator };
-            workDocument.CreatorsNames = new string[] { work.Creator };
+            workDocument.Image = work.CoverImageIpfsHash;
+            workDocument.ArtistAddress = work.Creator;
+            workDocument.ArtistName =  work.Creator;
             workDocument.Genre = work.Genre;
             workDocument.Title = work.Name;
             workDocument.WorkFile = work.WorkFileIpfsHash;
-            workDocument.Tags = new string[] { work.Genre };
+            workDocument.Keywords = new string[] { work.Genre };
 
             await BatchUpdateAsync(new []{ workDocument });
 
