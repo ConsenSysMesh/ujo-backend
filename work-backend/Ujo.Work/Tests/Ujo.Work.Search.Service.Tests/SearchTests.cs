@@ -55,8 +55,12 @@ namespace Ujo.Search.Service.Tests
                     Address = "0x23c575374941865b641e733c44073c8f02a11229",
                     ByArtistName = "The band 2",
                     ByArtistAddress = "0x23c575374941865b641e733c44073c8f02a11229_1",
-                    FeaturedArtists = new List<Work.Model.WorkArtist>(new [] { new Work.Model.WorkArtist(1, "Laurent Garnier", "0x23c575374941865b641e733c44073c8f02a11229_1", "Guitar"),
+                    FeaturedArtists = new List<Work.Model.WorkArtist>(new [] { new Work.Model.WorkArtist(1, "Laurent Garnier", "0x23c575374941865b641e733c44073c8f02a11229_1", "Guitar")
+                                                                               }),
+
+                    ContributingArtists = new List<Work.Model.WorkArtist>(new [] {
                                                                                new Work.Model.WorkArtist(2, "Juan", "0x050c98dfa840cf812c948fa5b4e247fff75bb063_2", "Tamborine") }),
+
                     Genre = "Techno",
                     Keywords = "Trance, House",
                     Name = "Wake Up",
@@ -77,7 +81,7 @@ namespace Ujo.Search.Service.Tests
             var result = await service.Search("House");
             Assert.Equal(2, result.Count);
             Assert.Equal(4, result.Facets["keywords"].Count);
-            //we have 1 house, 1 techHouse, 1 Trance
+            //we have 1 house, 1 techHouse, 1 Trance and 1 Techno (the genre)
             Assert.Equal(1, result.Facets["genre"].Count);
             //we have 1 main genre Techno
 
