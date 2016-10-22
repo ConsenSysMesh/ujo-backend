@@ -9,6 +9,14 @@ namespace Ujo.Work.Model
         public string Name { get; set; }
         public string Role { get; set; }
 
+        public WorkArtist(int index, string name, string address, string role)
+        {
+            this.Index = index;
+            this.Address = address;
+            this.Role = Role;
+            this.Name = name;
+        }
+
         public WorkArtist(int index, string nameOrAddress, string role)
         {
             if (IsAddress(nameOrAddress))

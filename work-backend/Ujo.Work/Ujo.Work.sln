@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Search.Service.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Search.Service", "Ujo.Search.Service\Ujo.Search.Service.csproj", "{75AEE6D2-DB12-4976-A056-61FFE84631B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Search.Service.Tests", "Tests\Ujo.Work.Search.Service.Tests\Ujo.Work.Search.Service.Tests.csproj", "{DC092CE4-6894-4629-8AFF-CE6F72F79F27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +82,6 @@ Global
 		{C1389653-9C1F-4A5B-818B-AF4CE59CFD92} = {9BA2C77E-23AD-4F4D-8183-215576C0A121}
 		{20D80614-0F69-4000-9A79-12C9D0EC8197} = {3DF0967B-6329-4853-84E7-DC49241434AE}
 		{C1B7B0C7-09A5-4788-B4AC-377A92F38018} = {9BA2C77E-23AD-4F4D-8183-215576C0A121}
+		{DC092CE4-6894-4629-8AFF-CE6F72F79F27} = {9BA2C77E-23AD-4F4D-8183-215576C0A121}
 	EndGlobalSection
 EndGlobal

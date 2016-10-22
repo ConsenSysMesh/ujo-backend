@@ -46,17 +46,42 @@ namespace Ujo.Search.Service
                 Fields = new[]
                  {
                     new Field("address", DataType.String)                                 { IsKey = true, IsSearchable = true, IsFilterable = true },
-                    new Field("title", DataType.String)                                   { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = false },
-                    new Field("genre", DataType.String)                                   { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = true },
-                    new Field("tags", DataType.Collection(DataType.String))               { IsSearchable = true, IsFilterable = true, IsFacetable = true },
-                    new Field("creatorsNames", DataType.Collection(DataType.String))      { IsSearchable = true, IsFilterable = true, IsFacetable = false },
-                    new Field("creatorsAddresses", DataType.Collection(DataType.String))  { IsSearchable = true, IsFilterable = true, IsFacetable = false },
-                    new Field("workFile", DataType.String)                                { IsFilterable = true, IsSortable = true, IsFacetable = false },
-                    new Field("coverFile", DataType.String)                               { IsFilterable = true, IsSortable = true, IsFacetable = false }
+                    new Field("name", DataType.String)                                    { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("artistName", DataType.String)                              { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("artistAddress", DataType.String)                              { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = false },
+
+                    new Field("genre", DataType.String)                                         { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = true },
+                    new Field("keywords", DataType.Collection(DataType.String))                { IsSearchable = true, IsFilterable = true, IsFacetable = true },
+
+                    new Field("featuredArtistsNames", DataType.Collection(DataType.String))      { IsSearchable = true, IsFilterable = true, IsFacetable = false },
+                    new Field("featuredArtistsAddresses", DataType.Collection(DataType.String))  { IsFilterable = true, IsFacetable = false },
+                    new Field("featuredArtists", DataType.Collection(DataType.String))          { IsSearchable = true, IsFilterable = true, IsFacetable = false },
+
+                    new Field("contributingArtistsNames", DataType.Collection(DataType.String))      { IsSearchable = true, IsFilterable = true, IsFacetable = false },
+                    new Field("contributingArtistsAddresses", DataType.Collection(DataType.String))  { IsFilterable = true, IsFacetable = false },
+                    new Field("contributingArtists", DataType.Collection(DataType.String))          { IsSearchable = true, IsFilterable = true, IsFacetable = false },
+
+
+                    new Field("performingArtistsNames", DataType.Collection(DataType.String))      { IsSearchable = true, IsFilterable = true, IsFacetable = false },
+                    new Field("performingArtistsAddresses", DataType.Collection(DataType.String))  { IsFilterable = true, IsFacetable = false },
+                    new Field("performingArtists", DataType.Collection(DataType.String))          { IsSearchable = true, IsFilterable = true, IsFacetable = false },
+
+
+                    new Field("label", DataType.String)                                     { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = true },
+                    new Field("description", DataType.String)                               { IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("publisher", DataType.String)                                 { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = true },
+                    new Field("hasPartOf", DataType.Boolean)                                { IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("isPartOf", DataType.Boolean)                                 { IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("isFamilyFriendly", DataType.String)                          { IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("license", DataType.String)                                   { IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("iswcCode", DataType.String)                                  { IsSearchable = true, IsFilterable = true, IsSortable = true, IsFacetable = false },
+
+                    new Field("audio", DataType.String)                                   { IsFilterable = true, IsSortable = true, IsFacetable = false },
+                    new Field("image", DataType.String)                                   { IsFilterable = true, IsSortable = true, IsFacetable = false }
                 },
                 Suggesters = new[]
                  {
-                    new Suggester("sg", SuggesterSearchMode.AnalyzingInfixMatching, "address", "title", "genre", "creatorsNames", "creatorsAddresses")
+                    new Suggester("sg", SuggesterSearchMode.AnalyzingInfixMatching, "address", "name", "genre", "featuredArtistsNames", "contributingArtistsNames", "performingArtistsNames", "label", "publisher", "iswcCode")
                 }
            };
 
@@ -71,7 +96,7 @@ namespace Ujo.Search.Service
             {
                 SearchMode = SearchMode.All,
                 IncludeTotalResultCount = true,
-                Filter = String.Format("creatorsAddresses/any(t: t eq '{0}')", artistAddress)
+                Filter = String.Format("artistAddress eq '{0}' or featuredArtistsAddresses/any(t: t eq '{0}') or contributingArtistsAddresses/any(t: t eq '{0}') or performingArtistsAddresses/any(t: t eq '{0}')", artistAddress)
             };
 
             return indexClient.Documents.SearchAsync<WorkDocument>("*", sp);
@@ -94,7 +119,7 @@ namespace Ujo.Search.Service
             {
                 SearchMode = SearchMode.All,
                 Top = 20,
-                Facets = new string[] {"genre", "tags"},
+                Facets = new string[] {"genre", "keywords"},
                 IncludeTotalResultCount = true
             };
 
@@ -113,46 +138,53 @@ namespace Ujo.Search.Service
             return await indexClient.Documents.SuggestAsync<WorkDocument>(searchText, "sg", sp);
         }
 
-        public async Task UploadOrMergeAsync(Work.Model.Work work)
+        public async Task UploadOrMergeAsync(Work.Model.Work[] works)
         {
-            var workDocument = new WorkDocument();
-            workDocument.Address = work.Address;
-            workDocument.Image = work.CoverImageIpfsHash;
-            workDocument.ArtistAddress = work.ByArtistAddress;
-            workDocument.ArtistName =  work.ByArtistName;
-            workDocument.Genre = work.Genre;
-            workDocument.Name = work.Name;
-            workDocument.Audio = work.WorkFileIpfsHash;
-            workDocument.PerformingArtists = GetArtistsPipeDelimeted(work.PerformingArtists);
-            workDocument.PerformingArtistsNames = GetArtistsNames(work.PerformingArtists);
-            workDocument.PerformingArtitsAddresses = GetArtistsAddresses(work.PerformingArtists);
-            workDocument.ContributingArtists = GetArtistsPipeDelimeted(work.ContributingArtists);
-            workDocument.ContributingArtistsNames = GetArtistsNames(work.ContributingArtists);
-            workDocument.ContributingArtistsAddresses = GetArtistsAddresses(work.ContributingArtists);
-            workDocument.FeaturedArtists = GetArtistsPipeDelimeted(work.FeaturedArtists);
-            workDocument.FeaturedArtistsNames = GetArtistsNames(work.FeaturedArtists);
-            workDocument.FeaturedArtitsAddresses = GetArtistsAddresses(work.FeaturedArtists);
-            workDocument.DateCreated = work.DateCreated ?? "";
-            workDocument.DateModified = work.DateModified ?? "";
-            workDocument.Label = work.Label ?? "";
-            workDocument.Description = work.Description ?? "";
-            workDocument.Publisher = work.Publisher ?? "";
-            workDocument.HasPartOf = work.HasPartOf;
-            workDocument.IsPartOf = work.IsPartOf;
-            workDocument.IsFamilyFriendly = work.IsFamilyFriendly;
-            workDocument.License = work.License ?? "";
-            workDocument.IswcCode = work.IswcCode ?? "";
+            var workDocuments = new List<WorkDocument>();
+            if (works != null)
+            {
+                foreach (var work in works)
+                {
+                    var workDocument = new WorkDocument();
+                    workDocument.Address = work.Address;
+                    workDocument.Image = work.CoverImageIpfsHash;
+                    workDocument.ArtistAddress = work.ByArtistAddress;
+                    workDocument.ArtistName = work.ByArtistName;
+                    workDocument.Genre = work.Genre;
+                    workDocument.Name = work.Name;
+                    workDocument.Audio = work.WorkFileIpfsHash;
+                    workDocument.PerformingArtists = GetArtistsPipeDelimeted(work.PerformingArtists);
+                    workDocument.PerformingArtistsNames = GetArtistsNames(work.PerformingArtists);
+                    workDocument.PerformingArtistsAddresses = GetArtistsAddresses(work.PerformingArtists);
+                    workDocument.ContributingArtists = GetArtistsPipeDelimeted(work.ContributingArtists);
+                    workDocument.ContributingArtistsNames = GetArtistsNames(work.ContributingArtists);
+                    workDocument.ContributingArtistsAddresses = GetArtistsAddresses(work.ContributingArtists);
+                    workDocument.FeaturedArtists = GetArtistsPipeDelimeted(work.FeaturedArtists);
+                    workDocument.FeaturedArtistsNames = GetArtistsNames(work.FeaturedArtists);
+                    workDocument.FeaturedArtistsAddresses = GetArtistsAddresses(work.FeaturedArtists);
+                    //workDocument.DateCreated = work.DateCreated ?? "";
+                   // workDocument.DateModified = work.DateModified ?? "";
+                    workDocument.Label = work.Label ?? "";
+                    workDocument.Description = work.Description ?? "";
+                    workDocument.Publisher = work.Publisher ?? "";
+                    workDocument.HasPartOf = work.HasPartOf;
+                    workDocument.IsPartOf = work.IsPartOf;
+                    workDocument.IsFamilyFriendly = work.IsFamilyFriendly;
+                    workDocument.License = work.License ?? "";
+                    workDocument.IswcCode = work.IswcCode ?? "";
 
-            var keyWords = new List<string>();
-            keyWords.Add(work.Genre);
+                    var keyWords = new List<string>();
+                    keyWords.Add(work.Genre);
 
-            if (!string.IsNullOrEmpty(work.Keywords))
-                keyWords.AddRange(work.Keywords.Split(','));
-            
-            workDocument.Keywords = keyWords.ToArray();
+                    if (!string.IsNullOrEmpty(work.Keywords))
+                        keyWords.AddRange(work.Keywords.Split(','));
 
-            await BatchUpdateAsync(new []{ workDocument });
+                    workDocument.Keywords = keyWords.ToArray();
 
+                    workDocuments.Add(workDocument);
+                }
+            }
+            await BatchUpdateAsync(workDocuments.ToArray());
         }
 
         private string[] GetArtistsAddresses(List<WorkArtist> artists)

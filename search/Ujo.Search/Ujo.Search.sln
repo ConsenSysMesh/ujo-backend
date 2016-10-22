@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDependencies", "Ext
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Storage", "..\..\work-backend\Ujo.Work\Ujo.Work.Storage\Ujo.Work.Storage.csproj", "{6E50E229-5DB7-4343-8B43-F4BADBEB3589}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4960720C-2453-4909-843F-8EC1947ACDAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C1B7B0C7-09A5-4788-B4AC-377A92F38018} = {4960720C-2453-4909-843F-8EC1947ACDAA}
 		{6E50E229-5DB7-4343-8B43-F4BADBEB3589} = {E8896AB3-0F6A-4341-B3F5-59F8950858AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -13,7 +13,7 @@ namespace Ujo.Search.Service
         public string Address { get; set; }
         public string ArtistAddress { get; set; }
         public string ArtistName { get; set; }
-        public string[] FeaturedArtitsAddresses { get; set; }
+        public string[] FeaturedArtistsAddresses { get; set; }
         public string[] FeaturedArtistsNames { get; set; }
         
         /// <summary>
@@ -30,7 +30,7 @@ namespace Ujo.Search.Service
         /// </summary>
         public string[] ContributingArtists { get; set; }
 
-        public string[] PerformingArtitsAddresses { get; set; }
+        public string[] PerformingArtistsAddresses { get; set; }
 
         public string[] PerformingArtistsNames { get; set; }
 
@@ -42,8 +42,8 @@ namespace Ujo.Search.Service
         public string Genre { get; set; }
         public string[] Keywords { get; set; }
 
-        public string DateCreated { get; set; }
-        public string DateModified { get; set; }
+        //public string DateCreated { get; set; }
+        //public string DateModified { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public string Audio { get; set; }

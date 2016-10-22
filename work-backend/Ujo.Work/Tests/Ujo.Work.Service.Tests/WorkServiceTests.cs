@@ -232,7 +232,7 @@ namespace Ujo.Work.Service.Tests
                 Assert.Equal("audio", work.Audio);
                 Assert.Equal("genre", work.Genre);
                 Assert.Equal("keywords", work.Keywords);
-                Assert.Equal("byArtist", work.ByArtist);
+                Assert.Equal("byArtist", work.ByArtistName);
                 Assert.Equal("featuredArtist1", work.FeaturedArtists[0].Name);
                 Assert.Equal("featuredArtist2", work.FeaturedArtists[1].Name);
                 Assert.Equal("featuredArtist3", work.FeaturedArtists[2].Name);

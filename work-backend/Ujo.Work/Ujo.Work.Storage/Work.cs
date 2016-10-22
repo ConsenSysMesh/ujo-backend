@@ -23,7 +23,8 @@ namespace Ujo.Work.Storage
             workEntity.Audio = work.Audio ?? "";
             workEntity.Genre = work.Genre ?? "";
             workEntity.Keywords = work.Keywords ?? "";
-            workEntity.ByArtist = work.ByArtist ?? "";
+            workEntity.ByArtistAddress = work.ByArtistAddress ?? "";
+            workEntity.ByArtistName = work.ByArtistName ?? "";
             workEntity.FeaturedArtists = JsonConvert.SerializeObject(work.FeaturedArtists.ToArray());
             workEntity.ContributingArtists = JsonConvert.SerializeObject(work.ContributingArtists.ToArray());
             workEntity.PerformingArtists = JsonConvert.SerializeObject(work.PerformingArtists.ToArray());
@@ -124,11 +125,18 @@ namespace Ujo.Work.Storage
             get { return Get(string.Empty); }
             set { Set(value); }
         }
-        public string ByArtist
+        public string ByArtistAddress
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
+        public string ByArtistName
+        {
+            get { return Get(string.Empty); }
+            set { Set(value); }
+        }
+
         public string FeaturedArtists
         {
             get { return Get(string.Empty); }
