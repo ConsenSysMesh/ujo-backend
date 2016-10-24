@@ -26,6 +26,12 @@
       "dependencies": {
         "Ujo.IpfsImage.Storage": {
           "target": "project"
+        },
+        "Ujo.Search.Service": {
+          "target": "project"
+        },
+        "Ujo.Work.Model": {
+          "target": "project"
         }
       }
     }

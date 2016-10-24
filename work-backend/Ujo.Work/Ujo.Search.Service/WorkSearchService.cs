@@ -12,7 +12,7 @@ using Ujo.Work.Service;
 
 namespace Ujo.Search.Service
 {
-    public class WorkSearchService
+    public class WorkSearchService 
     {
         private string searchServiceName;
         private string apiKey;
@@ -112,7 +112,7 @@ namespace Ujo.Search.Service
             }
         }
 
-        public async Task<DocumentSearchResult<WorkDocument>> Search(string text)
+        public async Task<DocumentSearchResult<WorkDocument>> SearchAsync(string text)
         {
             var indexClient = CreateSearchIndexClient();
             var sp = new SearchParameters
