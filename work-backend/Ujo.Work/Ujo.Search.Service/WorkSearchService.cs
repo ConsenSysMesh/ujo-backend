@@ -138,7 +138,7 @@ namespace Ujo.Search.Service
             return await indexClient.Documents.SuggestAsync<WorkDocument>(searchText, "sg", sp);
         }
 
-        public async Task UploadOrMergeAsync(Work.Model.Work[] works)
+        public async Task UploadOrMergeAsync(params Work.Model.Work[] works)
         {
             var workDocuments = new List<WorkDocument>();
             if (works != null)

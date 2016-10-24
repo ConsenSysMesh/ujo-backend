@@ -9,10 +9,35 @@ namespace Ujo.Work.WebJob
         public const string ETHEREUM_RPC_URL_KEY = "EthereumRPCUrl";
         public const string WORK_REGISTRY_CONTRACT_ADRESS_KEY = "WorkRegistryContractAddress";
         public const string START_PROCESS_FROM_BLOCK_NUMBER_KEY = "StartProcessWorkFromBlockNumber";
+        public const string SEARCH_API_SERVICE_NAME_KEY = "SearchApiServiceName";
+        public const string SEARCH_API_SEARCH_KEY = "SearchApiSearchKey";
+        public const string SEARCH_API_ADMIN_KEY = "SearchApiAdminKey";
+        public const string SEARCH_API_WORK_INDEX_NAME_KEY = "SearchApiWorkIndexName";
+
 
         public static string GetEthereumRPCUrl()
         {
             return CloudConfigurationManager.GetSetting(ETHEREUM_RPC_URL_KEY);
+        }
+
+        public static string GetSearchApiServiceName()
+        {
+            return CloudConfigurationManager.GetSetting(SEARCH_API_SERVICE_NAME_KEY);
+        }
+
+        public static string GetSearchApiSearchKey()
+        {
+            return CloudConfigurationManager.GetSetting(SEARCH_API_SEARCH_KEY);
+        }
+
+        public static string GetSearchApiSearchAdminKey()
+        {
+            return CloudConfigurationManager.GetSetting(SEARCH_API_ADMIN_KEY);
+        }
+
+        public static string GetSearchApiWorkIndexName()
+        {
+            return CloudConfigurationManager.GetSetting(SEARCH_API_WORK_INDEX_NAME_KEY);
         }
 
         public static string GetWorkRegistryContractAddress()
@@ -52,8 +77,19 @@ namespace Ujo.Work.WebJob
             {
                 configOK = false;
                 Console.WriteLine("Please add the work registry contract address to the configuration");
-
             }
+
+
+            if (string.IsNullOrEmpty(GetSearchApiSearchAdminKey()) || 
+                string.IsNullOrEmpty(GetSearchApiSearchKey()) || 
+                string.IsNullOrEmpty(GetSearchApiServiceName()) || 
+                string.IsNullOrEmpty(GetSearchApiWorkIndexName()) 
+                )
+            {
+                configOK = false;
+                Console.WriteLine("Please ensure the search api keys have been set correctly");
+            }
+
             return configOK;
         }
     }

@@ -16,7 +16,7 @@ using Ujo.Work.Service;
 using Ujo.WorkRegistry.Storage;
 using Wintellect.Azure.Storage.Table;
 using ProcessInfo = Ujo.Work.Storage.ProcessInfo;
-
+using Ujo.Search.Service;
 
 namespace Ujo.Work.WebJob
 {
@@ -86,8 +86,11 @@ namespace Ujo.Work.WebJob
             var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
 
             var workService = new WorkService(web3, address);
+            var workSearchService = GetWorkSearchService();
+
             Model.Work work = null;
             work = await workService.GetWorkAsync();
+            
 
             var key = dataEventLog.Event.Key;
             var val = dataEventLog.Event.Value;
@@ -112,7 +115,8 @@ namespace Ujo.Work.WebJob
             {
                 workEntity.WorkFileIpfsHash = work.WorkFileIpfsHash;
             }
-         
+
+            await workSearchService.UploadOrMergeAsync(work);
             await workEntity.InsertOrMergeAsync();
         }
         
@@ -143,9 +147,11 @@ namespace Ujo.Work.WebJob
         private static async Task RemoveUnregistered(string address, AzureTable worksTable)
         {
             var workStore = await Storage.WorkEntity.FindAsync(worksTable, address);
+            var workSearchService = GetWorkSearchService();
             if (workStore != null)
             {
                 await workStore.DeleteAsync();
+                await workSearchService.DeleteAsync(address);
             }
         }
 
@@ -158,7 +164,9 @@ namespace Ujo.Work.WebJob
             if (work != null)
             {
                 var workStore = Storage.WorkEntity.Create(worksTable, work);
+                var workSearchService = GetWorkSearchService();
                 var result = await workStore.InsertOrReplaceAsync();
+                await workSearchService.UploadOrMergeAsync(work);
                 if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
                 {
                     ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);
@@ -196,6 +204,11 @@ namespace Ujo.Work.WebJob
                 blockNumber = processInfo.Number;
             }
             return blockNumber;
+        }
+
+        private static WorkSearchService GetWorkSearchService()
+        {
+            return new WorkSearchService(ConfigurationSettings.GetSearchApiServiceName(), ConfigurationSettings.GetSearchApiWorkIndexName(), ConfigurationSettings.GetSearchApiSearchAdminKey(), ConfigurationSettings.GetSearchApiWorkIndexName());
         }
     }
 }
