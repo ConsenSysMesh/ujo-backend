@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Search.Service", "Ujo.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Search.Service.Tests", "Tests\Ujo.Work.Search.Service.Tests\Ujo.Work.Search.Service.Tests.csproj", "{DC092CE4-6894-4629-8AFF-CE6F72F79F27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Search.Console", "Ujo.Work.Search.Console\Ujo.Work.Search.Console.csproj", "{E975EB3C-345A-4285-AE9A-861D06FF3382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC092CE4-6894-4629-8AFF-CE6F72F79F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
