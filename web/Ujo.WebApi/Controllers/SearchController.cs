@@ -19,9 +19,10 @@ namespace Ujo.WebApi.Controllers
         }
 
         [HttpGet("{artistAddress}/tracks")]
-        public async Task<IActionResult> GetArtistsWorks(string address)
+        public async Task<IActionResult> GetArtistsWorks(string artistAddress)
         {
-            return new JsonResult((await workSearchService.GetWorksByArtistAsync(address)).Results);
+            if (string.IsNullOrEmpty(artistAddress)) return null; //Check length, move checks to service)
+            return new JsonResult((await workSearchService.GetWorksByArtistAsync(artistAddress)).Results);
 
         }
     }

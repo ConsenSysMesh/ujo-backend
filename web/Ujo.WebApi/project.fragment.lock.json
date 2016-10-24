@@ -5,7 +5,7 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.5",
       "compile": {
-        "bin/Release/Ujo.IpfsImage.Storage.dll": {}
+        "bin/Debug/Ujo.IpfsImage.Storage.dll": {}
       },
       "runtime": {
         "../../../web/packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
@@ -17,10 +17,10 @@
         "../packages/System.Spatial.5.6.4/lib/net40/System.Spatial.dll": {},
         "../packages/WindowsAzure.Storage.7.0.0/lib/net40/Microsoft.WindowsAzure.Storage.dll": {},
         "../packages/Wintellect.Azure.Storage.1.6.0.1/lib/net45/Wintellect.Azure.Storage.dll": {},
-        "bin/Release/Ujo.IpfsImage.Storage.dll": {}
+        "bin/Debug/Ujo.IpfsImage.Storage.dll": {}
       },
       "contentFiles": {
-        "bin/Release/Ujo.IpfsImage.Storage.pdb": {
+        "bin/Debug/Ujo.IpfsImage.Storage.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -31,7 +31,7 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.5",
       "compile": {
-        "bin/Release/Ujo.Search.Service.dll": {}
+        "bin/Debug/Ujo.Search.Service.dll": {}
       },
       "runtime": {
         "../../../web/packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
@@ -40,10 +40,10 @@
         "../packages/Microsoft.Rest.ClientRuntime.2.1.0/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
         "../packages/Microsoft.Rest.ClientRuntime.Azure.3.1.0/lib/net45/Microsoft.Rest.ClientRuntime.Azure.dll": {},
         "../packages/Microsoft.Spatial.6.15.0/lib/portable-net45+win+wpa81/Microsoft.Spatial.dll": {},
-        "bin/Release/Ujo.Search.Service.dll": {}
+        "bin/Debug/Ujo.Search.Service.dll": {}
       },
       "contentFiles": {
-        "bin/Release/Ujo.Search.Service.pdb": {
+        "bin/Debug/Ujo.Search.Service.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
@@ -54,13 +54,13 @@
       "type": "project",
       "framework": ".NETFramework,Version=v4.5",
       "compile": {
-        "bin/Release/Ujo.Work.Model.dll": {}
+        "bin/Debug/Ujo.Work.Model.dll": {}
       },
       "runtime": {
-        "bin/Release/Ujo.Work.Model.dll": {}
+        "bin/Debug/Ujo.Work.Model.dll": {}
       },
       "contentFiles": {
-        "bin/Release/Ujo.Work.Model.pdb": {
+        "bin/Debug/Ujo.Work.Model.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true
