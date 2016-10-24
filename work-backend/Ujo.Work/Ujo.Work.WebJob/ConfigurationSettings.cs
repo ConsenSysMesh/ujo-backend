@@ -9,8 +9,8 @@ namespace Ujo.Work.WebJob
         public const string ETHEREUM_RPC_URL_KEY = "EthereumRPCUrl";
         public const string WORK_REGISTRY_CONTRACT_ADRESS_KEY = "WorkRegistryContractAddress";
         public const string START_PROCESS_FROM_BLOCK_NUMBER_KEY = "StartProcessWorkFromBlockNumber";
-        public const string SEARCH_API_SERVICE_NAME_KEY = "SearchApiServiceName";
-        public const string SEARCH_API_SEARCH_KEY = "SearchApiSearchKey";
+        public const string SEARCH_API_SERVICE_NAME_KEY = "SearchServiceName";
+        public const string SEARCH_API_SEARCH_KEY = "SearchServiceApiKey";
         public const string SEARCH_API_ADMIN_KEY = "SearchApiAdminKey";
         public const string SEARCH_API_WORK_INDEX_NAME_KEY = "SearchApiWorkIndexName";
 
