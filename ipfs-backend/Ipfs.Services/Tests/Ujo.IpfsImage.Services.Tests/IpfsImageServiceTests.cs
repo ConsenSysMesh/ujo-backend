@@ -62,7 +62,5 @@ namespace Ujo.IpfsImage.Services.Tests
             return await ipfsService.Add(Path.GetFileName(filePath), file);
         }
 
-
-       
     }
 }

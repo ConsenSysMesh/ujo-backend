@@ -82,6 +82,18 @@ namespace Ujo.IntegrationTesting
             return workContract;
         }
 
+        [Fact]
+        public async Task<string> ProcessWorkAllFieldsArtistAddress()
+        {
+
+            var workHash = await UploadFile("summerdnb.mp3");
+            //all jpg
+            var imageHash = await UploadFile("The Aztec Mystic - Knights of the Jaguar.jpg");
+            var workHelper = new WorkMordenTests();
+            var workContract = await workHelper.DeployContractToModernAllFieldsAsync(workHash, "Summer dub", imageHash, "0x1234567890", "Dub");
+            await RegisterWork(workContract);
+            return workContract;
+        }
 
         public async Task<string> ProcessWork(string work)
         {

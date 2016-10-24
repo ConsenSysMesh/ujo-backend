@@ -65,7 +65,7 @@ namespace Ujo.Work.Service.Tests
 
 
         public async Task<string> DeployContractToModernAllFieldsAsync(string workHash, string workTitle, string coverImageHash,
-            string artistName, string genre)
+            string artistNameAddress, string genre)
         {
             var transactionHelper = new TransactionHelpers();
             string contract = await
@@ -170,11 +170,11 @@ namespace Ujo.Work.Service.Tests
                 }
                 else if (key == WorkSchema.byArtist)
                 {
-                    values = values + artistName + "|";
+                    values = values + artistNameAddress + "|";
                 }
                 else if (key == WorkSchema.creator)
                 {
-                    values = values + artistName + "|";
+                    values = values + artistNameAddress + "|";
                 }
                 else
                 {

@@ -78,7 +78,7 @@ namespace Ujo.Search.Service.Tests
             //Wait to be indexed
             Thread.Sleep(2000);
 
-            var result = await service.Search("House");
+            var result = await service.SearchAsync("House");
             Assert.Equal(2, result.Count);
             Assert.Equal(4, result.Facets["keywords"].Count);
             //we have 1 house, 1 techHouse, 1 Trance and 1 Techno (the genre)
@@ -87,7 +87,7 @@ namespace Ujo.Search.Service.Tests
 
             //we may want to add genre as the fisrt tag as per sound cloud
 
-            result = await service.Search("Juan");
+            result = await service.SearchAsync("Juan");
             Assert.Equal(2, result.Count);
 
             result = await service.GetWorksByArtistAsync("0x050c98dfa840cf812c948fa5b4e247fff75bb063_2");
