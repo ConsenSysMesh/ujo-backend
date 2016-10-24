@@ -101,5 +101,49 @@ namespace Ujo.Search.Service.Tests
 
             await service.DeleteIndexAsync();
         }
+    
+
+    [Fact]
+    public async Task TestNull()
+    {
+        var service = new WorkSearchService(serviceName, apiSearchKey, apiAdminKey, indexName);
+        await service.DeleteIndexAsync();
+        await service.CreateIndexAsync();
+
+        var works = new Work.Model.Work[]
+        {
+                new Work.Model.Work()
+                {
+                    Address = "0x050c98dfa840cf812c948fa5b4e247fff75bb063",
+                    ByArtistName = "The band",
+                    ByArtistAddress = "0x050c98dfa840cf812c948fa5b4e247fff75bb063_0",
+                    FeaturedArtists = new List<Work.Model.WorkArtist>(new [] { new Work.Model.WorkArtist(1, "Simon", "Guitar"),
+                                                                               new Work.Model.WorkArtist(2, "Juan", "Tamborine") }),
+                    PerformingArtists = new List<Work.Model.WorkArtist>(new [] { new Work.Model.WorkArtist(3, "Gael", "Piano"),
+                                                                                new Work.Model.WorkArtist(4, "Karl", "Vocal") }),
+
+                    ContributingArtists = new List<Work.Model.WorkArtist>(new[] { new Work.Model.WorkArtist(4, "Jesse", "Lyrics"),
+                                                                                new Work.Model.WorkArtist(5, "Gabe",  "Producer"),
+                                                                                new Work.Model.WorkArtist(6, "Vlad", "Cover") }),
+                    Genre = "Techno",
+                    Keywords = "TechHouse, House",
+                    Name = "Blackout",
+                    Image = "QmbwG5QB9ssqu49WDyw93hwGBYMZiueqNKYCkGL6DZC7Vb",
+                    Audio = "workFile",
+                    IswcCode = "123",
+                    Label = "White Label",
+                    Publisher = "White publishing",
+                    Description = "immersing techno house, with tribal vocal hints",
+
+
+                },
+
+               
+        };
+
+        await service.UploadOrMergeAsync(works);
+
+
     }
+}
 }

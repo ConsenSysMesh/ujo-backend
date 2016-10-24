@@ -165,8 +165,8 @@ namespace Ujo.Work.WebJob
             {
                 var workStore = Storage.WorkEntity.Create(worksTable, work);
                 var workSearchService = GetWorkSearchService();
-                var result = await workStore.InsertOrReplaceAsync();
                 await workSearchService.UploadOrMergeAsync(work);
+                var result = await workStore.InsertOrReplaceAsync();
                 if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
                 {
                     ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);

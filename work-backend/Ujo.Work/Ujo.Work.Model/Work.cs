@@ -22,10 +22,12 @@ namespace Ujo.Work.Model
             if (IsAddress(nameOrAddress))
             {
                 this.Address = nameOrAddress;
+                this.Name = string.Empty; 
             }
             else
             {
                 this.Name = nameOrAddress;
+                this.Address = string.Empty;
             }
             this.Role = role;
             this.Index = index;   
