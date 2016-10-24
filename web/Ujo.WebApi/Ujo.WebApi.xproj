@@ -18,6 +18,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ipfs-backend\Ipfs.Services\Ujo.IpfsImage.Storage\Ujo.IpfsImage.Storage.csproj" />
+    <ProjectReference Include="..\..\work-backend\Ujo.Work\Ujo.Search.Service\Ujo.Search.Service.csproj" />
+    <ProjectReference Include="..\..\work-backend\Ujo.Work\Ujo.Work.Model\Ujo.Work.Model.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDependencies", "Ext
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.IpfsImage.Storage", "..\ipfs-backend\Ipfs.Services\Ujo.IpfsImage.Storage\Ujo.IpfsImage.Storage.csproj", "{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Search.Service", "..\work-backend\Ujo.Work\Ujo.Search.Service\Ujo.Search.Service.csproj", "{75AEE6D2-DB12-4976-A056-61FFE84631B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Model", "..\work-backend\Ujo.Work\Ujo.Work.Model\Ujo.Work.Model.csproj", "{65AA669D-6E50-4836-A277-415DF696C2DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,11 +27,21 @@ Global
 		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75AEE6D2-DB12-4976-A056-61FFE84631B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65AA669D-6E50-4836-A277-415DF696C2DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AA669D-6E50-4836-A277-415DF696C2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65AA669D-6E50-4836-A277-415DF696C2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65AA669D-6E50-4836-A277-415DF696C2DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A5A2BDE2-EAA9-485F-A582-C1CD561512B0} = {C2F98B5B-57D0-48E0-A69C-D0038F973012}
+		{75AEE6D2-DB12-4976-A056-61FFE84631B0} = {C2F98B5B-57D0-48E0-A69C-D0038F973012}
+		{65AA669D-6E50-4836-A277-415DF696C2DC} = {C2F98B5B-57D0-48E0-A69C-D0038F973012}
 	EndGlobalSection
 EndGlobal

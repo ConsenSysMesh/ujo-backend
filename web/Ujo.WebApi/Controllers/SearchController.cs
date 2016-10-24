@@ -9,6 +9,25 @@ using Ujo.WebApi.Services;
 namespace Ujo.WebApi.Controllers
 {
     [Route("api/[controller]")]
+    public class ArtistController : Controller
+    {
+        private readonly IWorkSearchService workSearchService;
+
+        public ArtistController(IWorkSearchService workSearchService)
+        {
+            this.workSearchService = workSearchService;
+        }
+
+        [HttpGet("{artistAddress}/tracks")]
+        public async Task<IActionResult> GetArtistsWorks(string address)
+        {
+            return new JsonResult((await workSearchService.GetWorksByArtistAsync(address)).Results);
+
+        }
+    }
+
+
+    [Route("api/[controller]")]
     public class SearchController : Controller
     {
         private readonly IWorkSearchService workSearchService;
@@ -21,15 +40,16 @@ namespace Ujo.WebApi.Controllers
         [HttpGet("{query}")]
         public async Task<IActionResult> Get(string query)
         {
-            return new  JsonResult((await workSearchService.SearchWork(query)).Results);
+            return new  JsonResult((await workSearchService.SearchAsync(query)).Results);
 
         }
 
         [HttpGet("suggest/{query}")]
         public async Task<IActionResult> Suggest(string query)
         {
-            return new JsonResult((await workSearchService.Suggest(query, true)).Results);
+            return new JsonResult((await workSearchService.SuggestAsync(query, true)).Results);
 
         }
     }
+
 }

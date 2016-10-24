@@ -1,14 +1,15 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Azure.Search;
-using Microsoft.Azure.Search.Models;
-using Microsoft.Extensions.Options;
-
+﻿
 namespace Ujo.WebApi.Services
 {
+    using System.Threading.Tasks;
+    using Microsoft.Azure.Search;
+    using Microsoft.Azure.Search.Models;
+    using Microsoft.Extensions.Options;
+    using Search.Service;
+
     public class WorkSearchService : IWorkSearchService
     {
-        private readonly ISearchIndexClient indexClient;
-        public string errorMessage;
+        private Ujo.Search.Service.WorkSearchService innerSearchService;
 
         public WorkSearchService(IOptions<AppSettings> settings)
         {
@@ -16,34 +17,24 @@ namespace Ujo.WebApi.Services
             var apiKey = settings.Value.SearchServiceKey;
             var indexName = settings.Value.WorkSearchIndexName;
 
-            // Create an HTTP reference to the catalog index
-            var searchClient = new SearchServiceClient(searchServiceName, new SearchCredentials(apiKey));
+            innerSearchService = new Search.Service.WorkSearchService(searchServiceName, apiKey, null, indexName);
+        }
 
-            indexClient = searchClient.Indexes.GetClient(indexName);
+        public Task<DocumentSearchResult<WorkDocument>> SearchAsync(string text)
+        {
+            return innerSearchService.SearchAsync(text);
         }
 
 
-        public async Task<DocumentSearchResult> SearchWork(string text)
+        public Task<DocumentSuggestResult<WorkDocument>> SuggestAsync(string searchText, bool fuzzy = true)
         {
-            var sp = new SearchParameters
-            {
-                SearchMode = SearchMode.All,
-                Top = 20,
-                IncludeTotalResultCount = true
-            };
-
-            return await indexClient.Documents.SearchAsync(text, sp);
+            return innerSearchService.SuggestAsync(searchText, fuzzy);
         }
 
-        public async Task<DocumentSuggestResult> Suggest(string searchText, bool fuzzy)
+        public Task<DocumentSearchResult<WorkDocument>> GetWorksByArtistAsync(string artistAddress)
         {
-            var sp = new SuggestParameters
-            {
-                UseFuzzyMatching = fuzzy,
-                Top = 8
-            };
-
-            return await indexClient.Documents.SuggestAsync(searchText, "sg", sp);
+            return innerSearchService.GetWorksByArtistAsync(artistAddress);
         }
     }
 }
+

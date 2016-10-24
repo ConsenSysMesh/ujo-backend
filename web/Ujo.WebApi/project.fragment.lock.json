@@ -26,6 +26,46 @@
           "copyToOutput": true
         }
       }
+    },
+    "Ujo.Search.Service/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5",
+      "compile": {
+        "bin/Release/Ujo.Search.Service.dll": {}
+      },
+      "runtime": {
+        "../../../web/packages/Newtonsoft.Json.9.0.1/lib/net45/Newtonsoft.Json.dll": {},
+        "../packages/EnterpriseLibrary.TransientFaultHandling.6.0.1304.0/lib/portable-net45+win+wp8/Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll": {},
+        "../packages/Microsoft.Azure.Search.2.0.2-preview/lib/net45/Microsoft.Azure.Search.dll": {},
+        "../packages/Microsoft.Rest.ClientRuntime.2.1.0/lib/net45/Microsoft.Rest.ClientRuntime.dll": {},
+        "../packages/Microsoft.Rest.ClientRuntime.Azure.3.1.0/lib/net45/Microsoft.Rest.ClientRuntime.Azure.dll": {},
+        "../packages/Microsoft.Spatial.6.15.0/lib/portable-net45+win+wpa81/Microsoft.Spatial.dll": {},
+        "bin/Release/Ujo.Search.Service.dll": {}
+      },
+      "contentFiles": {
+        "bin/Release/Ujo.Search.Service.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "Ujo.Work.Model/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5",
+      "compile": {
+        "bin/Release/Ujo.Work.Model.dll": {}
+      },
+      "runtime": {
+        "bin/Release/Ujo.Work.Model.dll": {}
+      },
+      "contentFiles": {
+        "bin/Release/Ujo.Work.Model.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
     }
   }
 }
