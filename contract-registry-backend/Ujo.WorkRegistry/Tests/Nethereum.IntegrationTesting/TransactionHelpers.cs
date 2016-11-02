@@ -4,34 +4,55 @@ using System.Threading;
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.DTOs;
+using Nethereum.Web3.Interceptors;
 
 namespace Nethereum.IntegrationTesting
 {
     public class TransactionHelpers
     {
+        public async Task<string> DeployContract(string privateKey, Web3.Web3 web3, string addressFrom, string bytecode)
+        {
+            var transactionInterceptor = new TransactionRequestToOfflineSignedTransactionInterceptor(addressFrom, privateKey, web3);
+            web3.Client.OverridingRequestInterceptor = transactionInterceptor;
+
+            var tx = await web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(3400000));
+            var receipt = await GetTransactionReceipt(web3, tx);
+            return receipt.ContractAddress;
+        }
+
+        public async Task<string> DeployContract(string privateKey, string abi, Web3.Web3 web3, string addressFrom, string bytecode, object[] constructorParameters)
+        {
+            var transactionInterceptor = new TransactionRequestToOfflineSignedTransactionInterceptor(addressFrom, privateKey, web3);
+            web3.Client.OverridingRequestInterceptor = transactionInterceptor;
+
+            var tx = await web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, addressFrom, new HexBigInteger(3400000), constructorParameters);
+            var receipt = await GetTransactionReceipt(web3, tx);
+            return receipt.ContractAddress;
+        }
+
         public async Task<string> DeployContract(Web3.Web3 web3, string addressFrom, string pass, string bytecode)
         {
-            var  receipt = await SendAndMineTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(4000000)));
+            var  receipt = await SendAndMineTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(3400000)));
             return receipt.ContractAddress;
         }
 
         public async Task<string> DeployContract(string abi, Web3.Web3 web3, string addressFrom, string pass, string bytecode, object[] constructorParameters)
         {
-            var receipt = await SendAndMineTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, addressFrom, new HexBigInteger(4000000), constructorParameters));
+            var receipt = await SendAndMineTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, addressFrom, new HexBigInteger(3400000), constructorParameters));
             return receipt.ContractAddress;
         }
 
         public async Task<string> DeployContract(string abi, Web3.Web3 web3, string addressFrom, string pass, string bytecode, bool mineIt, object[] constructorParameters)
         {
             if (mineIt) return await DeployContract(abi, web3, addressFrom, pass, bytecode, constructorParameters);
-            var receipt = await SendTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, addressFrom, new HexBigInteger(4000000), constructorParameters));
+            var receipt = await SendTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(abi, bytecode, addressFrom, new HexBigInteger(3400000), constructorParameters));
             return receipt.ContractAddress;
         }
 
         public async Task<string> DeployContract(Web3.Web3 web3, string addressFrom, string pass, string bytecode, bool mineIt)
         {
             if (mineIt) return await DeployContract(web3, addressFrom, pass, bytecode);
-            var receipt = await SendTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(4000000)));
+            var receipt = await SendTransactionAsync(web3, addressFrom, pass, () => web3.Eth.DeployContract.SendRequestAsync(bytecode, addressFrom, new HexBigInteger(3400000)));
             return receipt.ContractAddress;
         }
 
@@ -61,7 +82,7 @@ namespace Nethereum.IntegrationTesting
 
             foreach (var txId in txIds)
             {
-                receipts.Add(await TransactionReceipt(web3, txId));
+                receipts.Add(await GetTransactionReceipt(web3, txId));
             }
 
             return receipts.ToArray();
@@ -96,7 +117,7 @@ namespace Nethereum.IntegrationTesting
 
             foreach (var txId in txIds)
             {
-                receipts.Add(await TransactionReceipt(web3, txId));
+                receipts.Add(await GetTransactionReceipt(web3, txId));
             }
 
             result = await web3.Miner.Stop.SendRequestAsync();
@@ -105,7 +126,7 @@ namespace Nethereum.IntegrationTesting
             return receipts.ToArray();
         }
 
-        private static async Task<TransactionReceipt> TransactionReceipt(Web3.Web3 web3, string transaction)
+        private static async Task<TransactionReceipt> GetTransactionReceipt(Web3.Web3 web3, string transaction)
         {
             
             var receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transaction);

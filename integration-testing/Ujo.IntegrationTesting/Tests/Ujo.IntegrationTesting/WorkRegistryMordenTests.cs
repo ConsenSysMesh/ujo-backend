@@ -45,7 +45,7 @@ namespace Ujo.IntegrationTesting
         [Fact]
         public async Task ShouldUnregisterWorks()
         {
-            var workRegistryHelper = new WorkRegistryMordenTests();
+            var workRegistryHelper = new WorkRegistryPublicNodeIntegration();
             await workRegistryHelper.UnRegisterContract("0x21e41690ea026721e22f1519d34eee60e6f043b2");
         }
         
@@ -65,7 +65,7 @@ namespace Ujo.IntegrationTesting
         {
             var address = "0xadc7691c3ef7ebf80cd43de666867c5b9ed5dac4";
             var work = await UploadFile("3 PHASE feat Dr MOTTE - Der Klang der Familie (original mix).mp3");
-            var workHelper = new WorkMordenTests();
+            var workHelper = new WorkPublicNodeIntegrationTests();
             await workHelper.ShouldUpdateWorkFileInContract(address, work);
         }
 
@@ -76,7 +76,7 @@ namespace Ujo.IntegrationTesting
             var workHash = await UploadFile("summerdnb.mp3");
             //all jpg
             var imageHash = await UploadFile("The Aztec Mystic - Knights of the Jaguar.jpg");
-            var workHelper = new WorkMordenTests();
+            var workHelper = new WorkPublicNodeIntegrationTests();
             var workContract =  await workHelper.DeployContractToModernAllFieldsAsync(workHash, "Summer dub", imageHash, "Super Simon", "Dub");
             await RegisterWork(workContract);
             return workContract;
@@ -89,7 +89,7 @@ namespace Ujo.IntegrationTesting
             var workHash = await UploadFile("summerdnb.mp3");
             //all jpg
             var imageHash = await UploadFile("The Aztec Mystic - Knights of the Jaguar.jpg");
-            var workHelper = new WorkMordenTests();
+            var workHelper = new WorkPublicNodeIntegrationTests();
             var workContract = await workHelper.DeployContractToModernAllFieldsAsync(workHash, "Summer dub", imageHash, "0x1234567890", "Dub");
             await RegisterWork(workContract);
             return workContract;
@@ -103,20 +103,21 @@ namespace Ujo.IntegrationTesting
             var artistWorkArray = Path.GetFileNameWithoutExtension(work).Split('-');
             var artist = artistWorkArray[0].Trim();
             var workName = artistWorkArray[1].Trim();
-            var workContract = await DeployWorkToMorden(imageHash, workHash, artist, workName);
+            var workHelper = new WorkPublicNodeIntegrationTests();
+            var workContract = await workHelper.DeployContractToModernAllFieldsAsync(workHash, workName, imageHash, artist, "Techno");
             await RegisterWork(workContract);
             return workContract;
         }
 
         public async Task RegisterWork(string address)
         {
-            var workRegistryHelper = new WorkRegistryMordenTests();
+            var workRegistryHelper = new WorkRegistryPublicNodeIntegration();
             await workRegistryHelper.RegisterDeployedContract(address);
         }
 
         public async Task<string> DeployWorkToMorden(string imageHash, string workHash, string artist, string workName)
         {
-            var workHelper = new WorkMordenTests();
+            var workHelper = new WorkPublicNodeIntegrationTests();
             return await workHelper.DeployContractToModernAsync(workHash, workName, imageHash, artist, "Techno");
         }
 
