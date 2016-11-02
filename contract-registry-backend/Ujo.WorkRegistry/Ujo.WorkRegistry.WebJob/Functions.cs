@@ -22,7 +22,7 @@ namespace Ujo.WorkRegistry.WebJob
     {
         
         [Singleton]
-        public static async Task ProcessWorkRegistry([TimerTrigger("00:00:30")] TimerInfo timer,
+        public static async Task ProcessWorkRegistry([TimerTrigger("00:00:05")] TimerInfo timer,
             [Table("WorkRegistry")] CloudTable tableBinding, TextWriter log,
             [Queue("WorkRegisteredQueue")] ICollector<string> workRegisteredUnregisteredQueue)
         {

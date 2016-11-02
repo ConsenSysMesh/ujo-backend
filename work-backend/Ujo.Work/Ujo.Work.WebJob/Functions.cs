@@ -29,7 +29,7 @@ namespace Ujo.Work.WebJob
 
 
         [Singleton]
-        public static async Task ProcessWorks([TimerTrigger("00:00:30")] TimerInfo timer,
+        public static async Task ProcessWorks([TimerTrigger("00:00:05")] TimerInfo timer,
             [Table("Work")] CloudTable tableBinding, [Table("WorkRegistry")] CloudTable workRegistryCloudTable, TextWriter log,
             [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue
             )
