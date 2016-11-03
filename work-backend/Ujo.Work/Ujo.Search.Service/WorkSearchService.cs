@@ -90,12 +90,12 @@ namespace Ujo.Search.Service
         public Task<DocumentSearchResult<WorkDocument>> GetWorksByArtistAsync(string artistAddress)
         {
             var indexClient = CreateSearchIndexClient();
-
+            //we store the addresses in lower case
             var sp = new SearchParameters
             {
                 SearchMode = SearchMode.All,
                 IncludeTotalResultCount = true,
-                Filter = String.Format("artistAddress eq '{0}' or featuredArtistsAddresses/any(t: t eq '{0}') or contributingArtistsAddresses/any(t: t eq '{0}') or performingArtistsAddresses/any(t: t eq '{0}')", artistAddress)
+                Filter = String.Format("artistAddress eq '{0}' or featuredArtistsAddresses/any(t: t eq '{0}') or contributingArtistsAddresses/any(t: t eq '{0}') or performingArtistsAddresses/any(t: t eq '{0}')", artistAddress.ToLower())
             };
 
             return indexClient.Documents.SearchAsync<WorkDocument>("*", sp);
@@ -145,9 +145,9 @@ namespace Ujo.Search.Service
                 foreach (var work in works)
                 {
                     var workDocument = new WorkDocument();
-                    workDocument.Address = work.Address;
+                    workDocument.Address = work.Address.ToLower();
                     workDocument.Image = work.CoverImageIpfsHash;
-                    workDocument.ArtistAddress = work.ByArtistAddress;
+                    workDocument.ArtistAddress = work.ByArtistAddress.ToLower();
                     workDocument.ArtistName = work.ByArtistName;
                     workDocument.Genre = work.Genre;
                     workDocument.Name = work.Name;
@@ -190,7 +190,7 @@ namespace Ujo.Search.Service
         {
             if(artists != null && artists.Count > 0)
             {
-                return artists.Select(x => x.Address).ToArray();
+                return artists.Select(x => x.Address.ToLower()).ToArray();
             }
             return new string[] { };
         }

@@ -87,8 +87,8 @@ namespace Ujo.Work.Search.Service.Tests
 
             result = await service.SearchAsync("Juan");
             Assert.Equal(2, result.Count);
-
-            result = await service.GetWorksByArtistAsync("0x050c98dfa840cf812c948fa5b4e247fff75bb063_2");
+            //addresses are stored in lower case and converted to lower when retrieving directly
+            result = await service.GetWorksByArtistAsync("0x050c98dfa840cf812c948fa5b4e247fff75bb063_2".ToUpper());
             Assert.Equal(2, result.Count);
 
             result = await service.GetWorksByArtistAsync("0x23c575374941865b641e733c44073c8f02a11229_1");
