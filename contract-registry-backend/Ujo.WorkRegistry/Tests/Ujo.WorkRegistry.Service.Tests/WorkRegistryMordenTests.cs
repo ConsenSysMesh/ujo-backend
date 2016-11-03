@@ -32,7 +32,7 @@ namespace Ujo.ContractRegistry.Tests
         }
 
         [Fact]
-        public async Task RegisterDeployedContract(string address)
+        public async Task<string> RegisterDeployedContract(string address)
         {
             var web3 = CreateNewWeb3Instance();
             var contractRegistryService = new WorkRegistryService(web3, contractAddress);
@@ -40,6 +40,7 @@ namespace Ujo.ContractRegistry.Tests
             var tx  = await contractRegistryService.RegisterAsync(account,
                 address,
                 defaultGas);
+            return tx;
         }
 
         protected Web3 CreateNewWeb3Instance()

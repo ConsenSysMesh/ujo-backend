@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Service", "Ujo.Work.Service\Ujo.Work.Service.csproj", "{4C859109-4732-41A3-A472-98EBE4C30774}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Services.Ethereum", "Ujo.Work.Services.Ethereum\Ujo.Work.Services.Ethereum.csproj", "{4C859109-4732-41A3-A472-98EBE4C30774}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9BA2C77E-23AD-4F4D-8183-215576C0A121}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Search.Service.Tests", "Tests\Ujo.Work.Search.Service.Tests\Ujo.Work.Search.Service.Tests.csproj", "{DC092CE4-6894-4629-8AFF-CE6F72F79F27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Search.Console", "Ujo.Work.Search.Console\Ujo.Work.Search.Console.csproj", "{E975EB3C-345A-4285-AE9A-861D06FF3382}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Services", "Ujo.Work.Services\Ujo.Work.Services.csproj", "{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E975EB3C-345A-4285-AE9A-861D06FF3382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

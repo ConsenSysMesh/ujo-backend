@@ -1,22 +1,24 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.RPC.Eth.Filters;
 using Nethereum.Web3;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-
-namespace Ujo.Work.Service
+namespace Ujo.Work.Services.Ethereum
 {
-    public class WorksService:WorkServiceBase
+    public class WorksService : WorkServiceBase
     {
-        public async Task<List<EventLog<DataChangedEvent>>> GetDataChangedEventsAsync(ulong fromBlockNumber, ulong toBlockNumber)
+        public WorksService(Web3 web3) : base(web3)
+        {
+        }
+
+        public async Task<List<EventLog<DataChangedEvent>>> GetDataChangedEventsAsync(ulong fromBlockNumber,
+            ulong toBlockNumber)
         {
             //we do one block at a time to avoid huge json rpc responses, this can be run multithreaded..
             var results = new List<EventLog<DataChangedEvent>>();
-            for (ulong i = fromBlockNumber; i <= toBlockNumber; i++)
+            for (var i = fromBlockNumber; i <= toBlockNumber; i++)
             {
                 var result = await GetDataChangedEventsAsync(i);
                 results.AddRange(result);
@@ -38,13 +40,14 @@ namespace Ujo.Work.Service
 
         public async Task<List<EventLog<DataChangedEvent>>> GetDataChangedEventsAsync(ulong blockNumber)
         {
-            var logs = await web3.Eth.Filters.GetLogs.SendRequestAsync(new NewFilterInput()
+            var logs = await Web3.Eth.Filters.GetLogs.SendRequestAsync(new NewFilterInput
             {
                 FromBlock = new BlockParameter(blockNumber),
-                ToBlock = new BlockParameter(blockNumber) });
+                ToBlock = new BlockParameter(blockNumber)
+            });
 
             var results = new List<EventLog<DataChangedEvent>>();
-          
+
             if (logs == null) return results;
 
             foreach (var log in logs)
@@ -54,10 +57,6 @@ namespace Ujo.Work.Service
                 results.Add(eventLog);
             }
             return results;
-        }
-
-        public WorksService(Web3 web3) : base(web3)
-        {
         }
     }
 }

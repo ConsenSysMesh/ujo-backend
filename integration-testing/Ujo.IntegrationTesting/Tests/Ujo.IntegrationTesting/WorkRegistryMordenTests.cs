@@ -77,7 +77,9 @@ namespace Ujo.IntegrationTesting
             //all jpg
             var imageHash = await UploadFile("The Aztec Mystic - Knights of the Jaguar.jpg");
             var workHelper = new WorkPublicNodeIntegrationTests();
-            var workContract =  await workHelper.DeployContractToModernAllFieldsAsync(workHash, "Summer dub", imageHash, "Super Simon", "Dub");
+            var workContract = await workHelper.DeployContractAsync();
+            await RegisterWork(workContract);
+            await workHelper.UpdateMetadataWithMockUpFields(workHash, "Summer dub", imageHash, "Super Simon", "Dub", workContract);
             await RegisterWork(workContract);
             return workContract;
         }
@@ -90,8 +92,10 @@ namespace Ujo.IntegrationTesting
             //all jpg
             var imageHash = await UploadFile("The Aztec Mystic - Knights of the Jaguar.jpg");
             var workHelper = new WorkPublicNodeIntegrationTests();
-            var workContract = await workHelper.DeployContractToModernAllFieldsAsync(workHash, "Summer dub", imageHash, "0x1234567890", "Dub");
+            var workContract = await workHelper.DeployContractAsync();
             await RegisterWork(workContract);
+            await workHelper.UpdateMetadataWithMockUpFields(workHash, "Summer dub", imageHash, "0x1234567890", "Dub", workContract);
+            
             return workContract;
         }
 
@@ -104,15 +108,17 @@ namespace Ujo.IntegrationTesting
             var artist = artistWorkArray[0].Trim();
             var workName = artistWorkArray[1].Trim();
             var workHelper = new WorkPublicNodeIntegrationTests();
-            var workContract = await workHelper.DeployContractToModernAllFieldsAsync(workHash, workName, imageHash, artist, "Techno");
+            var workContract = await workHelper.DeployContractAsync();
             await RegisterWork(workContract);
+            await workHelper.UpdateMetadataWithMockUpFields(workHash, workName, imageHash, artist, "Techno", workContract);
+
             return workContract;
         }
 
         public async Task RegisterWork(string address)
         {
             var workRegistryHelper = new WorkRegistryPublicNodeIntegration();
-            await workRegistryHelper.RegisterDeployedContract(address);
+            var tx = await workRegistryHelper.RegisterDeployedContract(address);
         }
 
         public async Task<string> DeployWorkToMorden(string imageHash, string workHash, string artist, string workName)

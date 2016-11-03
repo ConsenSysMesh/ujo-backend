@@ -6,91 +6,89 @@ namespace Ujo.Work.WebJob
 {
     public static class ConfigurationSettings
     {
-        public const string ETHEREUM_RPC_URL_KEY = "EthereumRPCUrl";
-        public const string WORK_REGISTRY_CONTRACT_ADRESS_KEY = "WorkRegistryContractAddress";
-        public const string START_PROCESS_FROM_BLOCK_NUMBER_KEY = "StartProcessWorkFromBlockNumber";
-        public const string SEARCH_API_SERVICE_NAME_KEY = "SearchServiceName";
-        public const string SEARCH_API_SEARCH_KEY = "SearchServiceApiKey";
-        public const string SEARCH_API_ADMIN_KEY = "SearchApiAdminKey";
-        public const string SEARCH_API_WORK_INDEX_NAME_KEY = "SearchApiWorkIndexName";
+        public const string EthereumRpcUrlKey = "EthereumRPCUrl";
+        public const string WorkRegistryContractAdressKey = "WorkRegistryContractAddress";
+        public const string StartProcessFromBlockNumberKey = "StartProcessWorkFromBlockNumber";
+        public const string SearchApiServiceNameKey = "SearchServiceName";
+        public const string SearchApiSearchKey = "SearchServiceApiKey";
+        public const string SearchApiAdminKey = "SearchApiAdminKey";
+        public const string SearchApiWorkIndexNameKey = "SearchApiWorkIndexName";
 
 
-        public static string GetEthereumRPCUrl()
+        public static string GetEthereumRpcUrl()
         {
-            return CloudConfigurationManager.GetSetting(ETHEREUM_RPC_URL_KEY);
+            return CloudConfigurationManager.GetSetting(EthereumRpcUrlKey);
         }
 
         public static string GetSearchApiServiceName()
         {
-            return CloudConfigurationManager.GetSetting(SEARCH_API_SERVICE_NAME_KEY);
+            return CloudConfigurationManager.GetSetting(SearchApiServiceNameKey);
         }
 
         public static string GetSearchApiSearchKey()
         {
-            return CloudConfigurationManager.GetSetting(SEARCH_API_SEARCH_KEY);
+            return CloudConfigurationManager.GetSetting(SearchApiSearchKey);
         }
 
         public static string GetSearchApiSearchAdminKey()
         {
-            return CloudConfigurationManager.GetSetting(SEARCH_API_ADMIN_KEY);
+            return CloudConfigurationManager.GetSetting(SearchApiAdminKey);
         }
 
         public static string GetSearchApiWorkIndexName()
         {
-            return CloudConfigurationManager.GetSetting(SEARCH_API_WORK_INDEX_NAME_KEY);
+            return CloudConfigurationManager.GetSetting(SearchApiWorkIndexNameKey);
         }
 
         public static string GetWorkRegistryContractAddress()
         {
-            return CloudConfigurationManager.GetSetting(WORK_REGISTRY_CONTRACT_ADRESS_KEY);
+            return CloudConfigurationManager.GetSetting(WorkRegistryContractAdressKey);
         }
 
         public static long StartProcessFromBlockNumber()
         {
-            var blockNubmerString = CloudConfigurationManager.GetSetting(START_PROCESS_FROM_BLOCK_NUMBER_KEY);
+            var blockNubmerString = CloudConfigurationManager.GetSetting(StartProcessFromBlockNumberKey);
             if (string.IsNullOrEmpty(blockNubmerString)) return 0;
             return Convert.ToInt64(blockNubmerString);
         }
 
         public static bool VerifyConfiguration()
         {
-            string webJobsDashboard = ConfigurationManager.ConnectionStrings["AzureWebJobsDashboard"].ConnectionString;
-            string webJobsStorage = ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ConnectionString;
+            var webJobsDashboard = ConfigurationManager.ConnectionStrings["AzureWebJobsDashboard"].ConnectionString;
+            var webJobsStorage = ConfigurationManager.ConnectionStrings["AzureWebJobsStorage"].ConnectionString;
 
 
-            bool configOK = true;
+            var configOk = true;
             if (string.IsNullOrWhiteSpace(webJobsDashboard) || string.IsNullOrWhiteSpace(webJobsStorage))
             {
-                configOK = false;
+                configOk = false;
                 Console.WriteLine("Please add the Azure Storage account credentials in App.config");
-
             }
 
-            if (string.IsNullOrEmpty(GetEthereumRPCUrl()))
+            if (string.IsNullOrEmpty(GetEthereumRpcUrl()))
             {
-                configOK = false;
+                configOk = false;
                 Console.WriteLine("Please add the ethereum rpc url to the configuration");
-
             }
 
             if (string.IsNullOrEmpty(GetWorkRegistryContractAddress()))
             {
-                configOK = false;
+                configOk = false;
                 Console.WriteLine("Please add the work registry contract address to the configuration");
             }
 
 
-            if (string.IsNullOrEmpty(GetSearchApiSearchAdminKey()) || 
-                string.IsNullOrEmpty(GetSearchApiSearchKey()) || 
-                string.IsNullOrEmpty(GetSearchApiServiceName()) || 
-                string.IsNullOrEmpty(GetSearchApiWorkIndexName()) 
-                )
+            if (string.IsNullOrEmpty(GetSearchApiSearchAdminKey()) ||
+                string.IsNullOrEmpty(GetSearchApiSearchKey()) ||
+                string.IsNullOrEmpty(GetSearchApiServiceName()) ||
+                string.IsNullOrEmpty(GetSearchApiWorkIndexName())
+            )
             {
-                configOK = false;
+                configOk = false;
                 Console.WriteLine("Please ensure the search api keys have been set correctly");
             }
 
-            return configOK;
+            return configOk;
         }
     }
 }

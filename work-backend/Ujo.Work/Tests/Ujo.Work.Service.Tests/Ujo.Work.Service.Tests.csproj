@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ujo.Work.Service.Tests</RootNamespace>
     <AssemblyName>Ujo.Work.Service.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -107,6 +108,8 @@
     <Compile Include="GethServerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkGethTestRunner.cs" />
+    <Compile Include="WorkIntegration.cs" />
+    <Compile Include="WorkPublicNodeIntegrationTests.cs" />
     <Compile Include="WorkRegistryMordenTests.cs" />
     <Compile Include="WorkServiceTests.cs" />
     <Compile Include="xUnitPriority\prior.cs" />
@@ -121,9 +124,9 @@
       <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
       <Name>Ujo.Work.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Ujo.Work.Service\Ujo.Work.Service.csproj">
+    <ProjectReference Include="..\..\Ujo.Work.Services.Ethereum\Ujo.Work.Services.Ethereum.csproj">
       <Project>{4c859109-4732-41a3-a472-98ebe4c30774}</Project>
-      <Name>Ujo.Work.Service</Name>
+      <Name>Ujo.Work.Services.Ethereum</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

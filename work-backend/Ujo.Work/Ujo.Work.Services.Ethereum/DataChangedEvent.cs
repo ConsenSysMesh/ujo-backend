@@ -1,6 +1,6 @@
 using Nethereum.ABI.FunctionEncoding.Attributes;
 
-namespace Ujo.Work.Service
+namespace Ujo.Work.Services.Ethereum
 {
     public class DataChangedEvent
     {

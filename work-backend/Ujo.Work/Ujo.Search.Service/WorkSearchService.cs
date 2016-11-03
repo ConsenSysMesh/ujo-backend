@@ -8,33 +8,32 @@ using System.Text;
 using System.Threading.Tasks;
 using Ujo.Work;
 using Ujo.Work.Model;
-using Ujo.Work.Service;
 
 namespace Ujo.Search.Service
 {
     public class WorkSearchService 
     {
-        private string searchServiceName;
-        private string apiKey;
-        private string indexName;
-        private string adminApiKey;
+        private string _searchServiceName;
+        private string _apiKey;
+        private string _indexName;
+        private string _adminApiKey;
 
         public WorkSearchService(string searchServiceName, string apiKey, string adminApiKey, string indexName)
         {
-            this.searchServiceName = searchServiceName;
-            this.apiKey = apiKey;
-            this.indexName = indexName;
-            this.adminApiKey = adminApiKey;
+            this._searchServiceName = searchServiceName;
+            this._apiKey = apiKey;
+            this._indexName = indexName;
+            this._adminApiKey = adminApiKey;
         }
 
         private SearchServiceClient CreateSearchServiceClient()
         {
-            return new SearchServiceClient(searchServiceName, new SearchCredentials(adminApiKey));   
+            return new SearchServiceClient(_searchServiceName, new SearchCredentials(_adminApiKey));   
         }
 
         private SearchIndexClient CreateSearchIndexClient()
         {
-            return new SearchIndexClient(searchServiceName, indexName, new SearchCredentials(apiKey));
+            return new SearchIndexClient(_searchServiceName, _indexName, new SearchCredentials(_apiKey));
         }
 
         public async Task CreateIndexAsync()
@@ -42,7 +41,7 @@ namespace Ujo.Search.Service
            var searchClient = CreateSearchServiceClient();
             var definition = new Index()
             {
-                Name = indexName,
+                Name = _indexName,
                 Fields = new[]
                  {
                     new Field("address", DataType.String)                                 { IsKey = true, IsSearchable = true, IsFilterable = true },
@@ -106,9 +105,9 @@ namespace Ujo.Search.Service
         {
             var serviceClient = CreateSearchServiceClient();
 
-            if (await serviceClient.Indexes.ExistsAsync(indexName))
+            if (await serviceClient.Indexes.ExistsAsync(_indexName))
             {
-                await serviceClient.Indexes.DeleteAsync(indexName);
+                await serviceClient.Indexes.DeleteAsync(_indexName);
             }
         }
 
@@ -225,7 +224,7 @@ namespace Ujo.Search.Service
         public async Task BatchUpdateAsync<T>(IEnumerable<T> uploadOrMerge, IEnumerable<T> upload = null, IEnumerable<T> delete = null) where T: WorkDocument
         {
             var serviceClient = CreateSearchServiceClient();
-            var indexClient = serviceClient.Indexes.GetClient(indexName);
+            var indexClient = serviceClient.Indexes.GetClient(_indexName);
 
             var actions = new List<IndexAction<T>>();
 

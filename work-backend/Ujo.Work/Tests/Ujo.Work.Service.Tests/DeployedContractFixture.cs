@@ -1,12 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Nethereum.IntegrationTesting;
+using Ujo.Work.Services.Ethereum;
 
 namespace Ujo.Work.Service.Tests
 {
     public class DeployedContractFixture : GethServerFixture
     {
         public string ContractAddress { get; set; }
-        private TransactionHelpers txHelper = new TransactionHelpers();
+        private TransactionHelpers _txHelper = new TransactionHelpers();
 
 
         public DeployedContractFixture()
@@ -23,11 +24,11 @@ namespace Ujo.Work.Service.Tests
         public async Task<string> DeployContract()
         {
             //TODO Deploy contract Standard first
-            var standardContract = await txHelper.DeployContract(this.GetWeb3(),
+            var standardContract = await _txHelper.DeployContract(this.GetWeb3(),
                 DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.StandardSchemaContractByteCode);
 
 
-            return await txHelper.DeployContract(WorkService.ABI, this.GetWeb3(),
+            return await _txHelper.DeployContract(WorkService.Abi, this.GetWeb3(),
                 DefaultSettings.AddressFrom, DefaultSettings.Password, DefaultSettings.ContractByteCode, new []{(string)standardContract});
         }
     }

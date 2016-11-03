@@ -1,13 +1,12 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
 using Wintellect;
 using Wintellect.Azure.Storage.Table;
-using Newtonsoft.Json;
 
 namespace Ujo.Work.Storage
 {
-
     public class WorkModelToWorkEntityMapper
     {
         public WorkEntity MapFromWorkModel(WorkEntity workEntity, Model.Work work)
@@ -40,16 +39,12 @@ namespace Ujo.Work.Storage
             return workEntity;
         }
     }
+
     public class WorkEntity : TableEntityBase
     {
         public WorkEntity(AzureTable at, DynamicTableEntity dte = null) : base(at, dte)
         {
             RowKey = string.Empty;
-        }
-
-        public void SetUnknownKey(string value, string key)
-        {
-            this.Set(value, key);
         }
 
         public string Address
@@ -94,15 +89,10 @@ namespace Ujo.Work.Storage
 
         public string DateCreated
         {
-            get
-            {
-                return Get(string.Empty);
-            }
-            set
-            {
-                Set(value);
-            }
+            get { return Get(string.Empty); }
+            set { Set(value); }
         }
+
         public string DateModified
         {
             get { return Get(string.Empty); }
@@ -114,6 +104,7 @@ namespace Ujo.Work.Storage
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public string Audio
         {
             get { return Get(string.Empty); }
@@ -125,6 +116,7 @@ namespace Ujo.Work.Storage
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public string ByArtistAddress
         {
             get { return Get(string.Empty); }
@@ -142,58 +134,70 @@ namespace Ujo.Work.Storage
             get { return Get(string.Empty); }
             set { Set(value); }
         }
-     
+
         public string ContributingArtists
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
-       
+
         public string PerformingArtists
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
-      
+
         public string Label
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public string Description
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public string Publisher
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public bool HasPartOf
         {
             get { return Get(false); }
             set { Set(value); }
         }
+
         public bool IsPartOf
         {
             get { return Get(false); }
             set { Set(value); }
         }
+
         public string IsFamilyFriendly
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public string License
         {
             get { return Get(string.Empty); }
             set { Set(value); }
         }
+
         public string IswcCode
         {
             get { return Get(string.Empty); }
             set { Set(value); }
+        }
+
+        public void SetUnknownKey(string value, string key)
+        {
+            Set(value, key);
         }
 
 
@@ -211,13 +215,12 @@ namespace Ujo.Work.Storage
 
         public static async Task<WorkEntity> FindAsync(AzureTable table, string address)
         {
-
             var tr =
                 await
                     table.ExecuteAsync(TableOperation.Retrieve(address.ToLowerInvariant().HtmlEncode(),
                         string.Empty)).ConfigureAwait(false);
-            if ((HttpStatusCode)tr.HttpStatusCode != HttpStatusCode.NotFound)
-                return new WorkEntity(table, (DynamicTableEntity)tr.Result);
+            if ((HttpStatusCode) tr.HttpStatusCode != HttpStatusCode.NotFound)
+                return new WorkEntity(table, (DynamicTableEntity) tr.Result);
 
             return null;
         }

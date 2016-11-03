@@ -13,10 +13,10 @@ namespace Nethereum.IntegrationTesting
 
         public string Arguments { get; set; }
 
-        private string defaultArguments =
+        private string _defaultArguments =
             @" --rpc --networkid=39318 --maxpeers=0 --datadir=devChain  --rpccorsdomain ""*"" --rpcapi ""eth,web3,personal,net,miner,admin"" --ipcapi ""eth,web3,personal,net,miner,admin"" --verbosity 0 console";
 
-        private string initArguments = " --datadir=devChain init genesis_dev.json";
+        private string _initArguments = " --datadir=devChain init genesis_dev.json";
 
 
         public void CleanUp()
@@ -38,7 +38,7 @@ namespace Nethereum.IntegrationTesting
 
         public void InitGeth()
         {
-            ProcessStartInfo psi = new ProcessStartInfo(Path.Combine(ExePath, "geth.exe"), initArguments)
+            ProcessStartInfo psi = new ProcessStartInfo(Path.Combine(ExePath, "geth.exe"), _initArguments)
             {
                 CreateNoWindow = false,
                 WindowStyle = ProcessWindowStyle.Normal,
@@ -54,7 +54,7 @@ namespace Nethereum.IntegrationTesting
         public void StartGeth()
         {
             
-            var args = string.IsNullOrEmpty(Arguments) ? defaultArguments : Arguments;
+            var args = string.IsNullOrEmpty(Arguments) ? _defaultArguments : Arguments;
             ProcessStartInfo psi = new ProcessStartInfo(Path.Combine(ExePath, "geth.exe"), args)
             {
                 CreateNoWindow = false,

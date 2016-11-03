@@ -126,7 +126,7 @@ namespace Nethereum.IntegrationTesting
             return receipts.ToArray();
         }
 
-        private static async Task<TransactionReceipt> GetTransactionReceipt(Web3.Web3 web3, string transaction)
+        public async Task<TransactionReceipt> GetTransactionReceipt(Web3.Web3 web3, string transaction)
         {
             
             var receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(transaction);

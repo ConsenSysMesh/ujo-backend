@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Ujo.Search.Service;
 using Xunit;
 
-namespace Ujo.Search.Service.Tests
+namespace Ujo.Work.Search.Service.Tests
 {
     public class SearchTests
     {
-        string apiAdminKey = "61AC004C8217E1C7E498C81D64B99422";
-        string apiSearchKey = "C25D90CA9CF1F3317351A0476D0C2668";
-        string serviceName = "ujo";
-        string indexName = "worktestindex";
+        string _apiAdminKey = "61AC004C8217E1C7E498C81D64B99422";
+        string _apiSearchKey = "C25D90CA9CF1F3317351A0476D0C2668";
+        string _serviceName = "ujo";
+        string _indexName = "worktestindex";
 
         [Fact]
         public async Task Test()
         {
-            var service = new WorkSearchService(serviceName, apiSearchKey, apiAdminKey, indexName);
+            var service = new WorkSearchService(_serviceName, _apiSearchKey, _apiAdminKey, _indexName);
             await service.DeleteIndexAsync();
             await service.CreateIndexAsync();
 
@@ -106,7 +104,7 @@ namespace Ujo.Search.Service.Tests
     [Fact]
     public async Task TestNull()
     {
-        var service = new WorkSearchService(serviceName, apiSearchKey, apiAdminKey, indexName);
+        var service = new WorkSearchService(_serviceName, _apiSearchKey, _apiAdminKey, _indexName);
         await service.DeleteIndexAsync();
         await service.CreateIndexAsync();
 

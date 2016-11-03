@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -11,16 +10,6 @@ namespace Ujo.Work.Storage
     {
         private const string PARTITION_KEY = "processinfo";
 
-        public static string GetPartitionKey()
-        {
-            return PARTITION_KEY.ToLowerInvariant().HtmlEncode();
-        }
-
-        public static string GetRowKey()
-        {
-            return String.Empty;
-        }
-
         public ProcessInfo(AzureTable at, DynamicTableEntity dte = null) : base(at, dte)
         {
             RowKey = GetRowKey();
@@ -29,8 +18,18 @@ namespace Ujo.Work.Storage
 
         public long Number
         {
-            get { return Get((long)0); }
+            get { return Get((long) 0); }
             set { Set(value); }
+        }
+
+        public static string GetPartitionKey()
+        {
+            return PARTITION_KEY.ToLowerInvariant().HtmlEncode();
+        }
+
+        public static string GetRowKey()
+        {
+            return string.Empty;
         }
 
         public static async Task<ProcessInfo> FindAsync(AzureTable table)
@@ -39,8 +38,8 @@ namespace Ujo.Work.Storage
                 await
                     table.ExecuteAsync(TableOperation.Retrieve(GetPartitionKey(),
                         GetRowKey())).ConfigureAwait(false);
-            if ((HttpStatusCode)tr.HttpStatusCode != HttpStatusCode.NotFound)
-                return new ProcessInfo(table, (DynamicTableEntity)tr.Result);
+            if ((HttpStatusCode) tr.HttpStatusCode != HttpStatusCode.NotFound)
+                return new ProcessInfo(table, (DynamicTableEntity) tr.Result);
 
             return null;
         }

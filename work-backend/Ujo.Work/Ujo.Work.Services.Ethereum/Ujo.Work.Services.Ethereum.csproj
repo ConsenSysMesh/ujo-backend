@@ -7,10 +7,11 @@
     <ProjectGuid>{4C859109-4732-41A3-A472-98EBE4C30774}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ujo.Work.Service</RootNamespace>
-    <AssemblyName>Ujo.Work.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Ujo.Work.Services.Ethereum</RootNamespace>
+    <AssemblyName>Ujo.Work.Services.Ethereum</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

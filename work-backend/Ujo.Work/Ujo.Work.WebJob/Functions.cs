@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.Remoting;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage.Table;
-using Nethereum.RPC.Eth.Filters;
 using Nethereum.Web3;
-using Ujo.Work.Service;
-using Ujo.WorkRegistry.Storage;
-using Wintellect.Azure.Storage.Table;
-using ProcessInfo = Ujo.Work.Storage.ProcessInfo;
 using Ujo.Search.Service;
+using Ujo.Work.Services;
+using Ujo.Work.Storage;
 
 namespace Ujo.Work.WebJob
 {
@@ -27,102 +16,27 @@ namespace Ujo.Work.WebJob
         //TODO: Queue block processing should be fast and allowed to be in parallel, we should only use change notifications to retrieve value of the contract
         // we should validate if a contract is registered
 
-
         [Singleton]
         public static async Task ProcessWorks([TimerTrigger("00:00:05")] TimerInfo timer,
-            [Table("Work")] CloudTable tableBinding, [Table("WorkRegistry")] CloudTable workRegistryCloudTable, TextWriter log,
+            [Table("Work")] CloudTable workTable, [Table("WorkRegistry")] CloudTable workRegistryTable, TextWriter log,
             [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue
-            )
+        )
         {
             log.WriteLine("Start job");
-            var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
-            
+            var workProcessor = GetWorkProcessorService(workTable, workRegistryTable, ipfsImageProcesssinQueue);
+            var workBlockProcessor = GetWorkChainProcessorService(workTable, workRegistryTable, workProcessor, log);
 
-            var service = new WorksService(web3);
-            var worksTable = new AzureTable(tableBinding);
-            var workRegistryTable = new AzureTable(workRegistryCloudTable);
+            await workBlockProcessor.ProcessLatestBlocks();
 
-            log.WriteLine("Getting current block number to process from");
-
-            var blockNumber = await GetBlockNumberToProcessFrom(worksTable);
-            var blockNumberToProcessTo = await GetBlockNumberToProcessTo(workRegistryTable);
-
-            if (blockNumberToProcessTo < blockNumber) return;
-            //process max 100 at a time?
-            if (blockNumberToProcessTo - blockNumber > 100)
-                blockNumberToProcessTo = blockNumber + 100;
-            
-
-            log.WriteLine("Getting all data changes events from: " + blockNumber + " to " + blockNumberToProcessTo);
-            var dataEventLogs = await service.GetDataChangedEventsAsync(Convert.ToUInt64(blockNumber), Convert.ToUInt64(blockNumberToProcessTo));
-
-            //TODO: ensure sorted
-            foreach (var dataEventLog in dataEventLogs)
-            {
-                var address = dataEventLog.Log.Address;
-                if (await WorkRegistryRecord.ExistsAsync(workRegistryTable, address))
-                {
-                    var work = await Storage.WorkEntity.FindAsync(worksTable, address);
-                    if (work == null)
-                    {
-                       await ProcessNewWork(web3, address, worksTable, ipfsImageProcesssinQueue);
-                    }
-                    else
-                    {
-                       await ProcessDataChangeUpdate(work, dataEventLog, ipfsImageProcesssinQueue);
-                    }
-                }
-
-            }
-            log.WriteLine("Updating current process progres to:" + blockNumberToProcessTo);
-            await UpsertBlockNumberProcessedTo(worksTable, blockNumberToProcessTo);
-
+            log.WriteLine("Finished job");
         }
-    
-        private static async Task ProcessDataChangeUpdate(Storage.WorkEntity workEntity, EventLog<DataChangedEvent> dataEventLog, ICollector<string> ipfsImageProcesssinQueue)
+
+        public static async Task ProcessRegistrationsAndUnregistrations(
+            [QueueTrigger("WorkRegisteredQueue")] string regunregaddress, [Table("Work")] CloudTable workTable,
+            [Table("WorkRegistry")] CloudTable workRegistryTable, TextWriter log,
+            [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue)
         {
-
-            var address = dataEventLog.Log.Address;
-            var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
-
-            var workService = new WorkService(web3, address);
-            var workSearchService = GetWorkSearchService();
-
-            Model.Work work = null;
-            work = await workService.GetWorkAsync();
-            
-
-            var key = dataEventLog.Event.Key;
-            var val = dataEventLog.Event.Value;
-
-            WorkSchema schemaField;
-
-            if (Enum.TryParse(key, out schemaField))
-            {
-                workEntity.Initialise(work);
-            }
-            else
-            {
-                workEntity.SetUnknownKey(val, key);
-            }
-
-            if (key == WorkSchema.image.ToString())
-            {
-                workEntity.CoverFileIpfsHash = work.CoverImageIpfsHash;
-                ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);
-            }
-            else if (key == WorkSchema.audio.ToString())
-            {
-                workEntity.WorkFileIpfsHash = work.WorkFileIpfsHash;
-            }
-
-            await workSearchService.UploadOrMergeAsync(work);
-            await workEntity.InsertOrMergeAsync();
-        }
-        
-        public static async Task ProcessRegistrationsAndUnregistrations([QueueTrigger("WorkRegisteredQueue")] string regunregaddress, [Table("Work")] CloudTable tableBinding, TextWriter log, [Queue("IpfsCoverImageProcessingQueue")]
-        ICollector<string> ipfsImageProcesssinQueue)
-        {
+            var workProcessor = GetWorkProcessorService(workTable, workRegistryTable, ipfsImageProcesssinQueue);
             //TODO: Remove format use type objects
             //format:
             //Reg:Address
@@ -130,85 +44,44 @@ namespace Ujo.Work.WebJob
             var info = regunregaddress.Split(':');
             var operation = info[0];
             var address = info[1];
-            var web3 = new Web3(ConfigurationSettings.GetEthereumRPCUrl());
-            var worksTable = new AzureTable(tableBinding);
 
-            if (operation.ToLower()  == "reg")
-            {
-                await ProcessNewWork(web3, address, worksTable, ipfsImageProcesssinQueue);
-            }
+            if (operation.ToLower() == "reg")
+                await workProcessor.ProcessWorkAsync(address);
 
-            if(operation.ToLower() == "unreg")
-            {
-                await RemoveUnregistered(address, worksTable);
-            }
+            if (operation.ToLower() == "unreg")
+                await workProcessor.RemoveUnregisteredAsync(address);
         }
 
-        private static async Task RemoveUnregistered(string address, AzureTable worksTable)
+        private static WorkChainProcessor GetWorkChainProcessorService(CloudTable workProcesssTable,
+            CloudTable workProcessRegistryTable,
+            WorkProcessorService workProcessorService, TextWriter logWriter)
         {
-            var workStore = await Storage.WorkEntity.FindAsync(worksTable, address);
+            var workProcessRepository = new WorkProcessInfoRepository(workProcesssTable);
+            var workRegistryProcessInfoRepository = new WorkRegistryProcessInfoRepository(workProcessRegistryTable);
+            return new WorkChainProcessor(workProcessorService, logWriter,
+                ConfigurationSettings.StartProcessFromBlockNumber(), workProcessRepository,
+                workRegistryProcessInfoRepository);
+        }
+
+
+        private static WorkProcessorService GetWorkProcessorService(CloudTable workTable, CloudTable workRegistryTable,
+            ICollector<string> ipfsImageProcesssinQueue)
+        {
+            var web3 = new Web3(ConfigurationSettings.GetEthereumRpcUrl());
             var workSearchService = GetWorkSearchService();
-            if (workStore != null)
-            {
-                await workStore.DeleteAsync();
-                await workSearchService.DeleteAsync(address);
-            }
-        }
+            var workRepository = new WorkRepository(workTable);
+            var workRegistryRepository = new WorkRegistryRepository(workRegistryTable);
+            var ipfsQueue = new IpfsImageQueue(ipfsImageProcesssinQueue);
 
-        private static async Task ProcessNewWork(Web3 web3, string address, AzureTable worksTable, ICollector<string> ipfsImageProcesssinQueue)
-        {
-            var workService = new WorkService(web3, address);
-            Model.Work work = null;
-            work = await workService.GetWorkAsync();
-            
-            if (work != null)
-            {
-                var workStore = Storage.WorkEntity.Create(worksTable, work);
-                var workSearchService = GetWorkSearchService();
-                await workSearchService.UploadOrMergeAsync(work);
-                var result = await workStore.InsertOrReplaceAsync();
-                if (!string.IsNullOrEmpty(work.CoverImageIpfsHash))
-                {
-                    ipfsImageProcesssinQueue.Add(work.CoverImageIpfsHash);
-                }
-            }
-        }
-
-        private static async Task UpsertBlockNumberProcessedTo(AzureTable table, long blockNumber)
-        {
-            var processInfo = ProcessInfo.Create(table, blockNumber);
-            await processInfo.InsertOrReplaceAsync();
-        }
-
-        private static async Task<long> GetBlockNumberToProcessFrom(AzureTable workTable)
-        {
-            var processInfo = await ProcessInfo.FindAsync(workTable);
-
-            var blockNumber = ConfigurationSettings.StartProcessFromBlockNumber();
-
-            if (processInfo != null)
-            {
-                blockNumber = processInfo.Number;
-            }
-            return blockNumber;
-        }
-
-        private static async Task<long> GetBlockNumberToProcessTo(AzureTable workTable)
-        {
-            var processInfo = await WorkRegistry.Storage.ProcessInfo.FindAsync(workTable);
-            //if there is no setting we process to our current default setting
-            var blockNumber = ConfigurationSettings.StartProcessFromBlockNumber();
-
-            if (processInfo != null)
-            {
-                blockNumber = processInfo.Number;
-            }
-            return blockNumber;
+            return new WorkProcessorService(workSearchService, ipfsQueue, workRepository, web3,
+                workRegistryRepository);
         }
 
         private static WorkSearchService GetWorkSearchService()
         {
-            return new WorkSearchService(ConfigurationSettings.GetSearchApiServiceName(), ConfigurationSettings.GetSearchApiWorkIndexName(), ConfigurationSettings.GetSearchApiSearchAdminKey(), ConfigurationSettings.GetSearchApiWorkIndexName());
+            return new WorkSearchService(ConfigurationSettings.GetSearchApiServiceName(),
+                ConfigurationSettings.GetSearchApiWorkIndexName(), ConfigurationSettings.GetSearchApiSearchAdminKey(),
+                ConfigurationSettings.GetSearchApiWorkIndexName());
         }
     }
 }
