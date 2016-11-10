@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Search.Console", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.Work.Services", "Ujo.Work.Services\Ujo.Work.Services.csproj", "{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.BlockchainProcessing", "CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj", "{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.StandardDataProcessing", "CCC.StandardDataProcessing\CCC.StandardDataProcessing.csproj", "{DE250D5B-934E-4A64-97E4-813C106D7D64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,14 @@ Global
 		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F788B3D7-1E1E-4F7E-B1CF-1E8E94BA4992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

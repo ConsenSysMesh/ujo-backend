@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net.PeerToPeer.Collaboration;
 using System.Threading.Tasks;
+using CCC.BlockchainProcessing;
+using Nethereum.RPC.Eth.Filters;
 using Nethereum.Web3;
+using Nethereum.Web3.Contracts.Comparers;
+using Newtonsoft.Json.Linq;
 using Ujo.Search.Service;
 using Ujo.Work.Model;
 using Ujo.Work.Services.Ethereum;
@@ -10,7 +17,7 @@ using Ujo.Work.WebJob;
 
 namespace Ujo.Work.Services
 {
-    public class WorkProcessorService
+    public class WorkProcessorService : ILogProcessor
     {
         private readonly WorkSearchService _workSearchService;
         private readonly IIpfsImageQueue _ipfsImageQueue;
@@ -119,6 +126,19 @@ namespace Ujo.Work.Services
                 await workEntity.DeleteAsync();
                 await _workSearchService.DeleteAsync(address);
             }
+        }
+
+        public bool IsLogForEvent(FilterLog log)
+        {
+           var worksService = new WorksService(_web3);
+            return worksService.IsStandardDataChangeLog(log);
+        }
+
+        public Task ProcessLogsAsync(params FilterLog[] logs)
+        {
+             Array.Sort(logs, new FilterLogBlockNumberTransactionIndexComparer());
+
+            return ProcessDataChangeUpdateAsync(Event.DecodeAllEvents<DataChangedEvent>(logs));
         }
     }
 }
