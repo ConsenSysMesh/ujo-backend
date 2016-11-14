@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using CCC.BlockchainProcessing;
+using Nethereum.Web3;
 using Ujo.Work.Storage;
 using Ujo.Work.WebJob;
 
@@ -7,16 +10,16 @@ namespace Ujo.Work.Services
 {
     public class WorkChainProcessor
     {
-        private readonly WorkProcessorService _workProcessorService;
+        private readonly BlockchainLogProcessor _blockchainLogProcessor;
         private TextWriter _logWriter;
         private readonly long _defaultBlockNumber;
         private readonly WorkProcessInfoRepository _workProcessInfoRepository;
         private readonly WorkRegistryProcessInfoRepository _workRegistryProcessInfoRepository;
 
-        public WorkChainProcessor(WorkProcessorService workProcessorService, TextWriter logWriter, long defaultBlockNumber,
+        public WorkChainProcessor(BlockchainLogProcessor blockchainLogProcessor, TextWriter logWriter, long defaultBlockNumber,
             WorkProcessInfoRepository workProcessInfoRepository, WorkRegistryProcessInfoRepository workRegistryProcessInfoRepository)
         {
-            _workProcessorService = workProcessorService;
+            _blockchainLogProcessor = blockchainLogProcessor;
             _logWriter = logWriter;
             _defaultBlockNumber = defaultBlockNumber;
             _workProcessInfoRepository = workProcessInfoRepository;
@@ -37,7 +40,7 @@ namespace Ujo.Work.Services
 
 
             _logWriter.WriteLine("Getting all data changes events from: " + blockNumberFrom + " to " + blockNumberTo);
-            await _workProcessorService.ProcessWorksAsync(blockNumberFrom, blockNumberTo);
+            await _blockchainLogProcessor.ProcessLogsAsync(Convert.ToUInt64(blockNumberFrom), Convert.ToUInt64(blockNumberTo));
             _logWriter.WriteLine("Updating current process progres to:" + blockNumberTo);
             await UpsertBlockNumberProcessedTo(blockNumberTo);
         }

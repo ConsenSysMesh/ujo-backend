@@ -1,27 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="Ujo.Work.Services.WorkRepositoryStandardDataChangeService">
-    <Position X="1.25" Y="8.25" Width="3.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAQAAIAAAAAAAAAAAIAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
-      <FileName>WorkRepositoryStandardDataChangeService.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_workRepository" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Ujo.Work.Services.WorkSearchStandardDataChangedService">
-    <Position X="5.5" Y="8.25" Width="2.75" />
-    <TypeIdentifier>
-      <HashCode>AAAAQAAAAAAAAAACAAAIAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
-      <FileName>WorkSearchStandardDataChangedService.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="_workSearchService" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="Ujo.Work.Services.WorkIpfsImagesStandardDataChangedService">
     <Position X="8.75" Y="8.25" Width="3.25" />
     <TypeIdentifier>
@@ -36,15 +14,17 @@
   <Class Name="Ujo.Work.Storage.WorkRepository">
     <Position X="1.5" Y="10.5" Width="3" />
     <TypeIdentifier />
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Ujo.Search.Service.WorkSearchService">
     <Position X="5.5" Y="10.75" Width="2.5" />
     <TypeIdentifier />
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Ujo.Work.Services.WorkDataChangedLogProcessor">
     <Position X="1.25" Y="3" Width="3.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAkAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>WorkDataChangedLogProcessor.cs</FileName>
     </TypeIdentifier>
   </Class>

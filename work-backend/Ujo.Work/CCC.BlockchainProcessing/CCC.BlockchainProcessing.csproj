@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockchainLogProcessor.cs" />
+    <Compile Include="IBlockchainLogProcessor.cs" />
     <Compile Include="ILogProcessor.cs" />
     <Compile Include="LogsMatchedForProcessing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -199,6 +199,14 @@
       <Project>{20d80614-0f69-4000-9a79-12c9d0ec8197}</Project>
       <Name>Ujo.WorkRegistry.Storage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj">
+      <Project>{f5c91d79-5e0c-4ed5-9fbf-04feea700cfe}</Project>
+      <Name>CCC.BlockchainProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CCC.StandardDataProcessing\CCC.StandardDataProcessing.csproj">
+      <Project>{de250d5b-934e-4a64-97e4-813c106d7d64}</Project>
+      <Name>CCC.StandardDataProcessing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ujo.Search.Service\Ujo.Search.Service.csproj">
       <Project>{75aee6d2-db12-4976-a056-61ffe84631b0}</Project>
       <Name>Ujo.Search.Service</Name>

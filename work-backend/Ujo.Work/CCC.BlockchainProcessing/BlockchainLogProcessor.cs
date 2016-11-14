@@ -6,7 +6,7 @@ using Nethereum.Web3;
 
 namespace CCC.BlockchainProcessing
 {
-    public class BlockchainLogProcessor
+    public class BlockchainLogProcessor : IBlockchainLogProcessor
     {
         private Web3 _web3;
         private IEnumerable<ILogProcessor> _logProcessors;

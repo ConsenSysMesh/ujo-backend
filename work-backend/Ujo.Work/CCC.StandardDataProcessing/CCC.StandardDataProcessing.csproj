@@ -83,7 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataChangedEvent.cs" />
+    <Compile Include="Model\DataChangedEvent.cs" />
     <Compile Include="IStandardDataChangedService.cs" />
     <Compile Include="IStandardDataRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

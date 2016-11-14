@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using CCC.BlockchainProcessing;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
 using Nethereum.Web3;
@@ -23,8 +24,9 @@ namespace Ujo.Work.WebJob
         )
         {
             log.WriteLine("Start job");
+            var web3 = new Web3(ConfigurationSettings.GetEthereumRpcUrl());
             var workProcessor = GetWorkProcessorService(workTable, workRegistryTable, ipfsImageProcesssinQueue);
-            var workBlockProcessor = GetWorkChainProcessorService(workTable, workRegistryTable, workProcessor, log);
+            var workBlockProcessor = GetWorkChainProcessorService(workTable, workRegistryTable, workProcessor, log, web3);
 
             await workBlockProcessor.ProcessLatestBlocks();
 
@@ -46,7 +48,7 @@ namespace Ujo.Work.WebJob
             var address = info[1];
 
             if (operation.ToLower() == "reg")
-                await workProcessor.ProcessWorkAsync(address);
+                await workProcessor.ProcessFullUpsertAsync(address);
 
             if (operation.ToLower() == "unreg")
                 await workProcessor.RemoveUnregisteredAsync(address);
@@ -54,17 +56,18 @@ namespace Ujo.Work.WebJob
 
         private static WorkChainProcessor GetWorkChainProcessorService(CloudTable workProcesssTable,
             CloudTable workProcessRegistryTable,
-            WorkProcessorService workProcessorService, TextWriter logWriter)
+            WorkDataChangedLogProcessor workProcessorService, TextWriter logWriter, Web3 web3)
         {
             var workProcessRepository = new WorkProcessInfoRepository(workProcesssTable);
             var workRegistryProcessInfoRepository = new WorkRegistryProcessInfoRepository(workProcessRegistryTable);
-            return new WorkChainProcessor(workProcessorService, logWriter,
+            var blockchainLogProcessor = new BlockchainLogProcessor(new [] {workProcessorService}, web3);
+            return new WorkChainProcessor(blockchainLogProcessor, logWriter,
                 ConfigurationSettings.StartProcessFromBlockNumber(), workProcessRepository,
                 workRegistryProcessInfoRepository);
         }
 
 
-        private static WorkProcessorService GetWorkProcessorService(CloudTable workTable, CloudTable workRegistryTable,
+        private static WorkDataChangedLogProcessor GetWorkProcessorService(CloudTable workTable, CloudTable workRegistryTable,
             ICollector<string> ipfsImageProcesssinQueue)
         {
             var web3 = new Web3(ConfigurationSettings.GetEthereumRpcUrl());
@@ -73,8 +76,7 @@ namespace Ujo.Work.WebJob
             var workRegistryRepository = new WorkRegistryRepository(workRegistryTable);
             var ipfsQueue = new IpfsImageQueue(ipfsImageProcesssinQueue);
 
-            return new WorkProcessorService(workSearchService, ipfsQueue, workRepository, web3,
-                workRegistryRepository);
+            return WorkDataChangedLogProcessor.Create(web3, workRegistryRepository, ipfsQueue, workRepository, workSearchService);
         }
 
         private static WorkSearchService GetWorkSearchService()

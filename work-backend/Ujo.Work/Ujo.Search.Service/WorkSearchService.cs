@@ -3,15 +3,19 @@ using Microsoft.Azure.Search.Models;
 using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CCC.StandardDataProcessing;
+using Nethereum.Web3;
 using Ujo.Work;
 using Ujo.Work.Model;
+using Ujo.Work.Services;
 
 namespace Ujo.Search.Service
 {
-    public class WorkSearchService 
+    public class WorkSearchService: IStandardDataChangedService<Work.Model.Work>
     {
         private string _searchServiceName;
         private string _apiKey;
@@ -137,7 +141,7 @@ namespace Ujo.Search.Service
             return await indexClient.Documents.SuggestAsync<WorkDocument>(searchText, "sg", sp);
         }
 
-        public async Task UploadOrMergeAsync(params Work.Model.Work[] works)
+        public async Task UpsertAsync(params Work.Model.Work[] works)
         {
             var workDocuments = new List<WorkDocument>();
             if (works != null)
@@ -213,7 +217,13 @@ namespace Ujo.Search.Service
             return new string[] { };
         }
 
-        public async Task DeleteAsync(string workAddress)
+
+        public async Task DataChangedAsync(Work.Model.Work work, EventLog<DataChangedEvent> dataEventLog)
+        {
+            await UpsertAsync(work);
+        }
+
+        public async Task RemovedAsync(string workAddress)
         {
             var workDocument = new WorkDocument();
             workDocument.Address = workAddress;
@@ -269,5 +279,15 @@ namespace Ujo.Search.Service
                 return ex is IndexBatchException;
             }
         }
+
+        public async Task UpsertAsync(Work.Model.Work work)
+        {
+            if (work != null)
+            {
+                await UpsertAsync(new[] { work });
+            }
+        }
+       
+      
     }
 }

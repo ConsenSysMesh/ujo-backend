@@ -71,7 +71,7 @@ namespace Ujo.Work.Search.Service.Tests
                 }
             };
 
-            await service.UploadOrMergeAsync(works);
+            await service.UpsertAsync(works);
 
             //Wait to be indexed
             Thread.Sleep(2000);
@@ -139,7 +139,7 @@ namespace Ujo.Work.Search.Service.Tests
                
         };
 
-        await service.UploadOrMergeAsync(works);
+        await service.UpsertAsync(works);
 
 
     }

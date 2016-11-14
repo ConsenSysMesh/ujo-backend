@@ -140,9 +140,6 @@
     <Compile Include="WorkChainProcessor.cs" />
     <Compile Include="WorkDataChangedLogProcessor.cs" />
     <Compile Include="WorkIpfsImagesStandardDataChangedService.cs" />
-    <Compile Include="WorkProcessorService.cs" />
-    <Compile Include="WorkRepositoryStandardDataChangeService.cs" />
-    <Compile Include="WorkSearchStandardDataChangedService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\contract-registry-backend\Ujo.WorkRegistry\Ujo.WorkRegistry.Storage\Ujo.WorkRegistry.Storage.csproj">

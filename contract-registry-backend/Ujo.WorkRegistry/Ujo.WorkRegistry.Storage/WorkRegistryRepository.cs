@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
+using Ujo.Work.Services;
 using Ujo.WorkRegistry.Storage;
 using Wintellect.Azure.Storage.Table;
 
 namespace Ujo.Work.WebJob
 {
-    public class WorkRegistryRepository
+    public class WorkRegistryRepository: IStandardDataRegistry
     {
         private readonly AzureTable _workRegistryTable;
 
