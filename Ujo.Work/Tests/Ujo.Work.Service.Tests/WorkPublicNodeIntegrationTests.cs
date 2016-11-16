@@ -25,7 +25,7 @@ namespace Ujo.Work.Service.Tests
             var transactionHelper = new TransactionHelpers();
             var web3 = await CreateNewWeb3Instance();
             var contract = await
-                transactionHelper.DeployContract(PrivateKey, WorkContractDefinition.Abi, web3, Account,
+                transactionHelper.DeployContract(PrivateKey, WorkContractDefinition.ABI, web3, Account,
                     ByteCode, new[] { WorkStandardSchemaAddress });
             Debug.WriteLine("Contract created: " + contract);
             return contract;

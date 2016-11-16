@@ -1,12 +1,14 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using CCC.BlockchainProcessing;
+using CCC.Contracts.Registry.Processing;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
 using Nethereum.Web3;
 using Ujo.Work.Search.Service;
 using Ujo.Work.Services;
 using Ujo.Work.Storage;
+using Ujo.WorkRegistry.Storage;
 
 namespace Ujo.Work.WebJob
 {
@@ -25,8 +27,8 @@ namespace Ujo.Work.WebJob
         {
             log.WriteLine("Start job");
             var web3 = new Web3(ConfigurationSettings.GetEthereumRpcUrl());
-            var workProcessor = GetWorkProcessorService(workTable, workRegistryTable, ipfsImageProcesssinQueue);
-            var workBlockProcessor = GetWorkChainProcessorService(workTable, workRegistryTable, workProcessor, log, web3);
+            var workProcessor = Bootstrap.InitialiseWorkDataLogProcessor(workTable, workRegistryTable, ipfsImageProcesssinQueue);
+            var workBlockProcessor = Bootstrap.InitialiseBlockchainBatchProcessorService(workTable, workRegistryTable, workProcessor, log, web3);
 
             await workBlockProcessor.ProcessLatestBlocks();
 
@@ -34,56 +36,17 @@ namespace Ujo.Work.WebJob
         }
 
         public static async Task ProcessRegistrationsAndUnregistrations(
-            [QueueTrigger("WorkRegisteredQueue")] string regunregaddress, [Table("Work")] CloudTable workTable,
+            [QueueTrigger("WorkRegisteredQueue")] RegistrationMessage registrationMessage, [Table("Work")] CloudTable workTable,
             [Table("WorkRegistry")] CloudTable workRegistryTable, TextWriter log,
             [Queue("IpfsCoverImageProcessingQueue")] ICollector<string> ipfsImageProcesssinQueue)
         {
-            var workProcessor = GetWorkProcessorService(workTable, workRegistryTable, ipfsImageProcesssinQueue);
-            //TODO: Remove format use type objects
-            //format:
-            //Reg:Address
-            //Unreg:Adddress
-            var info = regunregaddress.Split(':');
-            var operation = info[0];
-            var address = info[1];
+            var workProcessor = Bootstrap.InitialiseWorkDataLogProcessor(workTable, workRegistryTable, ipfsImageProcesssinQueue);
+            
+            if (registrationMessage.Registered)
+                await workProcessor.ProcessFullUpsertAsync(registrationMessage.Address);
 
-            if (operation.ToLower() == "reg")
-                await workProcessor.ProcessFullUpsertAsync(address);
-
-            if (operation.ToLower() == "unreg")
-                await workProcessor.RemoveUnregisteredAsync(address);
-        }
-
-        private static WorkChainProcessor GetWorkChainProcessorService(CloudTable workProcesssTable,
-            CloudTable workProcessRegistryTable,
-            WorkDataLogProcessor workProcessorService, TextWriter logWriter, Web3 web3)
-        {
-            var workProcessRepository = new WorkProcessInfoRepository(workProcesssTable);
-            var workRegistryProcessInfoRepository = new WorkRegistryProcessInfoRepository(workProcessRegistryTable);
-            var blockchainLogProcessor = new BlockchainLogProcessor(new [] {workProcessorService}, web3);
-            return new WorkChainProcessor(blockchainLogProcessor, logWriter,
-                ConfigurationSettings.StartProcessFromBlockNumber(), workProcessRepository,
-                workRegistryProcessInfoRepository);
-        }
-
-
-        private static WorkDataLogProcessor GetWorkProcessorService(CloudTable workTable, CloudTable workRegistryTable,
-            ICollector<string> ipfsImageProcesssinQueue)
-        {
-            var web3 = new Web3(ConfigurationSettings.GetEthereumRpcUrl());
-            var workSearchService = GetWorkSearchService();
-            var workRepository = new WorkRepository(workTable);
-            var workRegistryRepository = new WorkRegistryRepository(workRegistryTable);
-            var ipfsQueue = new IpfsImageQueue(ipfsImageProcesssinQueue);
-
-            return WorkDataLogProcessor.Create(web3, workRegistryRepository, ipfsQueue, workRepository, workSearchService);
-        }
-
-        private static WorkSearchService GetWorkSearchService()
-        {
-            return new WorkSearchService(ConfigurationSettings.GetSearchApiServiceName(),
-                ConfigurationSettings.GetSearchApiWorkIndexName(), ConfigurationSettings.GetSearchApiSearchAdminKey(),
-                ConfigurationSettings.GetSearchApiWorkIndexName());
+            if (!registrationMessage.Registered)
+                await workProcessor.RemoveUnregisteredAsync(registrationMessage.Address);
         }
     }
 }

@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.WebJob", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.Storage", "Ujo.WorkRegistry.Storage\Ujo.WorkRegistry.Storage.csproj", "{20D80614-0F69-4000-9A79-12C9D0EC8197}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.Service", "Ujo.WorkRegistry.Service\Ujo.WorkRegistry.Service.csproj", "{300A4CC8-6C62-4DD2-9EBB-2EDC17063420}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts.StandardData.Processing", "..\Consensys.Common\CCC.Contracts.StandardData.Processing\CCC.Contracts.StandardData.Processing.csproj", "{DE250D5B-934E-4A64-97E4-813C106D7D64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts.StandardData.Services", "..\Consensys.Common\CCC.Contracts.StandardData.Services\CCC.Contracts.StandardData.Services.csproj", "{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}"
@@ -44,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts.Registry.Processing", "..\Consensys.Common\CCC.Contracts.Registry.Processing\CCC.Contracts.Registry.Processing.csproj", "{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts", "..\Consensys.Common\CCC.Contracts\CCC.Contracts.csproj", "{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ujo.WorkRegistry.Service.Tests", "Tests\Ujo.WorkRegistry.Service.Tests\Ujo.WorkRegistry.Service.Tests.csproj", "{271031E7-C0A2-4831-B775-4B5256594D5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +107,6 @@ Global
 		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20D80614-0F69-4000-9A79-12C9D0EC8197}.Release|Any CPU.Build.0 = Release|Any CPU
-		{300A4CC8-6C62-4DD2-9EBB-2EDC17063420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{300A4CC8-6C62-4DD2-9EBB-2EDC17063420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{300A4CC8-6C62-4DD2-9EBB-2EDC17063420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{300A4CC8-6C62-4DD2-9EBB-2EDC17063420}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE250D5B-934E-4A64-97E4-813C106D7D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -127,6 +123,10 @@ Global
 		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271031E7-C0A2-4831-B775-4B5256594D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271031E7-C0A2-4831-B775-4B5256594D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271031E7-C0A2-4831-B775-4B5256594D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271031E7-C0A2-4831-B775-4B5256594D5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,5 +141,6 @@ Global
 		{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8} = {3DF0967B-6329-4853-84E7-DC49241434AE}
 		{B06FE9FE-1FD4-47BB-B169-B77F101B6A64} = {3DF0967B-6329-4853-84E7-DC49241434AE}
 		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD} = {3DF0967B-6329-4853-84E7-DC49241434AE}
+		{271031E7-C0A2-4831-B775-4B5256594D5D} = {9BA2C77E-23AD-4F4D-8183-215576C0A121}
 	EndGlobalSection
 EndGlobal

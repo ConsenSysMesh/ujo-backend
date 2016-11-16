@@ -284,7 +284,5 @@ namespace Ujo.Work.Search.Service
                 await UpsertAsync(new[] { work });
             }
         }
-       
-      
     }
 }

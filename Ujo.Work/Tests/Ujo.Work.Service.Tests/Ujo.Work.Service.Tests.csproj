@@ -120,6 +120,10 @@
       <Project>{8b49f5d7-3a3a-4a97-8501-39d44b8fe2f8}</Project>
       <Name>CCC.Contracts.StandardData.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts\CCC.Contracts.csproj">
+      <Project>{a66d6a59-de2e-4791-a33d-b67a9e7fecad}</Project>
+      <Name>CCC.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Ujo.Work.Model\Ujo.Work.Model.csproj">
       <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
       <Name>Ujo.Work.Model</Name>

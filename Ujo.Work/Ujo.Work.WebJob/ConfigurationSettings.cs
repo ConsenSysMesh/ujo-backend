@@ -45,11 +45,11 @@ namespace Ujo.Work.WebJob
             return CloudConfigurationManager.GetSetting(WorkRegistryContractAdressKey);
         }
 
-        public static long StartProcessFromBlockNumber()
+        public static ulong StartProcessFromBlockNumber()
         {
             var blockNubmerString = CloudConfigurationManager.GetSetting(StartProcessFromBlockNumberKey);
             if (string.IsNullOrEmpty(blockNubmerString)) return 0;
-            return Convert.ToInt64(blockNubmerString);
+            return Convert.ToUInt64(blockNubmerString);
         }
 
         public static bool VerifyConfiguration()

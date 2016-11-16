@@ -15,7 +15,7 @@ namespace CCC.Contracts.Registry.Processing
         private readonly IByteCodeMatcher _registeredContractByteCodeMatcher;
         private RegistryService _registryService;
 
-        public BlockchainRegistryProcessor(Web3 web3, string registryAddress, ILogger logger, 
+        public BlockchainRegistryProcessor(Web3 web3, RegistryService registryService, ILogger logger, 
                     IEnumerable<IRegistryProcessingService> registryProcessors,
                     IByteCodeMatcher registeredContractByteCodeMatcher)
         {
@@ -23,7 +23,7 @@ namespace CCC.Contracts.Registry.Processing
             _logger = logger;
             _registryProcessors = registryProcessors;
             _registeredContractByteCodeMatcher = registeredContractByteCodeMatcher;
-            _registryService = new RegistryService(web3, registryAddress);
+            _registryService = registryService;
         }
 
         public async Task ProcessAsync(ulong fromBlockNumber, ulong toBlockNumber)

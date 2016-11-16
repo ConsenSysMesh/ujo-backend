@@ -20,11 +20,11 @@ namespace Ujo.WorkRegistry.WebJob
             return CloudConfigurationManager.GetSetting(WORK_REGISTRY_CONTRACT_ADRESS_KEY);
         }
 
-        public static long StartProcessFromBlockNumber()
+        public static ulong StartProcessFromBlockNumber()
         {
             var blockNubmerString = CloudConfigurationManager.GetSetting(START_PROCESS_FROM_BLOCK_NUMBER_KEY);
             if (string.IsNullOrEmpty(blockNubmerString)) return 0;
-            return Convert.ToInt64(blockNubmerString);
+            return Convert.ToUInt64(blockNubmerString);
         }
 
         public static bool VerifyConfiguration()

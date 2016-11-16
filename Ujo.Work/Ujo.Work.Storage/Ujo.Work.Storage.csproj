@@ -119,7 +119,7 @@
     <Compile Include="ProcessInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Work.cs" />
-    <Compile Include="WorkProcessInfoRepository.cs" />
+    <Compile Include="ProcessInfoRepository.cs" />
     <Compile Include="WorkRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +127,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Consensys.Common\CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj">
+      <Project>{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}</Project>
+      <Name>CCC.BlockchainProcessing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.StandardData.Processing\CCC.Contracts.StandardData.Processing.csproj">
       <Project>{DE250D5B-934E-4A64-97E4-813C106D7D64}</Project>
       <Name>CCC.Contracts.StandardData.Processing</Name>

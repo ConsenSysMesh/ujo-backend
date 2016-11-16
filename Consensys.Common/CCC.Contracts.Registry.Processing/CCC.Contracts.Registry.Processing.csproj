@@ -84,8 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockchainRegistryProcessor.cs" />
+    <Compile Include="IQueueRegistry.cs" />
     <Compile Include="IRegistryProcessingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueueRegistryProcessorService.cs" />
+    <Compile Include="RegistrationMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj">

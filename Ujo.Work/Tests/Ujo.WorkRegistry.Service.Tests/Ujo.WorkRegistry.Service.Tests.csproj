@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ujo.WorkRegistry.Service.Tests</RootNamespace>
     <AssemblyName>Ujo.WorkRegistry.Service.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -115,10 +116,6 @@
     <Compile Include="xUnitPriority\PriorityOrderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Ujo.WorkRegistry.Service\Ujo.WorkRegistry.Service.csproj">
-      <Project>{300a4cc8-6c62-4dd2-9ebb-2edc17063420}</Project>
-      <Name>Ujo.WorkRegistry.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj">
       <Project>{c1389653-9c1f-4a5b-818b-af4ce59cfd92}</Project>
       <Name>Nethereum.IntegrationTesting</Name>

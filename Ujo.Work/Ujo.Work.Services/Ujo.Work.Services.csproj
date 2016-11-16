@@ -137,7 +137,6 @@
   <ItemGroup>
     <Compile Include="IIpfsImageQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkChainProcessor.cs" />
     <Compile Include="WorkDataLogProcessor.cs" />
     <Compile Include="WorkIpfsImagesStandardDataProcessingService.cs" />
   </ItemGroup>

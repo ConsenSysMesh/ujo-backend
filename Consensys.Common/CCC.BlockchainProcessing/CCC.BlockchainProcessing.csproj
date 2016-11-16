@@ -83,12 +83,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockchainLogProcessor.cs" />
+    <Compile Include="BlockLogProcessing\BlockchainLogProcessor.cs" />
+    <Compile Include="ProcessingProgress\BlockhainProcessProgressService.cs" />
+    <Compile Include="BlokchainBatchProcessorService.cs" />
+    <Compile Include="ProcessingProgress\ChildBlockBlockchainProcessProgressService.cs" />
     <Compile Include="IBlockchainProcessor.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="ILogProcessor.cs" />
-    <Compile Include="LogsMatchedForProcessing.cs" />
+    <Compile Include="ProcessingProgress\IBlockhainProcessProgressService.cs" />
+    <Compile Include="ProcessingProgress\IBlockProcessProgressRepository.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="BlockLogProcessing\ILogProcessor.cs" />
+    <Compile Include="ProcessingProgress\LatestBlockBlockchainProcessProgressService.cs" />
+    <Compile Include="BlockLogProcessing\LogsMatchedForProcessing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Logging\TextWriterLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

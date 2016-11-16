@@ -179,6 +179,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bootstrap.cs" />
     <Compile Include="ConfigurationSettings.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="IpfsImageQueue.cs" />
@@ -198,6 +199,10 @@
     <ProjectReference Include="..\..\Consensys.Common\CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj">
       <Project>{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}</Project>
       <Name>CCC.BlockchainProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.Registry.Processing\CCC.Contracts.Registry.Processing.csproj">
+      <Project>{b06fe9fe-1fd4-47bb-b169-b77f101b6a64}</Project>
+      <Name>CCC.Contracts.Registry.Processing</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.StandardData.Processing\CCC.Contracts.StandardData.Processing.csproj">
       <Project>{DE250D5B-934E-4A64-97E4-813C106D7D64}</Project>

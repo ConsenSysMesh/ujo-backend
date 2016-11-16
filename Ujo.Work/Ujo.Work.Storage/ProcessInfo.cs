@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -16,9 +17,9 @@ namespace Ujo.Work.Storage
             PartitionKey = GetPartitionKey();
         }
 
-        public long Number
+        public ulong Number
         {
-            get { return Get((long) 0); }
+            get { return Convert.ToUInt64(Get(0)); }
             set { Set(value); }
         }
 
@@ -44,7 +45,7 @@ namespace Ujo.Work.Storage
             return null;
         }
 
-        public static ProcessInfo Create(AzureTable processInfoTable, long number)
+        public static ProcessInfo Create(AzureTable processInfoTable, ulong number)
         {
             var processInfo = new ProcessInfo(processInfoTable)
             {

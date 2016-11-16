@@ -55,6 +55,10 @@
       <HintPath>..\packages\WindowsAzure.Storage.7.0.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nethereum.Web3, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Tests\Nethereum.IntegrationTesting\bin\Debug\Nethereum.Web3.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -77,9 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProcessInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkRegistryProcessInfoRepository.cs" />
     <Compile Include="WorkRegistryRecord.cs" />
     <Compile Include="WorkRegistryRepository.cs" />
   </ItemGroup>
@@ -88,6 +90,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.Registry.Processing\CCC.Contracts.Registry.Processing.csproj">
+      <Project>{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}</Project>
+      <Name>CCC.Contracts.Registry.Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.Registry.Services\CCC.Contracts.Registry.Services.csproj">
+      <Project>{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}</Project>
+      <Name>CCC.Contracts.Registry.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.StandardData.Processing\CCC.Contracts.StandardData.Processing.csproj">
       <Project>{DE250D5B-934E-4A64-97E4-813C106D7D64}</Project>
       <Name>CCC.Contracts.StandardData.Processing</Name>
