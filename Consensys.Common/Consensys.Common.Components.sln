@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.BlockchainProcessing", "CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj", "{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts.Registry.Services", "CCC.Contracts.Registry.Services\CCC.Contracts.Registry.Services.csproj", "{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{55BD834B-A1E8-45D2-B357-B511EC770F0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts.StandardData.Services", "CCC.Contracts.StandardData.Services\CCC.Contracts.StandardData.Services.csproj", "{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts.Registry.Processing", "CCC.Contracts.Registry.Processing\CCC.Contracts.Registry.Processing.csproj", "{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCC.Contracts", "CCC.Contracts\CCC.Contracts.csproj", "{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C91D79-5E0C-4ED5-9FBF-04FEEA700CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B06FE9FE-1FD4-47BB-B169-B77F101B6A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

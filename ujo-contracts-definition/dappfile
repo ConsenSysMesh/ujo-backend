@@ -1,7 +1,0 @@
-name: ujo
-version: 0.0.1
-layout:
-  sol_sources: contracts
-  build_dir: build
-dependencies:
-  consensys_core: 0.0.1
