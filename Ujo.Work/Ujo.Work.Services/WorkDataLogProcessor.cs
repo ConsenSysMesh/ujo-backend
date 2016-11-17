@@ -20,7 +20,6 @@ namespace Ujo.Work.Services
             return workService.GetWorkAsync();
         }
 
-
         public static WorkDataLogProcessor Create(Web3 web3, IStandardDataRegistry dataRegistry,
             IIpfsImageQueue imageQueue, WorkRepository workRepository, WorkSearchService workSearchService)
         {
