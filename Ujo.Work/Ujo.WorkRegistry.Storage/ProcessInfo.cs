@@ -2,10 +2,11 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
+using NBitcoin.BouncyCastle.Math.EC;
 using Wintellect;
 using Wintellect.Azure.Storage.Table;
 
-namespace Ujo.Work.Storage
+namespace Ujo.WorkRegistry.Storage
 {
     public class ProcessInfo : TableEntityBase
     {

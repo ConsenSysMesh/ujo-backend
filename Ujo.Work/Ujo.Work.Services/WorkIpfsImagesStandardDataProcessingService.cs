@@ -30,7 +30,7 @@ namespace Ujo.Work.Services
 
             if (key == WorkSchema.Image.ToString())
             {
-                _ipfsImageQueue.Add(work.CoverImageIpfsHash);
+                _ipfsImageQueue.Add(work.Image);
             }
         }
 

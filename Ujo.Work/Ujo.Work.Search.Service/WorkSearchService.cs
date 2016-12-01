@@ -147,8 +147,8 @@ namespace Ujo.Work.Search.Service
                 {
                     var workDocument = new WorkDocument();
                     workDocument.Address = work.Address.ToLower();
-                    workDocument.Image = work.CoverImageIpfsHash;
-                    workDocument.ArtistAddress = work.ByArtistAddress.ToLower();
+                    workDocument.Image = work.Image;
+                    workDocument.ArtistAddress = LowerCaseIfNotNull(work.ByArtistAddress);
                     workDocument.ArtistName = work.ByArtistName;
                     workDocument.Genre = work.Genre;
                     workDocument.Name = work.Name;
@@ -187,11 +187,16 @@ namespace Ujo.Work.Search.Service
             await BatchUpdateAsync(workDocuments.ToArray());
         }
 
+        private string LowerCaseIfNotNull(string value)
+        {
+            return value?.ToLower();
+        }
+
         private string[] GetArtistsAddresses(List<WorkArtist> artists)
         {
             if(artists != null && artists.Count > 0)
             {
-                return artists.Select(x => x.Address.ToLower()).ToArray();
+                return artists.Select(x => LowerCaseIfNotNull(x.Address)).ToArray();
             }
             return new string[] { };
         }
@@ -209,7 +214,7 @@ namespace Ujo.Work.Search.Service
         {
             if (artists != null && artists.Count > 0)
             {
-                return artists.Select(x => x.Index.ToString() + "|" + x.Address + "|" + x.Name + "|" + x.Role).ToArray();
+                return artists.Select(x => x.Index.ToString() + "|" + x.Address?.ToLower() + "|" + x.Name + "|" + x.Role).ToArray();
             }
             return new string[] { };
         }

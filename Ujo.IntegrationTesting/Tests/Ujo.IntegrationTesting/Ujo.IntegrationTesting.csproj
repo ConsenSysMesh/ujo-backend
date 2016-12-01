@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Ujo.IntegrationTesting</RootNamespace>
     <AssemblyName>Ujo.IntegrationTesting</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,24 +50,24 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Ipfs.dll</HintPath>
     </Reference>
-    <Reference Include="Nethereum.ABI, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Nethereum.ABI.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.ABI.dll</HintPath>
+    <Reference Include="Nethereum.ABI, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.ABI.1.0.3\lib\portable45-net45+win8+wpa81\Nethereum.ABI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Hex, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Nethereum.Hex.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.Hex.dll</HintPath>
+    <Reference Include="Nethereum.Hex, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.Hex.1.0.3\lib\portable45-net45+win8+wpa81\Nethereum.Hex.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.JsonRpc.Client, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Nethereum.JsonRpc.Client.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.JsonRpc.Client.dll</HintPath>
+    <Reference Include="Nethereum.JsonRpc.Client, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.JsonRpc.Client.1.0.3\lib\portable45-net45+win8+wpa81\Nethereum.JsonRpc.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.RPC, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Nethereum.RPC.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.RPC.dll</HintPath>
+    <Reference Include="Nethereum.RPC, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.RPC.1.0.3\lib\portable45-net45+win8+wpa81\Nethereum.RPC.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Web3, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Nethereum.Web3.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.Web3.dll</HintPath>
+    <Reference Include="Nethereum.Web3, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.Web3.1.0.3\lib\portable45-net45+win8+wpa81\Nethereum.Web3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -107,25 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkRegistryMordenTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\contract-registry-backend\Ujo.WorkRegistry\Tests\Ujo.WorkRegistry.Service.Tests\Ujo.WorkRegistry.Service.Tests.csproj">
-      <Project>{271031E7-C0A2-4831-B775-4B5256594D5D}</Project>
-      <Name>Ujo.WorkRegistry.Service.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\ipfs-backend\Ipfs.Services\Tests\Ujo.IpfsImage.Services.Tests\Ujo.IpfsImage.Services.Tests.csproj">
-      <Project>{2eb066aa-a7eb-42c1-8acb-0af10776a8e8}</Project>
-      <Name>Ujo.IpfsImage.Services.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\work-backend\Ujo.Work\Tests\Ujo.Work.Service.Tests\Ujo.Work.Service.Tests.csproj">
-      <Project>{45AED044-B90E-47E8-9B4D-FF30E525B136}</Project>
-      <Name>Ujo.Work.Service.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\contract-registry-backend\Ujo.WorkRegistry\Tests\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj">
-      <Project>{c1389653-9c1f-4a5b-818b-af4ce59cfd92}</Project>
-      <Name>Nethereum.IntegrationTesting</Name>
-    </ProjectReference>
+    <Compile Include="IntegrationJobs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -298,6 +281,60 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ConsensysNet\keystore\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.BlockchainProcessing\CCC.BlockchainProcessing.csproj">
+      <Project>{f5c91d79-5e0c-4ed5-9fbf-04feea700cfe}</Project>
+      <Name>CCC.BlockchainProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts.Registry.Processing\CCC.Contracts.Registry.Processing.csproj">
+      <Project>{b06fe9fe-1fd4-47bb-b169-b77f101b6a64}</Project>
+      <Name>CCC.Contracts.Registry.Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts.Registry.Services\CCC.Contracts.Registry.Services.csproj">
+      <Project>{3b75f7bc-2bbb-48d3-85e6-c77bae47e4f2}</Project>
+      <Name>CCC.Contracts.Registry.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts.StandardData.Services\CCC.Contracts.StandardData.Services.csproj">
+      <Project>{8b49f5d7-3a3a-4a97-8501-39d44b8fe2f8}</Project>
+      <Name>CCC.Contracts.StandardData.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts\CCC.Contracts.csproj">
+      <Project>{a66d6a59-de2e-4791-a33d-b67a9e7fecad}</Project>
+      <Name>CCC.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ipfs.Services\Tests\Ujo.IpfsImage.Services.Tests\Ujo.IpfsImage.Services.Tests.csproj">
+      <Project>{2EB066AA-A7EB-42C1-8ACB-0AF10776A8E8}</Project>
+      <Name>Ujo.IpfsImage.Services.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ipfs.Services\Ujo.IpfsImage.Services\Ujo.IpfsImage.Services.csproj">
+      <Project>{6eafdd98-063b-485c-abe6-00589a9a70f5}</Project>
+      <Name>Ujo.IpfsImage.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ujo.Work\Tests\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj">
+      <Project>{c1389653-9c1f-4a5b-818b-af4ce59cfd92}</Project>
+      <Name>Nethereum.IntegrationTesting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ujo.Work\Tests\Ujo.Work.Service.Tests\Ujo.Work.Service.Tests.csproj">
+      <Project>{45aed044-b90e-47e8-9b4d-ff30e525b136}</Project>
+      <Name>Ujo.Work.Service.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ujo.Work\Tests\Ujo.WorkRegistry.Service.Tests\Ujo.WorkRegistry.Service.Tests.csproj">
+      <Project>{271031e7-c0a2-4831-b775-4b5256594d5d}</Project>
+      <Name>Ujo.WorkRegistry.Service.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ujo.Work\Ujo.Work.Model\Ujo.Work.Model.csproj">
+      <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
+      <Name>Ujo.Work.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ujo.Work\Ujo.Work.Services.Ethereum\Ujo.Work.Services.Ethereum.csproj">
+      <Project>{4c859109-4732-41a3-a472-98ebe4c30774}</Project>
+      <Name>Ujo.Work.Services.Ethereum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Ujo.Work\Ujo.WorkRegistry.Service\Ujo.WorkRegistry.Service.csproj">
+      <Project>{300a4cc8-6c62-4dd2-9ebb-2edc17063420}</Project>
+      <Name>Ujo.WorkRegistry.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

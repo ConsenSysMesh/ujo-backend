@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
-using Nethereum.IntegrationTesting;
 using Nethereum.Web3;
 using Ujo.ContractRegistry.Tests;
 using Ujo.IpfsImage.Services.Tests;
@@ -11,7 +10,7 @@ using Ujo.Work.Service.Tests;
 
 namespace Ujo.IntegrationTesting
 {
-    public class MordenIntegrationTests
+    public class IntegrationJobs
     {
         private string[] works = new[]
         {
@@ -55,7 +54,7 @@ namespace Ujo.IntegrationTesting
         {
             foreach (var work in works)
             {
-               var address =  await ProcessWork(work);
+               var address =  await ProcessWorkThroughFactory(work);
                 Debug.WriteLine(address);
             }
         }
@@ -115,10 +114,24 @@ namespace Ujo.IntegrationTesting
             return workContract;
         }
 
+        public async Task<string> ProcessWorkThroughFactory(string work)
+        {
+            var workHash = await UploadFile("summerdnb.mp3");
+            //all jpg
+            var imageHash = await UploadFile(Path.GetFileNameWithoutExtension(work) + ".jpg");
+            var artistWorkArray = Path.GetFileNameWithoutExtension(work).Split('-');
+            var artist = artistWorkArray[0].Trim();
+            var workName = artistWorkArray[1].Trim();
+            var workHelper = new WorkPublicNodeIntegrationTests();
+            var workContract = await workHelper.CreateAndRegisterWorkWithMockUpFields("0xc824f28B9a59F301AaB0C2b2037E8488992225c7", workHash, workName, imageHash, artist, "Techno");
+            return workContract;
+        }
+
         public async Task RegisterWork(string address)
         {
             var workRegistryHelper = new WorkRegistryPublicNodeIntegration();
             var tx = await workRegistryHelper.RegisterDeployedContract(address);
+           
         }
 
         public async Task<string> DeployWorkToMorden(string imageHash, string workHash, string artist, string workName)

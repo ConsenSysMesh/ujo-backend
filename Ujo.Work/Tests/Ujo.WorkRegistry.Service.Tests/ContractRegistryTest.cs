@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
+using CCC.Contracts.Registry.Services;
 using Nethereum.Hex.HexTypes;
 using Nethereum.IntegrationTesting;
 using Nethereum.Web3;
-using Ujo.WorkRegistry.Service;
-using Ujo.WorkRegistry.Service.Tests;
 using Ujo.WorkRegistry.Service.Tests.xUnitPriority;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Sdk;
 
-namespace Ujo.ContractRegistry.Tests
+namespace Ujo.WorkRegistry.Service.Tests
 {
     [TestCaseOrderer("Ujo.WorkRegistry.Service.Tests.xUnitPriority.PriorityOrderer", "Ujo.WorkRegistry.Service.Tests")]
     public class ContractRegistryTest:IClassFixture<DeployedContractFixture>
@@ -33,7 +26,7 @@ namespace Ujo.ContractRegistry.Tests
         public async Task Should_1_RegisterContract()
         {
             var web3 = deployedContractFixture.GetWeb3();
-            var contractRegistryService = GetWorkRegistryService(web3);
+            var contractRegistryService = GetRegistryService(web3);
             var registeredEvent =  contractRegistryService.GetRegisteredEvent();
             var filter = await registeredEvent.CreateFilterAsync();
 
@@ -44,17 +37,17 @@ namespace Ujo.ContractRegistry.Tests
             Assert.Equal(1, eventLogs[0].Event.Id);
             Assert.Equal(DefaultSettings.AddressFrom, eventLogs[0].Event.RegisteredAddress);
             Assert.Equal(DefaultSettings.AddressFrom, eventLogs[0].Event.Owner);
-            var address = await contractRegistryService.GetWorkRegisteredAsyncCall(1);
+            var address = await contractRegistryService.GetAddressRegisteredAsyncCall(1);
             Assert.Equal(DefaultSettings.AddressFrom, address);
         }
 
-        private WorkRegistryService GetWorkRegistryService(Web3 web3)
+        private RegistryService GetRegistryService(Web3 web3)
         {
             var contractAddress = deployedContractFixture.ContractAddress;
             //Given a contract is deployed
             Assert.False(string.IsNullOrEmpty(contractAddress));
 
-            var contractRegistryService = new WorkRegistryService(web3, contractAddress);
+            var contractRegistryService = new RegistryService(web3, contractAddress);
             return contractRegistryService;
         }
 
@@ -63,7 +56,7 @@ namespace Ujo.ContractRegistry.Tests
         public async Task Should_2_RetrieveNumberOfRegisteredWork()
         {
             var web3 = deployedContractFixture.GetWeb3();
-            var contractRegistryService = GetWorkRegistryService(web3);
+            var contractRegistryService = GetRegistryService(web3);
             var numberOfRecords = await contractRegistryService.NumRecordsAsyncCall();
             Assert.Equal(1, numberOfRecords);
         }
@@ -78,7 +71,7 @@ namespace Ujo.ContractRegistry.Tests
             var address4 = "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
             var web3 = deployedContractFixture.GetWeb3();
-            var contractRegistryService = GetWorkRegistryService(web3);
+            var contractRegistryService = GetRegistryService(web3);
             var registeredEvent = contractRegistryService.GetRegisteredEvent();
             var filter = await registeredEvent.CreateFilterAsync();
 
@@ -98,8 +91,6 @@ namespace Ujo.ContractRegistry.Tests
                                                                     address4,
                                                                     defaultGas));
 
-          
-
             var eventLogs = await registeredEvent.GetFilterChanges<RegisteredEvent>(filter);
             Assert.Equal(4, eventLogs.Count);
         }
@@ -113,7 +104,7 @@ namespace Ujo.ContractRegistry.Tests
             var address4 = "0xce0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
             var web3 = deployedContractFixture.GetWeb3();
-            var contractRegistryService = GetWorkRegistryService(web3);
+            var contractRegistryService = GetRegistryService(web3);
             var blockNumber = await web3.Eth.Blocks.GetBlockNumber.SendRequestAsync();
 
             var receipts = await txHelper.SendAndMineTransactionsAsync(web3,
@@ -170,7 +161,7 @@ namespace Ujo.ContractRegistry.Tests
             var address4 = "0xce0b295669a9fd93d5f28d9ec85e40f4cb697bae";
 
             var web3 = deployedContractFixture.GetWeb3();
-            var contractRegistryService = GetWorkRegistryService(web3);
+            var contractRegistryService = GetRegistryService(web3);
             var blockNumber = await web3.Eth.Blocks.GetBlockNumber.SendRequestAsync();
 
             var receipts = await txHelper.SendAndMineTransactionsAsync(web3,
@@ -195,8 +186,6 @@ namespace Ujo.ContractRegistry.Tests
                                                                    address4,
                                                                    defaultGas));
                         
-
-
             var eventLogs = await contractRegistryService.GetRegisteredUnregisteredFromBlockNumber(blockNumber);
             Assert.Equal(6, eventLogs.Count);
             var unregistered2 = eventLogs[2] as EventLog<UnregisteredEvent>;
@@ -204,6 +193,5 @@ namespace Ujo.ContractRegistry.Tests
             Assert.Equal(address2, unregistered2.Event.RegisteredAddress);
            
         }
-
     }
 }

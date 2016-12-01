@@ -46,24 +46,24 @@
       <HintPath>..\..\packages\EdjCase.JsonRpc.Core.1.0.4\lib\portable45-net45+win8+wpa81\EdjCase.JsonRpc.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.ABI, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\integration-testing\Ujo.IntegrationTesting\packages\Nethereum.ABI.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.ABI.dll</HintPath>
+    <Reference Include="Nethereum.ABI, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.ABI.1.0.3\lib\net451\Nethereum.ABI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Hex, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\integration-testing\Ujo.IntegrationTesting\packages\Nethereum.Hex.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.Hex.dll</HintPath>
+    <Reference Include="Nethereum.Hex, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.Hex.1.0.3\lib\net451\Nethereum.Hex.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.JsonRpc.Client, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\integration-testing\Ujo.IntegrationTesting\packages\Nethereum.JsonRpc.Client.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.JsonRpc.Client.dll</HintPath>
+    <Reference Include="Nethereum.JsonRpc.Client, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.JsonRpc.Client.1.0.3\lib\net451\Nethereum.JsonRpc.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.RPC, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\integration-testing\Ujo.IntegrationTesting\packages\Nethereum.RPC.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.RPC.dll</HintPath>
+    <Reference Include="Nethereum.RPC, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.RPC.1.0.3\lib\net451\Nethereum.RPC.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Web3, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\integration-testing\Ujo.IntegrationTesting\packages\Nethereum.Web3.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.Web3.dll</HintPath>
+    <Reference Include="Nethereum.Web3, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Nethereum.Web3.1.0.3\lib\net451\Nethereum.Web3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -111,11 +111,23 @@
     <Compile Include="GethServerFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkRegistryGethTestRunner.cs" />
-    <Compile Include="WorkRegistryMordenTests.cs" />
+    <Compile Include="WorkRegistryPublicNodeIntegration.cs" />
     <Compile Include="xUnitPriority\prior.cs" />
     <Compile Include="xUnitPriority\PriorityOrderer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts.Registry.Services\CCC.Contracts.Registry.Services.csproj">
+      <Project>{3B75F7BC-2BBB-48D3-85E6-C77BAE47E4F2}</Project>
+      <Name>CCC.Contracts.Registry.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Consensys.Common\CCC.Contracts\CCC.Contracts.csproj">
+      <Project>{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}</Project>
+      <Name>CCC.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ujo.Work.Services.Ethereum\Ujo.Work.Services.Ethereum.csproj">
+      <Project>{4C859109-4732-41A3-A472-98EBE4C30774}</Project>
+      <Name>Ujo.Work.Services.Ethereum</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nethereum.IntegrationTesting\Nethereum.IntegrationTesting.csproj">
       <Project>{c1389653-9c1f-4a5b-818b-af4ce59cfd92}</Project>
       <Name>Nethereum.IntegrationTesting</Name>

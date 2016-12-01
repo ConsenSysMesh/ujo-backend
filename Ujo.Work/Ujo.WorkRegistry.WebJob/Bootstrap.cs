@@ -7,7 +7,6 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
 using Nethereum.Web3;
 using Ujo.Work.Services.Ethereum;
-using Ujo.Work.Storage;
 using Ujo.WorkRegistry.Storage;
 using Wintellect.Azure.Storage.Table;
 

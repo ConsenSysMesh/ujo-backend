@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CCC.Contracts.Registry.Services;
 using Nethereum.Hex.HexTypes;
 using Nethereum.RPC.Eth.Filters;
 using Nethereum.Web3;

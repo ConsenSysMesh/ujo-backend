@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using Microsoft.Azure;
 using Microsoft.WindowsAzure;
 
 namespace Ujo.Work.WebJob

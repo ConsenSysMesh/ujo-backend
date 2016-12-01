@@ -30,6 +30,4 @@ namespace Ujo.Work.Services
             return new WorkDataLogProcessor(web3, dataRegistry, services);
         }
     }
-
-
 }

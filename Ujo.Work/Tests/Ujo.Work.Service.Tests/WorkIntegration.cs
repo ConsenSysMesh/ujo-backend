@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Nethereum.Hex.HexTypes;
+using Nethereum.IntegrationTesting;
 using Nethereum.Web3;
 using Ujo.Work.Model;
 using Ujo.Work.Services.Ethereum;
@@ -17,7 +18,7 @@ namespace Ujo.Work.Service.Tests
 
         protected string WorkStandardSchemaAddress { get; set; }
 
-        protected HexBigInteger DefaultGas = new HexBigInteger(2400000);
+        protected HexBigInteger DefaultGas = new HexBigInteger(4000000);
 
         public abstract Task<string> DeployContractAsync();
         public abstract Task<Web3> CreateNewWeb3Instance();
@@ -30,7 +31,99 @@ namespace Ujo.Work.Service.Tests
 
         }
 
-      
+        public async Task<string> CreateAndRegisterWorkWithMockUpFields(string registryAddress, string workHash, string workTitle,
+            string coverImageHash,
+            string artistNameAddress, string genre)
+        {
+            string factoryContract = "0xb018cf9b7d5c5ea940d30671cc8257327f8160f2";
+            var web3 = await CreateNewWeb3Instance();
+            var workFactoryService = new WorkFactoryService(web3, factoryContract);
+
+            var keys = new[] {  WorkSchema.Name,
+                WorkSchema.Image,
+                WorkSchema.Audio,
+                WorkSchema.Genre,
+                WorkSchema.Keywords,
+                WorkSchema.ByArtist,
+                WorkSchema.FeaturedArtist1,
+                WorkSchema.FeaturedArtist2,
+                WorkSchema.FeaturedArtist3,
+                WorkSchema.FeaturedArtist4,
+                WorkSchema.FeaturedArtist5,
+                //WorkSchema.FeaturedArtist6,
+                //WorkSchema.FeaturedArtist7,
+                //WorkSchema.FeaturedArtist8,
+                //WorkSchema.FeaturedArtist9,
+                //WorkSchema.FeaturedArtist10,
+                //WorkSchema.FeaturedArtistRole1,
+                WorkSchema.FeaturedArtistRole2,
+                WorkSchema.FeaturedArtistRole3,
+                WorkSchema.FeaturedArtistRole4,
+                //WorkSchema.FeaturedArtistRole5,
+                //WorkSchema.FeaturedArtistRole6,
+                //WorkSchema.FeaturedArtistRole7,
+                //WorkSchema.FeaturedArtistRole8,
+                //WorkSchema.FeaturedArtistRole9,
+                //WorkSchema.FeaturedArtistRole10,
+                WorkSchema.ContributingArtist1,
+                WorkSchema.ContributingArtist2,
+                WorkSchema.ContributingArtist3,
+                WorkSchema.ContributingArtist4,
+                WorkSchema.ContributingArtist5,
+                //WorkSchema.ContributingArtist6,
+                //WorkSchema.ContributingArtist7,
+                //WorkSchema.ContributingArtist8,
+                //WorkSchema.ContributingArtist9,
+                //WorkSchema.ContributingArtist10,
+        
+                WorkSchema.ContributingArtistRole1,
+                WorkSchema.ContributingArtistRole2,
+                WorkSchema.ContributingArtistRole3,
+                WorkSchema.ContributingArtistRole4,
+                WorkSchema.ContributingArtistRole5,
+                //WorkSchema.ContributingArtistRole6,
+                //WorkSchema.ContributingArtistRole7,
+                //WorkSchema.ContributingArtistRole8,
+                //WorkSchema.ContributingArtistRole9,
+                //WorkSchema.ContributingArtistRole10,
+                //WorkSchema.PerformingArtist1,
+                WorkSchema.PerformingArtist2,
+                WorkSchema.PerformingArtist3,
+                WorkSchema.PerformingArtist4,
+                WorkSchema.PerformingArtist5,
+                //WorkSchema.PerformingArtist6,
+                //WorkSchema.PerformingArtist7,
+                //WorkSchema.PerformingArtist8,
+                //WorkSchema.PerformingArtist9,
+                //WorkSchema.PerformingArtist10,
+                WorkSchema.PerformingArtistRole1,
+                WorkSchema.PerformingArtistRole2,
+                WorkSchema.PerformingArtistRole3,
+                WorkSchema.PerformingArtistRole4,
+                WorkSchema.PerformingArtistRole5,
+                //WorkSchema.PerformingArtistRole6,
+                //WorkSchema.PerformingArtistRole7,
+                //WorkSchema.PerformingArtistRole8,
+                //WorkSchema.PerformingArtistRole9,
+                //WorkSchema.PerformingArtistRole10,
+                //WorkSchema.Label,
+                WorkSchema.Description,
+                WorkSchema.Publisher,
+                WorkSchema.HasPartOf,
+                WorkSchema.IsPartOf,
+                WorkSchema.IsFamilyFriendly,
+                WorkSchema.License,
+                WorkSchema.IswcCode
+            };
+            string values = GetValues(workHash, workTitle, coverImageHash, artistNameAddress, genre, keys);
+
+            var tx1 = await workFactoryService.CreateWorkAsync(Account, keys, values, true, WorkStandardSchemaAddress, registryAddress, DefaultGas);
+            var transactionhelper = new TransactionHelpers();
+            var receipt = await transactionhelper.GetTransactionReceipt(web3, tx1);
+            return tx1;
+        }
+
+
         public async Task<string> UpdateMetadataWithMockUpFields(string workHash, string workTitle, string coverImageHash,
             string artistNameAddress, string genre, string contract)
         {
@@ -117,10 +210,12 @@ namespace Ujo.Work.Service.Tests
             string values = GetValues(workHash, workTitle, coverImageHash, artistNameAddress, genre, keys);
             string values2 = GetValues(workHash, workTitle, coverImageHash, artistNameAddress, genre, keys2);
 
+            var transactionhelper = new TransactionHelpers();
             var tx1 = await workService.BulkSetValueAsync(Account, keys, values, true, DefaultGas);
+            var receipt = await transactionhelper.GetTransactionReceipt(web3, tx1);
             var tx2 = await workService.BulkSetValueAsync(Account, keys2, values2, true, DefaultGas);
-
-
+            var receipt2 = await transactionhelper.GetTransactionReceipt(web3, tx2);
+            //ensure nonces are in order by waiting to be mined.
             return contract;
         }
 

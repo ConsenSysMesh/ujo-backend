@@ -55,11 +55,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EdjCase.JsonRpc.Client, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EdjCase.JsonRpc.Client.1.0.5\lib\portable45-net45+win8+wpa81\EdjCase.JsonRpc.Client.dll</HintPath>
+      <HintPath>..\packages\EdjCase.JsonRpc.Client.1.0.5\lib\net451\EdjCase.JsonRpc.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EdjCase.JsonRpc.Core, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\EdjCase.JsonRpc.Core.1.0.4\lib\portable45-net45+win8+wpa81\EdjCase.JsonRpc.Core.dll</HintPath>
+      <HintPath>..\packages\EdjCase.JsonRpc.Core.1.0.4\lib\net451\EdjCase.JsonRpc.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -106,24 +106,24 @@
       <HintPath>..\packages\ncrontab.3.1.0\lib\net45\NCrontab.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.ABI, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nethereum.ABI.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.ABI.dll</HintPath>
+    <Reference Include="Nethereum.ABI, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.ABI.1.0.3\lib\net451\Nethereum.ABI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Hex, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nethereum.Hex.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.Hex.dll</HintPath>
+    <Reference Include="Nethereum.Hex, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Hex.1.0.3\lib\net451\Nethereum.Hex.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.JsonRpc.Client, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nethereum.JsonRpc.Client.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.JsonRpc.Client.dll</HintPath>
+    <Reference Include="Nethereum.JsonRpc.Client, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.JsonRpc.Client.1.0.3\lib\net451\Nethereum.JsonRpc.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.RPC, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nethereum.RPC.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.RPC.dll</HintPath>
+    <Reference Include="Nethereum.RPC, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.RPC.1.0.3\lib\net451\Nethereum.RPC.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Nethereum.Web3, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nethereum.Web3.1.0.1\lib\portable45-net45+win8+wpa81\Nethereum.Web3.dll</HintPath>
+    <Reference Include="Nethereum.Web3, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nethereum.Web3.1.0.3\lib\net451\Nethereum.Web3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -198,10 +198,6 @@
     <ProjectReference Include="..\Ujo.Work.Services.Ethereum\Ujo.Work.Services.Ethereum.csproj">
       <Project>{4C859109-4732-41A3-A472-98EBE4C30774}</Project>
       <Name>Ujo.Work.Services.Ethereum</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ujo.Work.Storage\Ujo.Work.Storage.csproj">
-      <Project>{6E50E229-5DB7-4343-8B43-F4BADBEB3589}</Project>
-      <Name>Ujo.Work.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ujo.WorkRegistry.Storage\Ujo.WorkRegistry.Storage.csproj">
       <Project>{20d80614-0f69-4000-9a79-12c9d0ec8197}</Project>

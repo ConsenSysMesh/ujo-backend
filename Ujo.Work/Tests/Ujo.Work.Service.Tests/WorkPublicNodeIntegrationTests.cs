@@ -11,12 +11,13 @@ namespace Ujo.Work.Service.Tests
     {
         public WorkPublicNodeIntegrationTests()
         {
-            this.Account = "0x471c1C9cDFFAaDcaC29Fe4F5c50a556106E23dbe";
-            this.WorkStandardSchemaAddress = "0xd36f5f247482c99fc604f5feb70d0e1e13f696ba";
-            this.PublicNode = "https://consensysnet.infura.io:8545";
+            this.Account = "0x00511a703b28D366239cE5224F8DC7E6301882E8";
+            this.WorkStandardSchemaAddress = "0x8254F49E6DfFEeb7A591E752d9EADc0aBbA02F3e";
+            this.PublicNode = "http://localhost:8545";
+            //this.PublicNode = "https://ropsten.infura.io";
         }
 
-        protected string PrivateKey { get; set; } = "6994c19e4712d5a3b236a798ca78b681831ce70b8a0bb54d75483446a0842a52";
+        protected string PrivateKey { get; set; } = "db24be0966a1afff47fc7ad32cae8c76d3229b854a856c0452335d02083bdb8c";
     
 
         [Fact]
@@ -27,18 +28,29 @@ namespace Ujo.Work.Service.Tests
             var contract = await
                 transactionHelper.DeployContract(PrivateKey, WorkContractDefinition.ABI, web3, Account,
                     ByteCode, new[] { WorkStandardSchemaAddress });
-            Debug.WriteLine("Contract created: " + contract);
             return contract;
         }
 
         [Fact]
-        public virtual async Task ShouldDeployStandardSchema()
+        public virtual async Task<string> ShouldDeployStandardSchema()
         {
             var transactionHelper = new TransactionHelpers();
             var web3 = await CreateNewWeb3Instance();
-            string contract = await
+            var contract = await
                 transactionHelper.DeployContract(PrivateKey, web3, Account,
                     WorkStandardSchemaByteCode);
+            return contract;
+        }
+
+        [Fact]
+        public virtual async Task<string> ShouldDeployRegistryFactory()
+        {
+            var transactionHelper = new TransactionHelpers();
+            var web3 = await CreateNewWeb3Instance();
+            var contract = await
+                transactionHelper.DeployContract(PrivateKey, web3, Account,
+                    WorkFactoryService.BYTE_CODE);
+            return contract;
         }
 
 

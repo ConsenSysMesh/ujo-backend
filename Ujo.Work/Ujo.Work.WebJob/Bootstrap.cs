@@ -7,6 +7,7 @@ using Ujo.Work.Search.Service;
 using Ujo.Work.Services;
 using Ujo.Work.Storage;
 using Ujo.WorkRegistry.Storage;
+using ProcessInfoRepository = Ujo.Work.Storage.ProcessInfoRepository;
 
 namespace Ujo.Work.WebJob
 {
