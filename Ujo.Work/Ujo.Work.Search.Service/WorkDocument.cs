@@ -12,7 +12,7 @@ namespace Ujo.Work.Search.Service
         public string[] FeaturedArtistsNames { get; set; }
         
         /// <summary>
-        /// Pipe limited Index | Address | Name | Role
+        /// Pipe limited Index | Address | name | Role
         /// </summary>
         public string[] FeaturedArtists { get; set; }
 
@@ -21,7 +21,7 @@ namespace Ujo.Work.Search.Service
         public string[] ContributingArtistsNames { get; set; }
 
         /// <summary>
-        /// Pipe limited Address | Name | Role
+        /// Pipe limited Address | name | Role
         /// </summary>
         public string[] ContributingArtists { get; set; }
 
@@ -30,15 +30,15 @@ namespace Ujo.Work.Search.Service
         public string[] PerformingArtistsNames { get; set; }
 
         /// <summary>
-        /// Pipe limited Address | Name | Role
+        /// Pipe limited Address | name | Role
         /// </summary>
         public string[] PerformingArtists { get; set; }
 
         public string Genre { get; set; }
         public string[] Keywords { get; set; }
 
-        //public string DateCreated { get; set; }
-        //public string DateModified { get; set; }
+        //public string dateCreated { get; set; }
+        //public string dateModified { get; set; }
         public string Name { get; set; }
         public string Image { get; set; }
         public string Audio { get; set; }

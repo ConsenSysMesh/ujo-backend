@@ -162,8 +162,8 @@ namespace Ujo.Work.Search.Service
                     workDocument.FeaturedArtists = GetArtistsPipeDelimeted(work.FeaturedArtists);
                     workDocument.FeaturedArtistsNames = GetArtistsNames(work.FeaturedArtists);
                     workDocument.FeaturedArtistsAddresses = GetArtistsAddresses(work.FeaturedArtists);
-                    //workDocument.DateCreated = work.DateCreated ?? "";
-                   // workDocument.DateModified = work.DateModified ?? "";
+                    //workDocument.dateCreated = work.dateCreated ?? "";
+                   // workDocument.dateModified = work.dateModified ?? "";
                     workDocument.Label = work.Label ?? "";
                     workDocument.Description = work.Description ?? "";
                     workDocument.Publisher = work.Publisher ?? "";

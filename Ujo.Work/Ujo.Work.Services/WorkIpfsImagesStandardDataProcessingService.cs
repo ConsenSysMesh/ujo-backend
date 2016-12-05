@@ -28,7 +28,7 @@ namespace Ujo.Work.Services
             var key = dataEventLog.Event.Key;
             var val = dataEventLog.Event.Value;
 
-            if (key == WorkSchema.Image.ToString())
+            if (key == WorkSchema.image.ToString())
             {
                 _ipfsImageQueue.Add(work.Image);
             }

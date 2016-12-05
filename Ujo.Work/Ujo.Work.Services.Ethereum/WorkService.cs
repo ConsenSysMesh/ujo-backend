@@ -73,44 +73,44 @@ namespace Ujo.Work.Services.Ethereum
         {
             var work = new Model.Work();
             work.Address = Contract.Address;
-            work.WorkFileIpfsHash = await GetWorkAttributeAsyncCall(WorkSchema.Audio);
-            work.CoverImageIpfsHash = await GetWorkAttributeAsyncCall(WorkSchema.Image);
-            work.DateCreated = await GetWorkAttributeAsyncCall(WorkSchema.DateCreated);
-            work.DateModified = await GetWorkAttributeAsyncCall(WorkSchema.DateModified);
-            work.Creator = await GetWorkAttributeAsyncCall(WorkSchema.Creator);
-            work.Name = await GetWorkAttributeAsyncCall(WorkSchema.Name);
-            work.Image = await GetWorkAttributeAsyncCall(WorkSchema.Image);
-            work.Audio = await GetWorkAttributeAsyncCall(WorkSchema.Audio);
-            work.Genre = await GetWorkAttributeAsyncCall(WorkSchema.Genre);
-            work.Keywords = await GetWorkAttributeAsyncCall(WorkSchema.Keywords);
+            work.WorkFileIpfsHash = await GetWorkAttributeAsyncCall(WorkSchema.audio);
+            work.CoverImageIpfsHash = await GetWorkAttributeAsyncCall(WorkSchema.image);
+            work.DateCreated = await GetWorkAttributeAsyncCall(WorkSchema.dateCreated);
+            work.DateModified = await GetWorkAttributeAsyncCall(WorkSchema.dateModified);
+            work.Creator = await GetWorkAttributeAsyncCall(WorkSchema.creator);
+            work.Name = await GetWorkAttributeAsyncCall(WorkSchema.name);
+            work.Image = await GetWorkAttributeAsyncCall(WorkSchema.image);
+            work.Audio = await GetWorkAttributeAsyncCall(WorkSchema.audio);
+            work.Genre = await GetWorkAttributeAsyncCall(WorkSchema.genre);
+            work.Keywords = await GetWorkAttributeAsyncCall(WorkSchema.keywords);
 
-            var byArtist = await GetWorkAttributeAsyncCall(WorkSchema.ByArtist);
+            var byArtist = await GetWorkAttributeAsyncCall(WorkSchema.byArtist);
 
             if (IsAddress(byArtist))
                 work.ByArtistAddress = byArtist;
             else
                 work.ByArtistName = byArtist;
 
-            var featuredArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist1);
-            var featuredArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist2);
-            var featuredArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist3);
-            var featuredArtist4 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist4);
-            var featuredArtist5 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist5);
-            var featuredArtist6 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist6);
-            var featuredArtist7 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist7);
-            var featuredArtist8 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist8);
-            var featuredArtist9 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist9);
-            var featuredArtist10 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtist10);
-            var featuredArtistRole1 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole1);
-            var featuredArtistRole2 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole2);
-            var featuredArtistRole3 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole3);
-            var featuredArtistRole4 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole4);
-            var featuredArtistRole5 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole5);
-            var featuredArtistRole6 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole6);
-            var featuredArtistRole7 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole7);
-            var featuredArtistRole8 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole8);
-            var featuredArtistRole9 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole9);
-            var featuredArtistRole10 = await GetWorkAttributeAsyncCall(WorkSchema.FeaturedArtistRole10);
+            var featuredArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist1);
+            var featuredArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist2);
+            var featuredArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist3);
+            var featuredArtist4 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist4);
+            var featuredArtist5 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist5);
+            var featuredArtist6 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist6);
+            var featuredArtist7 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist7);
+            var featuredArtist8 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist8);
+            var featuredArtist9 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist9);
+            var featuredArtist10 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtist10);
+            var featuredArtistRole1 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole1);
+            var featuredArtistRole2 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole2);
+            var featuredArtistRole3 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole3);
+            var featuredArtistRole4 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole4);
+            var featuredArtistRole5 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole5);
+            var featuredArtistRole6 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole6);
+            var featuredArtistRole7 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole7);
+            var featuredArtistRole8 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole8);
+            var featuredArtistRole9 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole9);
+            var featuredArtistRole10 = await GetWorkAttributeAsyncCall(WorkSchema.featuredArtistRole10);
 
             work.AddFeatureArtist(1, featuredArtist1, featuredArtistRole1);
             work.AddFeatureArtist(2, featuredArtist2, featuredArtistRole2);
@@ -123,26 +123,26 @@ namespace Ujo.Work.Services.Ethereum
             work.AddFeatureArtist(9, featuredArtist9, featuredArtistRole9);
             work.AddFeatureArtist(10, featuredArtist10, featuredArtistRole10);
 
-            var contributingArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist1);
-            var contributingArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist2);
-            var contributingArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist3);
-            var contributingArtist4 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist4);
-            var contributingArtist5 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist5);
-            var contributingArtist6 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist6);
-            var contributingArtist7 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist7);
-            var contributingArtist8 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist8);
-            var contributingArtist9 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist9);
-            var contributingArtist10 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtist10);
-            var contributingArtistRole1 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole1);
-            var contributingArtistRole2 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole2);
-            var contributingArtistRole3 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole3);
-            var contributingArtistRole4 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole4);
-            var contributingArtistRole5 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole5);
-            var contributingArtistRole6 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole6);
-            var contributingArtistRole7 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole7);
-            var contributingArtistRole8 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole8);
-            var contributingArtistRole9 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole9);
-            var contributingArtistRole10 = await GetWorkAttributeAsyncCall(WorkSchema.ContributingArtistRole10);
+            var contributingArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist1);
+            var contributingArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist2);
+            var contributingArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist3);
+            var contributingArtist4 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist4);
+            var contributingArtist5 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist5);
+            var contributingArtist6 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist6);
+            var contributingArtist7 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist7);
+            var contributingArtist8 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist8);
+            var contributingArtist9 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist9);
+            var contributingArtist10 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtist10);
+            var contributingArtistRole1 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole1);
+            var contributingArtistRole2 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole2);
+            var contributingArtistRole3 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole3);
+            var contributingArtistRole4 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole4);
+            var contributingArtistRole5 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole5);
+            var contributingArtistRole6 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole6);
+            var contributingArtistRole7 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole7);
+            var contributingArtistRole8 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole8);
+            var contributingArtistRole9 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole9);
+            var contributingArtistRole10 = await GetWorkAttributeAsyncCall(WorkSchema.contributingArtistRole10);
 
             work.AddContributingArtist(1, contributingArtist1, contributingArtistRole1);
             work.AddContributingArtist(2, contributingArtist2, contributingArtistRole2);
@@ -155,26 +155,26 @@ namespace Ujo.Work.Services.Ethereum
             work.AddContributingArtist(9, contributingArtist9, contributingArtistRole9);
             work.AddContributingArtist(10, contributingArtist10, contributingArtistRole10);
 
-            var performingArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist1);
-            var performingArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist2);
-            var performingArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist3);
-            var performingArtist4 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist4);
-            var performingArtist5 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist5);
-            var performingArtist6 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist6);
-            var performingArtist7 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist7);
-            var performingArtist8 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist8);
-            var performingArtist9 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist9);
-            var performingArtist10 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtist10);
-            var performingArtistRole1 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole1);
-            var performingArtistRole2 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole2);
-            var performingArtistRole3 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole3);
-            var performingArtistRole4 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole4);
-            var performingArtistRole5 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole5);
-            var performingArtistRole6 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole6);
-            var performingArtistRole7 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole7);
-            var performingArtistRole8 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole8);
-            var performingArtistRole9 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole9);
-            var performingArtistRole10 = await GetWorkAttributeAsyncCall(WorkSchema.PerformingArtistRole10);
+            var performingArtist1 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist1);
+            var performingArtist2 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist2);
+            var performingArtist3 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist3);
+            var performingArtist4 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist4);
+            var performingArtist5 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist5);
+            var performingArtist6 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist6);
+            var performingArtist7 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist7);
+            var performingArtist8 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist8);
+            var performingArtist9 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist9);
+            var performingArtist10 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtist10);
+            var performingArtistRole1 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole1);
+            var performingArtistRole2 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole2);
+            var performingArtistRole3 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole3);
+            var performingArtistRole4 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole4);
+            var performingArtistRole5 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole5);
+            var performingArtistRole6 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole6);
+            var performingArtistRole7 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole7);
+            var performingArtistRole8 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole8);
+            var performingArtistRole9 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole9);
+            var performingArtistRole10 = await GetWorkAttributeAsyncCall(WorkSchema.performingArtistRole10);
 
             work.AddPerformingArtist(1, performingArtist1, performingArtistRole1);
             work.AddPerformingArtist(2, performingArtist2, performingArtistRole2);
@@ -188,14 +188,14 @@ namespace Ujo.Work.Services.Ethereum
             work.AddPerformingArtist(10, performingArtist10, performingArtistRole10);
 
 
-            work.Label = await GetWorkAttributeAsyncCall(WorkSchema.Label);
-            work.Description = await GetWorkAttributeAsyncCall(WorkSchema.Description);
-            work.Publisher = await GetWorkAttributeAsyncCall(WorkSchema.Publisher);
-            work.HasPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.HasPartOf), false);
-            work.IsPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.IsPartOf), false);
-            work.IsFamilyFriendly = await GetWorkAttributeAsyncCall(WorkSchema.IsFamilyFriendly);
-            work.License = await GetWorkAttributeAsyncCall(WorkSchema.License);
-            work.IswcCode = await GetWorkAttributeAsyncCall(WorkSchema.IswcCode);
+            work.Label = await GetWorkAttributeAsyncCall(WorkSchema.label);
+            work.Description = await GetWorkAttributeAsyncCall(WorkSchema.description);
+            work.Publisher = await GetWorkAttributeAsyncCall(WorkSchema.publisher);
+            work.HasPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.hasPartOf), false);
+            work.IsPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.isPartOf), false);
+            work.IsFamilyFriendly = await GetWorkAttributeAsyncCall(WorkSchema.isFamilyFriendly);
+            work.License = await GetWorkAttributeAsyncCall(WorkSchema.license);
+            work.IswcCode = await GetWorkAttributeAsyncCall(WorkSchema.iswcCode);
 
             return work;
         }

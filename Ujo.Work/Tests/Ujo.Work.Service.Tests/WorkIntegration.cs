@@ -27,7 +27,7 @@ namespace Ujo.Work.Service.Tests
         {
             var web3 = await CreateNewWeb3Instance();
             var workService = new WorkService(web3, address);
-            await workService.SetAttributeAsync(Account, WorkSchema.Audio, fileHash, true, DefaultGas);
+            await workService.SetAttributeAsync(Account, WorkSchema.audio, fileHash, true, DefaultGas);
 
         }
 
@@ -39,81 +39,81 @@ namespace Ujo.Work.Service.Tests
             var web3 = await CreateNewWeb3Instance();
             var workFactoryService = new WorkFactoryService(web3, factoryContract);
 
-            var keys = new[] {  WorkSchema.Name,
-                WorkSchema.Image,
-                WorkSchema.Audio,
-                WorkSchema.Genre,
-                WorkSchema.Keywords,
-                WorkSchema.ByArtist,
-                WorkSchema.FeaturedArtist1,
-                WorkSchema.FeaturedArtist2,
-                WorkSchema.FeaturedArtist3,
-                WorkSchema.FeaturedArtist4,
-                WorkSchema.FeaturedArtist5,
-                //WorkSchema.FeaturedArtist6,
+            var keys = new[] {  WorkSchema.name,
+                WorkSchema.image,
+                WorkSchema.audio,
+                WorkSchema.genre,
+                WorkSchema.keywords,
+                WorkSchema.byArtist,
+                WorkSchema.featuredArtist1,
+                WorkSchema.featuredArtist2,
+                WorkSchema.featuredArtist3,
+                WorkSchema.featuredArtist4,
+                WorkSchema.featuredArtist5,
+                //WorkSchema.featuredArtist6,
                 //WorkSchema.FeaturedArtist7,
                 //WorkSchema.FeaturedArtist8,
                 //WorkSchema.FeaturedArtist9,
                 //WorkSchema.FeaturedArtist10,
                 //WorkSchema.FeaturedArtistRole1,
-                WorkSchema.FeaturedArtistRole2,
-                WorkSchema.FeaturedArtistRole3,
-                WorkSchema.FeaturedArtistRole4,
+                WorkSchema.featuredArtistRole2,
+                WorkSchema.featuredArtistRole3,
+                WorkSchema.featuredArtistRole4,
                 //WorkSchema.FeaturedArtistRole5,
                 //WorkSchema.FeaturedArtistRole6,
                 //WorkSchema.FeaturedArtistRole7,
                 //WorkSchema.FeaturedArtistRole8,
                 //WorkSchema.FeaturedArtistRole9,
                 //WorkSchema.FeaturedArtistRole10,
-                WorkSchema.ContributingArtist1,
-                WorkSchema.ContributingArtist2,
-                WorkSchema.ContributingArtist3,
-                WorkSchema.ContributingArtist4,
-                WorkSchema.ContributingArtist5,
+                WorkSchema.contributingArtist1,
+                WorkSchema.contributingArtist2,
+                WorkSchema.contributingArtist3,
+                WorkSchema.contributingArtist4,
+                WorkSchema.contributingArtist5,
                 //WorkSchema.ContributingArtist6,
                 //WorkSchema.ContributingArtist7,
                 //WorkSchema.ContributingArtist8,
                 //WorkSchema.ContributingArtist9,
                 //WorkSchema.ContributingArtist10,
         
-                WorkSchema.ContributingArtistRole1,
-                WorkSchema.ContributingArtistRole2,
-                WorkSchema.ContributingArtistRole3,
-                WorkSchema.ContributingArtistRole4,
-                WorkSchema.ContributingArtistRole5,
+                WorkSchema.contributingArtistRole1,
+                WorkSchema.contributingArtistRole2,
+                WorkSchema.contributingArtistRole3,
+                WorkSchema.contributingArtistRole4,
+                WorkSchema.contributingArtistRole5,
                 //WorkSchema.ContributingArtistRole6,
                 //WorkSchema.ContributingArtistRole7,
                 //WorkSchema.ContributingArtistRole8,
                 //WorkSchema.ContributingArtistRole9,
                 //WorkSchema.ContributingArtistRole10,
                 //WorkSchema.PerformingArtist1,
-                WorkSchema.PerformingArtist2,
-                WorkSchema.PerformingArtist3,
-                WorkSchema.PerformingArtist4,
-                WorkSchema.PerformingArtist5,
+                WorkSchema.performingArtist2,
+                WorkSchema.performingArtist3,
+                WorkSchema.performingArtist4,
+                WorkSchema.performingArtist5,
                 //WorkSchema.PerformingArtist6,
                 //WorkSchema.PerformingArtist7,
                 //WorkSchema.PerformingArtist8,
                 //WorkSchema.PerformingArtist9,
                 //WorkSchema.PerformingArtist10,
-                WorkSchema.PerformingArtistRole1,
-                WorkSchema.PerformingArtistRole2,
-                WorkSchema.PerformingArtistRole3,
-                WorkSchema.PerformingArtistRole4,
-                WorkSchema.PerformingArtistRole5,
+                WorkSchema.performingArtistRole1,
+                WorkSchema.performingArtistRole2,
+                WorkSchema.performingArtistRole3,
+                WorkSchema.performingArtistRole4,
+                WorkSchema.performingArtistRole5,
                 //WorkSchema.PerformingArtistRole6,
                 //WorkSchema.PerformingArtistRole7,
                 //WorkSchema.PerformingArtistRole8,
                 //WorkSchema.PerformingArtistRole9,
                 //WorkSchema.PerformingArtistRole10,
                 //WorkSchema.Label,
-                WorkSchema.Description,
-                WorkSchema.Publisher,
-                WorkSchema.HasPartOf,
-                WorkSchema.IsPartOf,
-                WorkSchema.IsFamilyFriendly,
-                WorkSchema.License,
-                WorkSchema.IswcCode
+                WorkSchema.description,
+                WorkSchema.publisher,
+                WorkSchema.hasPartOf,
+                WorkSchema.isPartOf,
+                WorkSchema.isFamilyFriendly,
+                WorkSchema.license,
+                WorkSchema.iswcCode
             };
             string values = GetValues(workHash, workTitle, coverImageHash, artistNameAddress, genre, keys);
 
@@ -129,83 +129,83 @@ namespace Ujo.Work.Service.Tests
         {
             var web3 = await CreateNewWeb3Instance();
             var workService = new WorkService(web3, contract);
-            var keys = new[] {  WorkSchema.Name,
-                WorkSchema.Image,
-                WorkSchema.Audio,
-                WorkSchema.Genre,
-                WorkSchema.Keywords,
-                WorkSchema.ByArtist,
-                WorkSchema.FeaturedArtist1,
-                WorkSchema.FeaturedArtist2,
-                WorkSchema.FeaturedArtist3,
-                WorkSchema.FeaturedArtist4,
-                WorkSchema.FeaturedArtist5,
-                WorkSchema.FeaturedArtist6,
-                WorkSchema.FeaturedArtist7,
-                WorkSchema.FeaturedArtist8,
-                WorkSchema.FeaturedArtist9,
-                WorkSchema.FeaturedArtist10,
-                WorkSchema.FeaturedArtistRole1,
-                WorkSchema.FeaturedArtistRole2,
-                WorkSchema.FeaturedArtistRole3,
-                WorkSchema.FeaturedArtistRole4,
-                WorkSchema.FeaturedArtistRole5,
-                WorkSchema.FeaturedArtistRole6,
-                WorkSchema.FeaturedArtistRole7,
-                WorkSchema.FeaturedArtistRole8,
-                WorkSchema.FeaturedArtistRole9,
-                WorkSchema.FeaturedArtistRole10,
-                WorkSchema.ContributingArtist1,
-                WorkSchema.ContributingArtist2,
-                WorkSchema.ContributingArtist3,
-                WorkSchema.ContributingArtist4,
-                WorkSchema.ContributingArtist5,
-                WorkSchema.ContributingArtist6,
-                WorkSchema.ContributingArtist7,
-                WorkSchema.ContributingArtist8,
-                WorkSchema.ContributingArtist9,
-                WorkSchema.ContributingArtist10,
+            var keys = new[] {  WorkSchema.name,
+                WorkSchema.image,
+                WorkSchema.audio,
+                WorkSchema.genre,
+                WorkSchema.keywords,
+                WorkSchema.byArtist,
+                WorkSchema.featuredArtist1,
+                WorkSchema.featuredArtist2,
+                WorkSchema.featuredArtist3,
+                WorkSchema.featuredArtist4,
+                WorkSchema.featuredArtist5,
+                WorkSchema.featuredArtist6,
+                WorkSchema.featuredArtist7,
+                WorkSchema.featuredArtist8,
+                WorkSchema.featuredArtist9,
+                WorkSchema.featuredArtist10,
+                WorkSchema.featuredArtistRole1,
+                WorkSchema.featuredArtistRole2,
+                WorkSchema.featuredArtistRole3,
+                WorkSchema.featuredArtistRole4,
+                WorkSchema.featuredArtistRole5,
+                WorkSchema.featuredArtistRole6,
+                WorkSchema.featuredArtistRole7,
+                WorkSchema.featuredArtistRole8,
+                WorkSchema.featuredArtistRole9,
+                WorkSchema.featuredArtistRole10,
+                WorkSchema.contributingArtist1,
+                WorkSchema.contributingArtist2,
+                WorkSchema.contributingArtist3,
+                WorkSchema.contributingArtist4,
+                WorkSchema.contributingArtist5,
+                WorkSchema.contributingArtist6,
+                WorkSchema.contributingArtist7,
+                WorkSchema.contributingArtist8,
+                WorkSchema.contributingArtist9,
+                WorkSchema.contributingArtist10,
             };
 
             var keys2 = new[] {
-                WorkSchema.ContributingArtistRole1,
-                WorkSchema.ContributingArtistRole2,
-                WorkSchema.ContributingArtistRole3,
-                WorkSchema.ContributingArtistRole4,
-                WorkSchema.ContributingArtistRole5,
-                WorkSchema.ContributingArtistRole6,
-                WorkSchema.ContributingArtistRole7,
-                WorkSchema.ContributingArtistRole8,
-                WorkSchema.ContributingArtistRole9,
-                WorkSchema.ContributingArtistRole10,
-                WorkSchema.PerformingArtist1,
-                WorkSchema.PerformingArtist2,
-                WorkSchema.PerformingArtist3,
-                WorkSchema.PerformingArtist4,
-                WorkSchema.PerformingArtist5,
-                WorkSchema.PerformingArtist6,
-                WorkSchema.PerformingArtist7,
-                WorkSchema.PerformingArtist8,
-                WorkSchema.PerformingArtist9,
-                WorkSchema.PerformingArtist10,
-                WorkSchema.PerformingArtistRole1,
-                WorkSchema.PerformingArtistRole2,
-                WorkSchema.PerformingArtistRole3,
-                WorkSchema.PerformingArtistRole4,
-                WorkSchema.PerformingArtistRole5,
-                WorkSchema.PerformingArtistRole6,
-                WorkSchema.PerformingArtistRole7,
-                WorkSchema.PerformingArtistRole8,
-                WorkSchema.PerformingArtistRole9,
-                WorkSchema.PerformingArtistRole10,
-                WorkSchema.Label,
-                WorkSchema.Description,
-                WorkSchema.Publisher,
-                WorkSchema.HasPartOf,
-                WorkSchema.IsPartOf,
-                WorkSchema.IsFamilyFriendly,
-                WorkSchema.License,
-                WorkSchema.IswcCode
+                WorkSchema.contributingArtistRole1,
+                WorkSchema.contributingArtistRole2,
+                WorkSchema.contributingArtistRole3,
+                WorkSchema.contributingArtistRole4,
+                WorkSchema.contributingArtistRole5,
+                WorkSchema.contributingArtistRole6,
+                WorkSchema.contributingArtistRole7,
+                WorkSchema.contributingArtistRole8,
+                WorkSchema.contributingArtistRole9,
+                WorkSchema.contributingArtistRole10,
+                WorkSchema.performingArtist1,
+                WorkSchema.performingArtist2,
+                WorkSchema.performingArtist3,
+                WorkSchema.performingArtist4,
+                WorkSchema.performingArtist5,
+                WorkSchema.performingArtist6,
+                WorkSchema.performingArtist7,
+                WorkSchema.performingArtist8,
+                WorkSchema.performingArtist9,
+                WorkSchema.performingArtist10,
+                WorkSchema.performingArtistRole1,
+                WorkSchema.performingArtistRole2,
+                WorkSchema.performingArtistRole3,
+                WorkSchema.performingArtistRole4,
+                WorkSchema.performingArtistRole5,
+                WorkSchema.performingArtistRole6,
+                WorkSchema.performingArtistRole7,
+                WorkSchema.performingArtistRole8,
+                WorkSchema.performingArtistRole9,
+                WorkSchema.performingArtistRole10,
+                WorkSchema.label,
+                WorkSchema.description,
+                WorkSchema.publisher,
+                WorkSchema.hasPartOf,
+                WorkSchema.isPartOf,
+                WorkSchema.isFamilyFriendly,
+                WorkSchema.license,
+                WorkSchema.iswcCode
             };
             string values = GetValues(workHash, workTitle, coverImageHash, artistNameAddress, genre, keys);
             string values2 = GetValues(workHash, workTitle, coverImageHash, artistNameAddress, genre, keys2);
@@ -225,27 +225,27 @@ namespace Ujo.Work.Service.Tests
             foreach (var key in keys1)
             {
 
-                if (key == WorkSchema.Name)
+                if (key == WorkSchema.name)
                 {
                     values = values + workTitle + "|";
                 }
-                else if (key == WorkSchema.Audio)
+                else if (key == WorkSchema.audio)
                 {
                     values = values + workHash + "|";
                 }
-                else if (key == WorkSchema.Genre)
+                else if (key == WorkSchema.genre)
                 {
                     values = values + genre + "|";
                 }
-                else if (key == WorkSchema.Image)
+                else if (key == WorkSchema.image)
                 {
                     values = values + coverImageHash + "|";
                 }
-                else if (key == WorkSchema.ByArtist)
+                else if (key == WorkSchema.byArtist)
                 {
                     values = values + artistNameAddress + "|";
                 }
-                else if (key == WorkSchema.Creator)
+                else if (key == WorkSchema.creator)
                 {
                     values = values + artistNameAddress + "|";
                 }
@@ -267,8 +267,8 @@ namespace Ujo.Work.Service.Tests
             var workService = new WorkService(web3, contract);
             var keys = new[]
             {
-                WorkSchema.Name, WorkSchema.Audio, WorkSchema.Genre, WorkSchema.Image,
-                WorkSchema.Creator
+                WorkSchema.name, WorkSchema.audio, WorkSchema.genre, WorkSchema.image,
+                WorkSchema.creator
             };
 
             var values = string.Join("|", workTitle, workHash, genre, coverImageHash, artistName);

@@ -30,9 +30,9 @@ namespace Ujo.Work.Service.Tests
         public async Task ShouldDeployContractToMordenAsync()
         {
             var workService = new WorkService(new Web3(), "0xdF597079182391EaFB478412F2352CfAfc7E29A3");
-            await workService.SetAttributeAsync(Account, WorkSchema.Name, "Hello", true, DefaultGas);
-            await workService.SetAttributeAsync(Account, WorkSchema.Audio, "MP3HASH", true, DefaultGas);
-            await workService.SetAttributeAsync(Account, WorkSchema.Image, "QmZTEAwF3f1oidQtZNKqM2VVK79xDdMNDnSDjC632AzZnU", true, DefaultGas);
+            await workService.SetAttributeAsync(Account, WorkSchema.name, "Hello", true, DefaultGas);
+            await workService.SetAttributeAsync(Account, WorkSchema.audio, "MP3HASH", true, DefaultGas);
+            await workService.SetAttributeAsync(Account, WorkSchema.image, "QmZTEAwF3f1oidQtZNKqM2VVK79xDdMNDnSDjC632AzZnU", true, DefaultGas);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Ujo.Work.Service.Tests
         {
             var web3 = await CreateNewWeb3Instance();
             var workService = new WorkService(web3, "0xdF597079182391EaFB478412F2352CfAfc7E29A3");
-            await workService.SetAttributeAsync(Account, WorkSchema.Image, "QmY6CYcPbpmvz2R2v5Jfv5DLgTjyyN6HmWPKsBTnG2Ajv7", true, DefaultGas);
+            await workService.SetAttributeAsync(Account, WorkSchema.image, "QmY6CYcPbpmvz2R2v5Jfv5DLgTjyyN6HmWPKsBTnG2Ajv7", true, DefaultGas);
 
         }
 
