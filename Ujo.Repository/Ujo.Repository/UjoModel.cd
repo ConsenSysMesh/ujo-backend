@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="ContributionType = &quot;FeaturedArtist&quot; || &quot;PeformingArtist&quot; || &quot;ContributingArtist&quot; || ...">
+    <Position X="8.667" Y="2.885" Height="1.052" Width="1.95" />
+  </Comment>
+  <Class Name="Ujo.Repository.MusicCollectionTrack">
+    <Position X="4.75" Y="9.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAEAAAAAiAIAAAAAkAAAAAAAAAAA=</HashCode>
+      <FileName>MusicAlbumTrack.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="MusicRecording" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ujo.Repository.CreativeWorkArtist">
+    <Position X="7.75" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gBACAAAAAAAAAAAAEAAAAAgAAMAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>CreativeWorkArtist.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CreativeWork" />
+      <Property Name="Artist" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Ujo.Repository.Artist">
+    <Position X="8.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Artist.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ujo.Repository.CreativeWork">
+    <Position X="4.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAEAAAACAMEAAQAAAAEEBBiEgAEAAAAiAA=</HashCode>
+      <FileName>CreativeWork.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="OtherArtists" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Ujo.Repository.MusicCollection">
+    <Position X="4.25" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAEAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MusicCollection.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Tracks" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Ujo.Repository.MusicRecording">
+    <Position X="0.75" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAUAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MusicRecording.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

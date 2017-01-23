@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Ipfs;
 
@@ -55,7 +56,18 @@ namespace Ujo.IpfsImage.Services
             using (var ipfs = new IpfsClient(ipfsUrl))
             {
                 var inputStream = new IpfsStream(name, stream);
-                return await ipfs.Add(inputStream).ConfigureAwait(false);
+                
+                var merkleNode = await ipfs.Add(inputStream).ConfigureAwait(false);
+                var multiHash = ipfs.Pin.Add(merkleNode.Hash.ToString());
+                return merkleNode;
+            }
+        }
+
+        public async Task<HttpContent> PinList()
+        {
+            using (var ipfs = new IpfsClient(ipfsUrl))
+            {
+               return await ipfs.Pin.Ls();
             }
         }
 

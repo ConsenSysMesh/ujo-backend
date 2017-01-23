@@ -40,7 +40,7 @@ namespace Ujo.WorkRegistry.WebJob
                 ConfigurationSettings.StartProcessFromBlockNumber(), workRegistryProcessInfoRepository
                 );
             return new BlokchainBatchProcessorService(blockchainRegistryProcessor, logger, latestBlockchainProcessorService,
-                50);
+                200);
         }
     }
 }

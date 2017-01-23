@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,6 +55,13 @@ namespace Ujo.IpfsImage.Services.Tests
             var file = Path.Combine(directory, fileName);
             return await UploadFileToInfura(file);
         }
+
+        public Task<HttpContent> ListPins()
+        {
+            var ipfsService = new IpfsImageService("https://ipfs.infura.io:5001");
+            return ipfsService.PinList();
+        }
+
 
         public async Task<Ipfs.MerkleNode> UploadFileToInfura(string filePath)
         {

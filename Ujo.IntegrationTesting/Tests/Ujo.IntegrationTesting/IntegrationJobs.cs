@@ -116,15 +116,16 @@ namespace Ujo.IntegrationTesting
 
         public async Task<string> ProcessWorkThroughFactory(string work)
         {
-            var workHash = await UploadFile("summerdnb.mp3");
+            //var workHash = await UploadFile("summerdnb.mp3");
             //all jpg
             var imageHash = await UploadFile(Path.GetFileNameWithoutExtension(work) + ".jpg");
-            var artistWorkArray = Path.GetFileNameWithoutExtension(work).Split('-');
-            var artist = artistWorkArray[0].Trim();
-            var workName = artistWorkArray[1].Trim();
-            var workHelper = new WorkPublicNodeIntegrationTests();
-            var workContract = await workHelper.CreateAndRegisterWorkWithMockUpFields("0xc824f28B9a59F301AaB0C2b2037E8488992225c7", workHash, workName, imageHash, artist, "Techno");
-            return workContract;
+            //var artistWorkArray = Path.GetFileNameWithoutExtension(work).Split('-');
+            //var artist = artistWorkArray[0].Trim();
+            //var workName = artistWorkArray[1].Trim();
+            //var workHelper = new WorkPublicNodeIntegrationTests();
+            //var workContract = await workHelper.CreateAndRegisterWorkWithMockUpFields("0xc824f28B9a59F301AaB0C2b2037E8488992225c7", workHash, workName, imageHash, artist, "Techno");
+            //return workContract;
+            return imageHash;
         }
 
         public async Task RegisterWork(string address)
@@ -144,6 +145,9 @@ namespace Ujo.IntegrationTesting
         {
             var ipfsTestHelper = new IpfsImageServiceTests();
             var node = await ipfsTestHelper.UploadCurrentDirectoryFileToInfura(fileName);
+            var pins = await ipfsTestHelper.ListPins();
+            var pinOutput = pins.ReadAsStringAsync();
+            Assert.True(pinOutput.Result.Contains(node.Hash.ToString()));
             return node.Hash.ToString();
         }
     }
