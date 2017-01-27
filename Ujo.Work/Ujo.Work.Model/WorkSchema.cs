@@ -79,6 +79,7 @@ namespace Ujo.Work.Model
         isPartOf,
         isFamilyFriendly,
         license,
-        iswcCode
+        iswcCode,
+        isrcCode
     }
 }

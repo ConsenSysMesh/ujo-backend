@@ -32,7 +32,7 @@ namespace Ujo.Model
         public string Publisher { get; set; }
         public bool? HasPart { get; set; }
         public bool? IsPartOf { get; set; }
-        public bool? IsFamilyFriendly { get; set; }
+        public string IsFamilyFriendly { get; set; }
         public string License { get; set; }
         public string DateCreated { get; set; }
         public string DateModified { get; set; }
