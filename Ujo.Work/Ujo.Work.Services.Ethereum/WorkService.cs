@@ -69,6 +69,8 @@ namespace Ujo.Work.Services.Ethereum
             return nameOrAddress.StartsWith("0x");
         }
 
+        public async Task 
+
         public async Task<Model.Work> GetWorkAsync()
         {
             var work = new Model.Work();
