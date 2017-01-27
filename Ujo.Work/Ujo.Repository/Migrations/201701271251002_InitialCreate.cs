@@ -52,7 +52,7 @@ namespace Ujo.Repository.Migrations
                         Publisher = c.String(),
                         HasPart = c.Boolean(),
                         IsPartOf = c.Boolean(),
-                        IsFamilyFriendly = c.Boolean(),
+                        IsFamilyFriendly = c.String(),
                         License = c.String(),
                         DateCreated = c.String(),
                         DateModified = c.String(),

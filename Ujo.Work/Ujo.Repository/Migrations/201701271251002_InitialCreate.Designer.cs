@@ -13,7 +13,7 @@ namespace Ujo.Repository.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201701271012300_InitialCreate"; }
+            get { return "201701271251002_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source
