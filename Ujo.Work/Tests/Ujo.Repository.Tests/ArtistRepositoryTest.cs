@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ujo.Model;
@@ -10,15 +9,6 @@ using Xunit;
 
 namespace Ujo.Repository.Tests
 {
-    public class MusicRecordingRepositoryTest
-    {
-        [Fact]
-        public async void ShouldBeAbleToUpsertMusicRecordingsIncludingOtherArtists()
-        {
-            
-        }
-    }
-
     public class ArtistRepositoryTest
     {
         [Fact]
