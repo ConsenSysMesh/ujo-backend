@@ -140,6 +140,10 @@
       <Project>{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}</Project>
       <Name>CCC.Contracts.StandardData.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ujo.Messaging\Ujo.Messaging.csproj">
+      <Project>{8c75232b-b75d-4566-8ae3-dcbafe393cd4}</Project>
+      <Name>Ujo.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ujo.Work.Model\Ujo.Work.Model.csproj">
       <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>
       <Name>Ujo.Work.Model</Name>

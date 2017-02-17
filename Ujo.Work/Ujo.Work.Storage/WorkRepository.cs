@@ -4,12 +4,13 @@ using CCC.Contracts.StandardData.Processing;
 using CCC.Contracts.StandardData.Services.Model;
 using Microsoft.WindowsAzure.Storage.Table;
 using Nethereum.Web3;
+using Ujo.Messaging;
 using Ujo.Work.Model;
 using Wintellect.Azure.Storage.Table;
 
 namespace Ujo.Work.Storage
 {
-    public class WorkRepository:IStandardDataProcessingService<Model.Work>
+    public class WorkRepository:IStandardDataProcessingService<MusicRecordingDTO>
     {
         private readonly AzureTable _worksTable;
 
@@ -28,7 +29,7 @@ namespace Ujo.Work.Storage
             return await WorkEntity.FindAsync(_worksTable, address);
         }
 
-        public WorkEntity NewWork(Model.Work work)
+        public WorkEntity NewWork(MusicRecordingDTO work)
         {
             var workEntity = new WorkEntity(_worksTable);
             workEntity.Initialise(work);
@@ -40,7 +41,7 @@ namespace Ujo.Work.Storage
             return await WorkEntity.ExistsAsync(_worksTable, contractAddress);
         }
 
-        public async Task UpsertAsync(Model.Work work)
+        public async Task UpsertAsync(MusicRecordingDTO work)
         {
             if (work != null)
             {
@@ -49,7 +50,7 @@ namespace Ujo.Work.Storage
             }
         }
 
-        public async Task DataChangedAsync(Model.Work work, EventLog<DataChangedEvent> dataEventLog)
+        public async Task DataChangedAsync(MusicRecordingDTO work, EventLog<DataChangedEvent> dataEventLog)
         {
             var workEntity = await FindAsync(dataEventLog.Log.Address);
             var key = dataEventLog.Event.Key;

@@ -1,6 +1,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage.Table;
+using Ujo.Messaging;
 using Wintellect;
 using Wintellect.Azure.Storage.Table;
 
@@ -167,14 +168,14 @@ namespace Ujo.Work.Storage
         }
 
 
-        public static WorkEntity Create(AzureTable table, Model.Work work)
+        public static WorkEntity Create(AzureTable table, MusicRecordingDTO work)
         {
             var workEntity = new WorkEntity(table);
             workEntity.Initialise(work);
             return workEntity;
         }
 
-        public void Initialise(Model.Work work)
+        public void Initialise(MusicRecordingDTO work)
         {
             new WorkModelToWorkEntityMapper().MapFromWorkModel(this, work);
         }

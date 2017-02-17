@@ -54,8 +54,8 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LinqKit.EntityFramework, Version=1.1.8.0, Culture=neutral, PublicKeyToken=b6c8cfc71f7a6a80, processorArchitecture=MSIL">
-      <HintPath>..\packages\LinqKit.EntityFramework.1.1.8.0\lib\net452\LinqKit.EntityFramework.dll</HintPath>
+    <Reference Include="LinqKit, Version=1.1.8.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.8.0\lib\net452\LinqKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Nethereum.ABI, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
@@ -117,11 +117,13 @@
     <Compile Include="Infrastructure\Repository.cs" />
     <Compile Include="Infrastructure\StateHelper.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Mapping\Bootstrapper.cs" />
     <Compile Include="Migrations\201701271251002_InitialCreate.cs" />
     <Compile Include="Migrations\201701271251002_InitialCreate.Designer.cs">
       <DependentUpon>201701271251002_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Mapping\Profiles\MusicRecordingDTOMappingProfile.cs" />
     <Compile Include="MusicRecordingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UjoContext.cs" />
@@ -147,6 +149,10 @@
     <ProjectReference Include="..\..\Consensys.Common\CCC.Contracts.StandardData.Services\CCC.Contracts.StandardData.Services.csproj">
       <Project>{8B49F5D7-3A3A-4A97-8501-39D44B8FE2F8}</Project>
       <Name>CCC.Contracts.StandardData.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ujo.Messaging\Ujo.Messaging.csproj">
+      <Project>{8c75232b-b75d-4566-8ae3-dcbafe393cd4}</Project>
+      <Name>Ujo.Messaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ujo.Model\Ujo.Model.csproj">
       <Project>{935ADD90-9541-49B5-8AC7-543192920629}</Project>

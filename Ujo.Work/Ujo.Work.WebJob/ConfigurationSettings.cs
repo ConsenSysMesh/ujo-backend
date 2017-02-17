@@ -14,6 +14,7 @@ namespace Ujo.Work.WebJob
         public const string SearchApiSearchKey = "SearchServiceApiKey";
         public const string SearchApiAdminKey = "SearchApiAdminKey";
         public const string SearchApiWorkIndexNameKey = "SearchApiWorkIndexName";
+        public const string RepositoryConnectionString = "RepositoryConnectionString";
 
 
         public static string GetEthereumRpcUrl()
@@ -44,6 +45,11 @@ namespace Ujo.Work.WebJob
         public static string GetWorkRegistryContractAddress()
         {
             return CloudConfigurationManager.GetSetting(WorkRegistryContractAdressKey);
+        }
+
+        public static string GetRepositoryConnectionString()
+        {
+            return CloudConfigurationManager.GetSetting(RepositoryConnectionString);
         }
 
         public static ulong StartProcessFromBlockNumber()
@@ -78,6 +84,11 @@ namespace Ujo.Work.WebJob
                 Console.WriteLine("Please add the work registry contract address to the configuration");
             }
 
+            if (string.IsNullOrEmpty(GetRepositoryConnectionString()))
+            {
+                configOk = false;
+                Console.WriteLine("Please add the repository connection string to the configuration");
+            }
 
             if (string.IsNullOrEmpty(GetSearchApiSearchAdminKey()) ||
                 string.IsNullOrEmpty(GetSearchApiSearchKey()) ||

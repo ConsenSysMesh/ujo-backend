@@ -10,6 +10,12 @@ namespace Ujo.Repository
         {
             
         }
+
+        public UjoContext(string connectionStringOrName) : base(connectionStringOrName)
+        {
+
+        }
+
         public DbSet<Artist> Artists { get; set; }
         public DbSet<CreativeWork> CreativeWorks { get; set; }
         public DbSet<MusicCollection> MusicAlbums { get; set; }

@@ -102,9 +102,9 @@
       <Project>{A66D6A59-DE2E-4791-A33D-B67A9E7FECAD}</Project>
       <Name>CCC.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ujo.Model\Ujo.Model.csproj">
-      <Project>{935add90-9541-49b5-8ac7-543192920629}</Project>
-      <Name>Ujo.Model</Name>
+    <ProjectReference Include="..\Ujo.Messaging\Ujo.Messaging.csproj">
+      <Project>{8c75232b-b75d-4566-8ae3-dcbafe393cd4}</Project>
+      <Name>Ujo.Messaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ujo.Work.Model\Ujo.Work.Model.csproj">
       <Project>{65aa669d-6e50-4836-a277-415df696c2dc}</Project>

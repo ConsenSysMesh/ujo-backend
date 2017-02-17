@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CCC.Contracts.StandardData.Services;
 using Nethereum.Hex.HexTypes;
 using Nethereum.Web3;
-using Ujo.Model;
+using Ujo.Messaging;
 using Ujo.Work.Model;
 
 namespace Ujo.Work.Services.Ethereum
@@ -71,25 +71,31 @@ namespace Ujo.Work.Services.Ethereum
             return nameOrAddress.StartsWith("0x");
         }
 
-        public async Task<Ujo.Model.MusicRecording> GetMusicRecordingAsync()
+        public async Task<MusicRecordingDTO> GetMusicRecordingAsync()
         {
-            var musicRecording = new MusicRecording();
+            var musicRecording = new MusicRecordingDTO();
             musicRecording.Address = Contract.Address;
             musicRecording.Audio = await GetWorkAttributeAsyncCall(WorkSchema.audio);
             musicRecording.Image = await GetWorkAttributeAsyncCall(WorkSchema.image);
             musicRecording.DateCreated = await GetWorkAttributeAsyncCall(WorkSchema.dateCreated);
             musicRecording.DateModified = await GetWorkAttributeAsyncCall(WorkSchema.dateModified);
+
+            var byArtist = await GetWorkAttributeAsyncCall(WorkSchema.byArtist);
+        
+            if (IsAddress(byArtist))
+                musicRecording.ByArtistAddress = byArtist;
+            else
+                musicRecording.ArtistName = byArtist;
+
             musicRecording.Creator = await GetWorkAttributeAsyncCall(WorkSchema.creator);
             musicRecording.Name = await GetWorkAttributeAsyncCall(WorkSchema.name);
             musicRecording.Genre = await GetWorkAttributeAsyncCall(WorkSchema.genre);
             musicRecording.Keywords = await GetWorkAttributeAsyncCall(WorkSchema.keywords);
-            musicRecording.ByArtistAddress = await GetWorkAttributeAsyncCall(WorkSchema.byArtist);
+     
             musicRecording.Label = await GetWorkAttributeAsyncCall(WorkSchema.label);
-            musicRecording.Description = await GetWorkAttributeAsyncCall(WorkSchema.description);
             musicRecording.Publisher = await GetWorkAttributeAsyncCall(WorkSchema.publisher);
             musicRecording.HasPart = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.hasPartOf), false);
             musicRecording.IsPartOf = TryParseToBolean(await GetWorkAttributeAsyncCall(WorkSchema.isPartOf), false);
-            musicRecording.IsFamilyFriendly = await GetWorkAttributeAsyncCall(WorkSchema.isFamilyFriendly);
             musicRecording.License = await GetWorkAttributeAsyncCall(WorkSchema.license);
             musicRecording.IswcCode = await GetWorkAttributeAsyncCall(WorkSchema.iswcCode);
             musicRecording.IsrcCode = await GetWorkAttributeAsyncCall(WorkSchema.isrcCode);
@@ -97,61 +103,61 @@ namespace Ujo.Work.Services.Ethereum
             return musicRecording;
         }
 
-        public async Task<ICollection<CreativeWorkArtist>> GetAllOtherArtists()
+        public async Task<ICollection<CreativeWorkArtistDTO>> GetAllOtherArtists()
         {
-            var artistCollection = new List<CreativeWorkArtist>();
-            await AddOtherArtist(WorkSchema.contributingArtist1, WorkSchema.contributingArtistRole1, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist2, WorkSchema.contributingArtistRole2, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist3, WorkSchema.contributingArtistRole3, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist4, WorkSchema.contributingArtistRole4, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist5, WorkSchema.contributingArtistRole5, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist6, WorkSchema.contributingArtistRole6, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist7, WorkSchema.contributingArtistRole7, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist8, WorkSchema.contributingArtistRole8, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist9, WorkSchema.contributingArtistRole9, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.contributingArtist10, WorkSchema.contributingArtistRole10, MusicRecording.ContributingArtistContributionTypeKey, artistCollection);
+            var artistCollection = new List<CreativeWorkArtistDTO>();
+            await AddOtherArtist(WorkSchema.contributingArtist1, WorkSchema.contributingArtistRole1, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist2, WorkSchema.contributingArtistRole2, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist3, WorkSchema.contributingArtistRole3, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist4, WorkSchema.contributingArtistRole4, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist5, WorkSchema.contributingArtistRole5, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist6, WorkSchema.contributingArtistRole6, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist7, WorkSchema.contributingArtistRole7, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist8, WorkSchema.contributingArtistRole8, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist9, WorkSchema.contributingArtistRole9, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.contributingArtist10, WorkSchema.contributingArtistRole10, MusicRecordingDTO.ContributingArtistContributionTypeKey, artistCollection);
 
 
-            await AddOtherArtist(WorkSchema.featuredArtist1, WorkSchema.featuredArtistRole1, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist2, WorkSchema.featuredArtistRole2, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist3, WorkSchema.featuredArtistRole3, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist4, WorkSchema.featuredArtistRole4, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist5, WorkSchema.featuredArtistRole5, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist6, WorkSchema.featuredArtistRole6, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist7, WorkSchema.featuredArtistRole7, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist8, WorkSchema.featuredArtistRole8, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist9, WorkSchema.featuredArtistRole9, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.featuredArtist10, WorkSchema.featuredArtistRole10, MusicRecording.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist1, WorkSchema.featuredArtistRole1, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist2, WorkSchema.featuredArtistRole2, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist3, WorkSchema.featuredArtistRole3, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist4, WorkSchema.featuredArtistRole4, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist5, WorkSchema.featuredArtistRole5, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist6, WorkSchema.featuredArtistRole6, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist7, WorkSchema.featuredArtistRole7, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist8, WorkSchema.featuredArtistRole8, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist9, WorkSchema.featuredArtistRole9, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.featuredArtist10, WorkSchema.featuredArtistRole10, MusicRecordingDTO.FeaturedArtistContributionTypeKey, artistCollection);
 
-            await AddOtherArtist(WorkSchema.performingArtist1, WorkSchema.performingArtistRole1, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist2, WorkSchema.performingArtistRole2, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist3, WorkSchema.performingArtistRole3, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist4, WorkSchema.performingArtistRole4, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist5, WorkSchema.performingArtistRole5, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist6, WorkSchema.performingArtistRole6, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist7, WorkSchema.performingArtistRole7, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist8, WorkSchema.performingArtistRole8, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist9, WorkSchema.performingArtistRole9, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
-            await AddOtherArtist(WorkSchema.performingArtist10, WorkSchema.performingArtistRole10, MusicRecording.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist1, WorkSchema.performingArtistRole1, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist2, WorkSchema.performingArtistRole2, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist3, WorkSchema.performingArtistRole3, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist4, WorkSchema.performingArtistRole4, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist5, WorkSchema.performingArtistRole5, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist6, WorkSchema.performingArtistRole6, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist7, WorkSchema.performingArtistRole7, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist8, WorkSchema.performingArtistRole8, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist9, WorkSchema.performingArtistRole9, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
+            await AddOtherArtist(WorkSchema.performingArtist10, WorkSchema.performingArtistRole10, MusicRecordingDTO.PerformingArtistContributionTypeKey, artistCollection);
 
             return artistCollection;
 
         }
 
         public async Task AddOtherArtist(WorkSchema artistAddressSchema, WorkSchema artistRoleSchema,
-            string contributionType, ICollection<CreativeWorkArtist> otherArtists)
+            string contributionType, ICollection<CreativeWorkArtistDTO> otherArtists)
         {
             var artist = await GetOtherArtist(artistAddressSchema, artistRoleSchema, contributionType);
             if(artist != null) otherArtists.Add(artist);
         }
 
-        public async Task<CreativeWorkArtist> GetOtherArtist(WorkSchema artistAddressSchema, WorkSchema artistRoleSchema,
+        public async Task<CreativeWorkArtistDTO> GetOtherArtist(WorkSchema artistAddressSchema, WorkSchema artistRoleSchema,
             string contributionType)
         {
             var artist = await GetWorkAttributeAsyncCall(artistAddressSchema);
             if (string.IsNullOrEmpty(artist)) return null;
             var artistRole = await GetWorkAttributeAsyncCall(artistRoleSchema);
-            var creativeWork = new CreativeWorkArtist();
+            var creativeWork = new CreativeWorkArtistDTO();
             if (IsAddress(artist))
             {
                 creativeWork.ArtistAddres = artist;

@@ -3,6 +3,8 @@ using CCC.BlockchainProcessing;
 using Microsoft.Azure.WebJobs;
 using Microsoft.WindowsAzure.Storage.Table;
 using Nethereum.Web3;
+using Ujo.Repository;
+using Ujo.Repository.Infrastructure;
 using Ujo.Work.Search.Service;
 using Ujo.Work.Services;
 using Ujo.Work.Storage;
@@ -36,8 +38,10 @@ namespace Ujo.Work.WebJob
             var workRepository = new WorkRepository(workTable);
             var workRegistryRepository = new WorkRegistryRepository(workRegistryTable);
             var ipfsQueue = new IpfsImageQueue(ipfsImageProcesssinQueue);
+            Ujo.Repository.MappingBootstrapper.Initialise();
+            var musicRecordingService = new MusicRecordingService(new UnitOfWork(new UjoContext(ConfigurationSettings.GetRepositoryConnectionString())));
 
-            return WorkDataLogProcessor.Create(web3, workRegistryRepository, ipfsQueue, workRepository, workSearchService);
+            return WorkDataLogProcessor.Create(web3, workRegistryRepository, ipfsQueue, workRepository, workSearchService, musicRecordingService);
         }
 
         public static WorkSearchService InitialiseWorkSearchService()

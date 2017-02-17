@@ -119,6 +119,8 @@ namespace Ujo.IntegrationTesting
             //var workHash = await UploadFile("summerdnb.mp3");
             //all jpg
             var imageHash = await UploadFile(Path.GetFileNameWithoutExtension(work) + ".jpg");
+            var workhash = await UploadFile(work);
+            Debug.WriteLine("https://ipfs.infura.io/ipfs/" + workhash);
             //var artistWorkArray = Path.GetFileNameWithoutExtension(work).Split('-');
             //var artist = artistWorkArray[0].Trim();
             //var workName = artistWorkArray[1].Trim();

@@ -2,11 +2,12 @@
 using CCC.Contracts.StandardData.Processing;
 using CCC.Contracts.StandardData.Services.Model;
 using Nethereum.Web3;
+using Ujo.Messaging;
 using Ujo.Work.Model;
 
 namespace Ujo.Work.Services
 {
-    public class WorkIpfsImagesStandardDataProcessingService : IStandardDataProcessingService<Model.Work>
+    public class WorkIpfsImagesStandardDataProcessingService : IStandardDataProcessingService<MusicRecordingDTO>
     {
         private readonly IIpfsImageQueue _ipfsImageQueue;
 
@@ -15,7 +16,7 @@ namespace Ujo.Work.Services
             _ipfsImageQueue = ipfsImageQueue;
         }
 
-        public async Task UpsertAsync(Model.Work work)
+        public async Task UpsertAsync(MusicRecordingDTO work)
         {
             if (!string.IsNullOrEmpty(work.Image))
             {
@@ -23,7 +24,7 @@ namespace Ujo.Work.Services
             }
         }
 
-        public async Task DataChangedAsync(Model.Work work, EventLog<DataChangedEvent> dataEventLog)
+        public async Task DataChangedAsync(MusicRecordingDTO work, EventLog<DataChangedEvent> dataEventLog)
         {
             var key = dataEventLog.Event.Key;
             var val = dataEventLog.Event.Value;

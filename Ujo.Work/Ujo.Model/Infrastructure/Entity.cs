@@ -5,6 +5,11 @@ namespace Ujo.Model
 {
     public abstract class Entity : IObjectState
     {
+        public Entity()
+        {
+            this.ObjectState = ObjectState.Added;
+        }
+
         [NotMapped]
         public ObjectState ObjectState { get; set; }
     }

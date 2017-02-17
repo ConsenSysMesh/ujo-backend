@@ -22,7 +22,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="CCC.Contracts.StandardData.Processing.IStandardDataRegistry">
-    <Position X="3.5" Y="3.75" Width="2.25" />
+    <Position X="3" Y="4" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IStandardDataRegistry.cs</FileName>

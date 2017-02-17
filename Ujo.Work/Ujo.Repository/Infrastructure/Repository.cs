@@ -123,22 +123,22 @@ namespace Ujo.Repository.Infrastructure
 
         public virtual async Task<TEntity> FindAsync(params object[] keyValues)
         {
-            return await _dbSet.FindAsync(keyValues);
+            return await _dbSet.FindAsync(keyValues).ConfigureAwait(false);
         }
 
         public virtual async Task<TEntity> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
-            return await _dbSet.FindAsync(cancellationToken, keyValues);
+            return await _dbSet.FindAsync(cancellationToken, keyValues).ConfigureAwait(false);
         }
 
         public virtual async Task<bool> DeleteAsync(params object[] keyValues)
         {
-            return await DeleteAsync(CancellationToken.None, keyValues);
+            return await DeleteAsync(CancellationToken.None, keyValues).ConfigureAwait(false);
         }
 
         public virtual async Task<bool> DeleteAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
-            var entity = await FindAsync(cancellationToken, keyValues);
+            var entity = await FindAsync(cancellationToken, keyValues).ConfigureAwait(false);
 
             if (entity == null)
             {

@@ -75,7 +75,7 @@ namespace Ujo.Repository.Infrastructure
         ///     objects written to the underlying database.</returns>
         public override async Task<int> SaveChangesAsync()
         {
-            return await this.SaveChangesAsync(CancellationToken.None);
+            return await this.SaveChangesAsync(CancellationToken.None).ConfigureAwait(false);
         }
         /// <summary>
         ///     Asynchronously saves all changes made in this context to the underlying database.
@@ -103,7 +103,7 @@ namespace Ujo.Repository.Infrastructure
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             SyncObjectsStatePreCommit();
-            var changesAsync = await base.SaveChangesAsync(cancellationToken);
+            var changesAsync = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
             SyncObjectsStatePostCommit();
             return changesAsync;
         }

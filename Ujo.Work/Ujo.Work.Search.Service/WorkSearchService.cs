@@ -8,11 +8,11 @@ using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling;
 using Nethereum.Web3;
-using Ujo.Work.Model;
+using Ujo.Messaging;
 
 namespace Ujo.Work.Search.Service
 {
-    public class WorkSearchService: IStandardDataProcessingService<Work.Model.Work>
+    public class WorkSearchService: IStandardDataProcessingService<MusicRecordingDTO>
     {
         private string _searchServiceName;
         private string _apiKey;
@@ -138,7 +138,7 @@ namespace Ujo.Work.Search.Service
             return await indexClient.Documents.SuggestAsync<WorkDocument>(searchText, "sg", sp);
         }
 
-        public async Task UpsertAsync(params Work.Model.Work[] works)
+        public async Task UpsertAsync(params MusicRecordingDTO[] works)
         {
             var workDocuments = new List<WorkDocument>();
             if (works != null)
@@ -149,26 +149,26 @@ namespace Ujo.Work.Search.Service
                     workDocument.Address = work.Address.ToLower();
                     workDocument.Image = work.Image;
                     workDocument.ArtistAddress = LowerCaseIfNotNull(work.ByArtistAddress);
-                    workDocument.ArtistName = work.ByArtistName;
+                    workDocument.ArtistName = work.ArtistName;
                     workDocument.Genre = work.Genre;
                     workDocument.Name = work.Name;
-                    workDocument.Audio = work.WorkFileIpfsHash;
-                    workDocument.PerformingArtists = GetArtistsPipeDelimeted(work.PerformingArtists);
-                    workDocument.PerformingArtistsNames = GetArtistsNames(work.PerformingArtists);
-                    workDocument.PerformingArtistsAddresses = GetArtistsAddresses(work.PerformingArtists);
-                    workDocument.ContributingArtists = GetArtistsPipeDelimeted(work.ContributingArtists);
-                    workDocument.ContributingArtistsNames = GetArtistsNames(work.ContributingArtists);
-                    workDocument.ContributingArtistsAddresses = GetArtistsAddresses(work.ContributingArtists);
-                    workDocument.FeaturedArtists = GetArtistsPipeDelimeted(work.FeaturedArtists);
-                    workDocument.FeaturedArtistsNames = GetArtistsNames(work.FeaturedArtists);
-                    workDocument.FeaturedArtistsAddresses = GetArtistsAddresses(work.FeaturedArtists);
+                    workDocument.Audio = work.Audio;
+                    workDocument.PerformingArtists = GetArtistsPipeDelimeted(work.GetPerformingArtists());
+                    workDocument.PerformingArtistsNames = GetArtistsNames(work.GetPerformingArtists());
+                    workDocument.PerformingArtistsAddresses = GetArtistsAddresses(work.GetPerformingArtists());
+                    workDocument.ContributingArtists = GetArtistsPipeDelimeted(work.GetContributingArtists());
+                    workDocument.ContributingArtistsNames = GetArtistsNames(work.GetContributingArtists());
+                    workDocument.ContributingArtistsAddresses = GetArtistsAddresses(work.GetContributingArtists());
+                    workDocument.FeaturedArtists = GetArtistsPipeDelimeted(work.GetFeaturedArtists());
+                    workDocument.FeaturedArtistsNames = GetArtistsNames(work.GetFeaturedArtists());
+                    workDocument.FeaturedArtistsAddresses = GetArtistsAddresses(work.GetFeaturedArtists());
                     //workDocument.dateCreated = work.dateCreated ?? "";
                    // workDocument.dateModified = work.dateModified ?? "";
                     workDocument.Label = work.Label ?? "";
                     workDocument.Description = work.Description ?? "";
                     workDocument.Publisher = work.Publisher ?? "";
-                    workDocument.HasPartOf = work.HasPartOf;
-                    workDocument.IsPartOf = work.IsPartOf;
+                    workDocument.HasPartOf = work.HasPart ?? false ;
+                    workDocument.IsPartOf = work.IsPartOf ?? false;
                     workDocument.IsFamilyFriendly = work.IsFamilyFriendly;
                     workDocument.License = work.License ?? "";
                     workDocument.IswcCode = work.IswcCode ?? "";
@@ -192,35 +192,35 @@ namespace Ujo.Work.Search.Service
             return value?.ToLower();
         }
 
-        private string[] GetArtistsAddresses(List<WorkArtist> artists)
+        private string[] GetArtistsAddresses(IEnumerable<CreativeWorkArtistDTO> artists)
         {
-            if(artists != null && artists.Count > 0)
+            if(artists != null && artists.Count() > 0)
             {
-                return artists.Select(x => LowerCaseIfNotNull(x.Address)).ToArray();
+                return artists.Select(x => LowerCaseIfNotNull(x.ArtistAddres)).ToArray();
             }
             return new string[] { };
         }
 
-        private string[] GetArtistsNames(List<WorkArtist> artists)
+        private string[] GetArtistsNames(IEnumerable<CreativeWorkArtistDTO> artists)
         {
-            if (artists != null && artists.Count > 0)
+            if (artists != null && artists.Count() > 0)
             {
-                return artists.Select(x => x.Name).ToArray();
+                return artists.Select(x => x.NonRegisteredArtistName).ToArray();
             }
             return new string[] { };
         }
 
-        private string[] GetArtistsPipeDelimeted(List<WorkArtist> artists)
+        private string[] GetArtistsPipeDelimeted(IEnumerable<CreativeWorkArtistDTO> artists)
         {
-            if (artists != null && artists.Count > 0)
+            if (artists != null && artists.Count() > 0)
             {
-                return artists.Select(x => x.Index.ToString() + "|" + x.Address?.ToLower() + "|" + x.Name + "|" + x.Role).ToArray();
+                return artists.Select(x => x.ArtistAddres?.ToLower() + "|" + x.NonRegisteredArtistName + "|" + x.Role).ToArray();
             }
             return new string[] { };
         }
 
 
-        public async Task DataChangedAsync(Work.Model.Work work, EventLog<DataChangedEvent> dataEventLog)
+        public async Task DataChangedAsync(MusicRecordingDTO work, EventLog<DataChangedEvent> dataEventLog)
         {
             await UpsertAsync(work);
         }
@@ -282,7 +282,7 @@ namespace Ujo.Work.Search.Service
             }
         }
 
-        public async Task UpsertAsync(Work.Model.Work work)
+        public async Task UpsertAsync(MusicRecordingDTO work)
         {
             if (work != null)
             {
@@ -290,4 +290,5 @@ namespace Ujo.Work.Search.Service
             }
         }
     }
+
 }
